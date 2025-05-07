@@ -9,7 +9,7 @@ import java.util.List;
 
 public class BoardController extends Controller {
     public BoardController() {
-        setMenus(List.of("1","2","3"));
+        setMenus(List.of("1","2","3","4"));
     }
     @Override
     public void show() {
@@ -22,7 +22,8 @@ public class BoardController extends Controller {
         StringBuffer sb = new StringBuffer(3500);
         sb.append("1. 게시글 작성\n")
                 .append("2. 게시글 목록\n")
-                .append("3. 내 게시글 조회");
+                .append("3. 게시글 수정\n")
+                .append("4. 게시글 삭제");
         System.out.println(sb);
     }
 
@@ -35,10 +36,13 @@ public class BoardController extends Controller {
                 Router.change(BoardWriteController.class); //게시글 작성 화면으로 이동
                 break;
             case 2:
-                Router.change(BoardListController.class); //게시글 목록 화면으로 이동
+                Router.change(BoardListController.class); //게시글 작성 화면으로 이동
                 break;
             case 3:
-                Router.change(MyBoardListController.class); //내 게시글 화면으로 이동
+
+                break;
+            case 4:
+                Router.change(BoardDeleteController.class);
                 break;
         }
     }

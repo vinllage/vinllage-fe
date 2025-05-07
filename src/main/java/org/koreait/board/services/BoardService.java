@@ -25,6 +25,11 @@ public class BoardService {
     }
 
     @Bean
+    public BoardDeleteService boardDeleteService(){
+        return new BoardDeleteService();
+    }
+
+    @Bean
     public BoardSaveService saveService() {
         return new BoardSaveService(boardMapper(), boardsaveValidator());
     }
