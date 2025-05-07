@@ -1,7 +1,9 @@
 package org.koreait.global.configs;
 
 import org.koreait.board.controllers.BoardController;
+import org.koreait.board.controllers.BoardListController;
 import org.koreait.board.controllers.BoardWriteController;
+import org.koreait.board.mappers.BoardMapper;
 import org.koreait.board.services.BoardSaveService;
 import org.koreait.global.services.ServiceContainer;
 import org.koreait.main.controllers.MainController;
@@ -74,5 +76,10 @@ public class ControllerConfig {
 
         BoardSaveService service = ServiceContainer.getBean(BoardSaveService.class);
         return new BoardWriteController(service);
+    }
+
+    public BoardListController boardListController() {
+        BoardMapper mapper = ServiceContainer.getBean(BoardMapper.class);
+        return new BoardListController(mapper);
     }
 }

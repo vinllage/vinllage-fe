@@ -55,4 +55,7 @@
         </where>
         ORDER BY regDt DESC LIMIT #{offset}, #{limit}
     </select>
+    <select id="getSList" resultType="org.koreait.board.entities.BoardData">
+        SELECT seq, subject, poster FROM noticeBoard ORDER BY regDt DESC
+    </select>
 </mapper>
