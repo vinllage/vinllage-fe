@@ -14,8 +14,17 @@ public class BoardInfoService {
 
     }
 
-    public List<BoardData> getList(SearchForm search){
+    public void updateMapper() {
         mapper = DBConn.getInstance().getSession().getMapper(BoardMapper.class);
+    }
+
+    public BoardData get(long seq){
+        updateMapper();
+        return mapper.get(seq).orElseThrow(BootstrapMethodError::new);
+    }
+
+    public List<BoardData> getList(SearchForm search){
+        updateMapper();
         int page = Math.max(search.getPage(), 1);
         int limit = search.getLimit();
         limit = limit < 1 ? 10 : limit;

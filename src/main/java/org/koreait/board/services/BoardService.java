@@ -26,7 +26,7 @@ public class BoardService {
 
     @Bean
     public BoardDeleteService boardDeleteService(){
-        return new BoardDeleteService();
+        return new BoardDeleteService(boardMapper());
     }
 
     @Bean
