@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.koreait.board.mappers.BoardMapper">
+    <insert id="register" useGeneratedKeys="true" keyProperty="seq">
+        INSERT INTO BOARD_DATA (poster, subject, content, memberSeq)
+        VALUES (#{poster}, #{subject}, #{content}, #{memberSeq})
+    </insert>
+    <update id="update">
+        UPDATE BOARD_DATA
+        <set>
+            <if test="poster != null">
+                poster = #{poster},
+            </if>
+            <if test="subject != null">
+                subject = #{subject},
+            </if>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            modDt = CURRENT_TIMESTAMP
+        </set>
+        <where>
+            seq = #{seq}
+        </where>
+    </update>
+    <delete id="delete">
+        DELETE FROM BOARD_DATA WHERE seq=#{seq}
+    </delete>
+
+    <select id="get">
+        SELECT * FROM BOARD_DATA WHERE seq=#{seq}
+    </select>
+
+    <select id="getList">
+        SELECT b.*, m.name, m.email FROM BOARD_DATA b
+        LEFT JOIN member m ON b.memberSeq = m.seq
+        <where>
+            <if test="skey != null">
+                <bind name="keyword" value="'%' + _parameter.getSkey() + '%'" />
+                <if test="sopt == 'poster'">
+                    poster LIKE #{keyword}
+                </if>
+                <if test="sopt == 'subject'">
+                    AND subject LIKE #{keyword}
+                </if>
+                <if test="sopt == 'content'">
+                    AND content LIKE #{keyword}
+                </if>
+                <if test="sopt == null">
+                    CONCAT(poster, subject, content) LIKE #{keyword}
+                </if>
+            </if>
+        </where>
+        ORDER BY regDt DESC LIMIT #{offset}, #{limit}
+    </select>
+</mapper>
