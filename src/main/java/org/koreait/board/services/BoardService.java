@@ -20,6 +20,11 @@ public class BoardService {
     }
 
     @Bean
+    public BoardInfoService boardInfoService(){
+        return new BoardInfoService();
+    }
+
+    @Bean
     public BoardSaveService saveService() {
         return new BoardSaveService(boardMapper(), boardsaveValidator());
     }
