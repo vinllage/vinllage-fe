@@ -5,6 +5,7 @@ import org.koreait.board.services.BoardInfoService;
 import org.koreait.board.services.BoardSaveService;
 import org.koreait.global.paging.SearchForm;
 import org.koreait.global.router.Controller;
+import org.koreait.global.router.Router;
 import org.koreait.member.MemberSession;
 
 import java.util.List;
@@ -38,7 +39,9 @@ public class MyBoardListController extends Controller{
             System.out.println("조회된 게시글이 없습니다.");
         } else { // 게시글 출력
             items.forEach(i -> {
-                System.out.printf("%d | %s | %s |%s%n", i.getSeq(), i.getPoster(), i.getSubject(),i.getContent());
+                if(i.getMemberSeq() == MemberSession.getMember().getSeq()) {
+                    System.out.printf("%d | %s | %s |  %s%n", i.getSeq(), i.getPoster(), i.getSubject(), i.getContent());
+                }
             });
 
             Scanner scanner = new Scanner(System.in);
@@ -69,5 +72,6 @@ public class MyBoardListController extends Controller{
 
             System.out.println("게시글 수정 완료");
         }
+        Router.change(BoardController.class);
     }
 }

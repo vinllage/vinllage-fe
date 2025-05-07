@@ -5,6 +5,7 @@ import org.koreait.board.services.BoardDeleteService;
 import org.koreait.board.services.BoardInfoService;
 import org.koreait.global.paging.SearchForm;
 import org.koreait.global.router.Controller;
+import org.koreait.global.router.Router;
 import org.koreait.member.MemberSession;
 
 import java.util.List;
@@ -26,6 +27,8 @@ public class BoardDeleteController extends Controller {
             test = sc.nextInt();
             deleteService.process(test);
             System.out.println("게시글이 삭제 되었습니다.");
+
+            Router.change(BoardController.class);
         });
     }
 

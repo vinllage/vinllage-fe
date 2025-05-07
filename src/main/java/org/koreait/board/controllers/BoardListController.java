@@ -4,6 +4,7 @@ import org.koreait.board.entities.BoardData;
 import org.koreait.board.services.BoardInfoService;
 import org.koreait.global.paging.SearchForm;
 import org.koreait.global.router.Controller;
+import org.koreait.global.router.Router;
 
 import java.util.List;
 
@@ -27,13 +28,14 @@ public class BoardListController extends Controller {
         items = service.getList(search);
 
         printLine();
-        System.out.println("게시글번호  |  작성자  |  제목");
+        System.out.println("게시글번호  |  작성자  |  제목  |  내용");
         if (items == null || items.isEmpty()) {
             System.out.println("조회된 게시글이 없습니다.");
         } else { // 게시글 출력
             items.forEach(i -> {
-                System.out.printf("%d | %s | %s%n", i.getSeq(), i.getPoster(), i.getSubject());
+                System.out.printf("%d | %s | %s | %s%n", i.getSeq(), i.getPoster(), i.getSubject(), i.getContent());
             });
         }
+        Router.change(BoardController.class);
     }
 }
