@@ -1,5 +1,6 @@
 package org.koreait.board.mappers;
 
+import org.apache.ibatis.annotations.Select;
 import org.koreait.board.entities.BoardData;
 import org.koreait.global.paging.SearchForm;
 
@@ -15,4 +16,6 @@ public interface BoardMapper {
 
     List<BoardData> getSList();
 
+    @Select("SELECT COUNT(*) FROM noticeBoard WHERE seq=#{seq}")
+    int exists(long seq);
 }

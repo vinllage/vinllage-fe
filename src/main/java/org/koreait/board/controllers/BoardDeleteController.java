@@ -8,15 +8,25 @@ import org.koreait.global.router.Controller;
 import org.koreait.member.MemberSession;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class BoardDeleteController extends Controller {
     private final BoardInfoService service;
     private final BoardDeleteService deleteService;
     private List<BoardData> items;
+    private int test;
 
     public BoardDeleteController(BoardInfoService service, BoardDeleteService deleteService){
         this.service = service;
         this.deleteService = deleteService;
+        //setMenus(List.of("1", "2", "3"));
+
+        setPrompt(() ->{
+            Scanner sc = new Scanner(System.in);
+            test = sc.nextInt();
+            deleteService.process(test);
+            System.out.println("게시글이 삭제 되었습니다.");
+        });
     }
 
     @Override
@@ -27,8 +37,8 @@ public class BoardDeleteController extends Controller {
     @Override
     public void show() {
         SearchForm search = new SearchForm();
-        //search.setMemberSeq(MemberSession.getMember().getSeq());
-
+        //search.setMemberSeq(MemberSession.getMember().getSeq()); 상준님 굿! 아이디어!
+        service.updateMapper();
         items = service.getList(search);
 
         printLine();
@@ -42,5 +52,6 @@ public class BoardDeleteController extends Controller {
                 }
             });
         }
+        System.out.println("삭제할 게시글 번호를 선택해주세요.");
     }
 }
