@@ -71,6 +71,7 @@ public class ControllerConfig {
     }
 
     public BoardWriteController boardWriteController(){
+
         BoardSaveService service = ServiceContainer.getBean(BoardSaveService.class);
         return new BoardWriteController(service);
     }
