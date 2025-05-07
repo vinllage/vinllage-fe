@@ -38,4 +38,11 @@ public class BoardSaveService {
         }
         //mapper.register(form);
     }
+    public void save(BoardData data) {
+        if (data.getSeq() > 0) {
+            mapper.update(data);
+        } else {
+            throw new IllegalArgumentException("게시글 번호가 유효하지 않습니다.");
+        }
+    }
 }
