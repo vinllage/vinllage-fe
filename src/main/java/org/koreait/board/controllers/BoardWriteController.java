@@ -18,10 +18,10 @@ public class BoardWriteController extends Controller {
         Scanner sc = new Scanner(System.in);
         RequestBoard form = new RequestBoard();
         // 로그인한 회원 이름으로 작성자를 완성
-        Member member = MemberSession.getMember();
-        form.setPoster(member.getName());
 
         setPrompt(() ->{
+            Member member = MemberSession.getMember();
+            form.setPoster(member.getName());
             while(true){
                 try{
                     String subject = inputEach("1. 제목", sc);
