@@ -39,7 +39,7 @@ public class BoardController extends Controller {
                 Router.change(BoardListController.class); //게시글 작성 화면으로 이동
                 break;
             case 3:
-
+                Router.change(MyBoardListController.class);
                 break;
             case 4:
                 Router.change(BoardDeleteController.class);

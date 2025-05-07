@@ -10,7 +10,7 @@ import org.koreait.global.services.Configuration;
 @Configuration
 public class BoardService {
     @Bean
-    public BoardMapper boardMapper(){
+    public BoardMapper boardMapper() {
         return DBConn.getInstance().getSession().getMapper(BoardMapper.class);
     }
 

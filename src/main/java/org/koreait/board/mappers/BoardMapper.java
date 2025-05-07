@@ -14,6 +14,8 @@ public interface BoardMapper {
     List<BoardData> getList(SearchForm search);
     Optional<BoardData> get(long seq);
 
+    List<BoardData> getSList();
+
     @Select("SELECT COUNT(*) FROM noticeBoard WHERE seq=#{seq}")
     int exists(long seq);
 }

@@ -3,7 +3,6 @@ package org.koreait.global.router;
 import org.koreait.global.configs.ControllerConfig;
 import org.koreait.main.controllers.MainController;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +20,7 @@ public class Router {
 
         ControllerConfig controllerConfig = new ControllerConfig();
         Method[] methods = controllerConfig.getClass().getDeclaredMethods();
+
         for (Method method : methods) {
             try {
                 Object obj = method.invoke(controllerConfig);
