@@ -1,39 +1,48 @@
 package org.koreait.board.controllers;
 
 import org.koreait.board.entities.BoardData;
-import org.koreait.board.services.BoardInfoService;
+import org.koreait.board.mappers.BoardMapper;
 import org.koreait.global.paging.SearchForm;
 import org.koreait.global.router.Controller;
 
 import java.util.List;
 
 public class BoardListController extends Controller {
+    private final BoardMapper mapper;
 
-    private final BoardInfoService service;
-    private List<BoardData> items;
+    public BoardListController(BoardMapper mapper) {
+        System.out.println(">>> BoardListController 생성자 호출됨 - mapper: " + mapper);
+        this.mapper = mapper;//ServiceContainer.getBean(BoardMapper.class);
 
-    public BoardListController(BoardInfoService service){
-        this.service = service;
-    }
+        setPrompt(() -> {
+            System.out.println("==== 게시글 목록 ====");
+            SearchForm search = new SearchForm();
+            search.setOffset(0);
+            search.setLimit(10); //10개
+            List<BoardData> list = mapper.getList(search);
 
-    @Override
-    public void common() {
-        System.out.println("***************** 게시판 목록 *********************");
+            for (BoardData post : list) {
+                System.out.printf("번호: %d | 제목: %s | 작성자: %s\n",
+                        post.getSeq(), post.getSubject(), post.getPoster());
+            }
+
+            // 목록 보여주고 바로 메뉴로 돌아감 (Scanner 대기 없음)
+            System.out.println("\n엔터를 누르면 이전 메뉴로 돌아갑니다.");
+            try {
+                System.in.read(); // 간단한 대기
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
     public void show() {
-        SearchForm search = new SearchForm();
-        items = service.getList(search);
+        System.out.println("게시글 목록을 불러오는 중입니다...");
+    }
 
-        printLine();
-        System.out.println("게시글번호 |  작성자  |  제목  |  내용");
-        if (items == null || items.isEmpty()) {
-            System.out.println("조회된 게시글이 없습니다.");
-        } else { // 게시글 출력
-            items.forEach(i -> {
-                System.out.printf("%d | %s | %s |%s%n", i.getSeq(), i.getPoster(), i.getSubject(),i.getContent());
-            });
-        }
+    @Override
+    public void common() {
+        System.out.println("*********** 게시글 목록 ***********");
     }
 }

@@ -12,4 +12,7 @@ public interface BoardMapper {
     int delete(long seq);
     List<BoardData> getList(SearchForm search);
     Optional<BoardData> get(long seq);
+
+    List<BoardData> getSList();
+
 }
