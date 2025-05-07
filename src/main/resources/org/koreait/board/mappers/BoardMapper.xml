@@ -55,4 +55,30 @@
         </where>
         ORDER BY regDt DESC LIMIT #{offset}, #{limit}
     </select>
+    <select id="getMyList">
+        SELECT b.*, m.name, m.email FROM noticeBoard b
+        LEFT JOIN member m ON b.memberSeq = m.seq
+        <where>
+            <if test="memberSeq != null"> <!-- null이 아니면 내 게시글 조회-->
+                memberSeq = #{memberSeq}
+            </if>
+
+            <if test="skey != null">
+                <bind name="keyword" value="'%' + _parameter.getSkey() + '%'" />
+                <if test="sopt == 'poster'">
+                    poster LIKE #{keyword}
+                </if>
+                <if test="sopt == 'subject'">
+                    AND subject LIKE #{keyword}
+                </if>
+                <if test="sopt == 'content'">
+                    AND content LIKE #{keyword}
+                </if>
+                <if test="sopt == null">
+                    CONCAT(poster, subject, content) LIKE #{keyword}
+                </if>
+            </if>
+        </where>
+        ORDER BY regDt DESC LIMIT #{offset}, #{limit}
+    </select>
 </mapper>

@@ -1,8 +1,10 @@
 package org.koreait.global.configs;
 
 import org.koreait.board.controllers.BoardController;
+import org.koreait.board.controllers.BoardDeleteController;
 import org.koreait.board.controllers.BoardListController;
 import org.koreait.board.controllers.BoardWriteController;
+import org.koreait.board.services.BoardDeleteService;
 import org.koreait.board.services.BoardInfoService;
 import org.koreait.board.services.BoardSaveService;
 import org.koreait.global.services.ServiceContainer;
@@ -81,5 +83,11 @@ public class ControllerConfig {
     public BoardListController boardListController() {
         BoardInfoService service = ServiceContainer.getBean(BoardInfoService.class);
         return new BoardListController(service);
+    }
+
+    public BoardDeleteController boardDeleteController(){
+        BoardInfoService service = ServiceContainer.getBean(BoardInfoService.class);
+        BoardDeleteService deleteService = ServiceContainer.getBean(BoardDeleteService.class);
+        return new BoardDeleteController(service, deleteService);
     }
 }
