@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.koreait.member.mappers.MemberMapper">
+    <insert id="register" useGeneratedKeys="true" keyProperty="seq">
+        INSERT INTO member (email, password, name, mobile, terms)
+        VALUES (#{email}, #{password}, #{name}, #{mobile}, #{terms})
+    </insert>
+
+    <select id="getList">
+        SELECT * FROM member
+        <where>
+            <if test="skey != null">
+                <bind name="_skey" value="'%' + _parameter.getSkey() + '%'" />
+                <if test="sopt == 'email'">
+                    email LIKE #{_skey}
+                </if>
+                <if test="sopt == 'name'">
+                    name LIKE #{_skey}
+                </if>
+                <if test="sopt == 'mobile'">
+                    mobile LIKE #{_skey}
+                </if>
+                <if test="sopt == null">
+                    CONCAT(email, name, mobile) LIKE #{_skey}
+                </if>
+            </if>
+        </where>
+        ORDER BY regDt DESC LIMIT #{offset}, #{limit};
+    </select>
+
+    <select id="get">
+        SELECT * FROM member WHERE email=#{email}
+    </select>
+
+    <update id="update">
+        UPDATE member
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="mobile != null">
+                mobile = #{mobile},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+        </set>
+        <where>
+            email = #{email}
+        </where>
+    </update>
+</mapper>

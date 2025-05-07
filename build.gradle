@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.yonggyo'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.apache.tomcat:tomcat-jdbc:11.0.6'
+    implementation 'org.mybatis:mybatis:3.5.19'
+    implementation 'com.mysql:mysql-connector-j:8.4.0'
+    implementation 'org.slf4j:slf4j-api:2.0.17'
+    implementation 'ch.qos.logback:logback-classic:1.5.18'
+    implementation 'org.mindrot:jbcrypt:0.4'
+    compileOnly 'org.projectlombok:lombok:1.18.38'
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
