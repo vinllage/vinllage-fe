@@ -9,5 +9,5 @@ public class SearchForm {
     private int limit;
     private String sopt;
     private String skey;
-    private int memberSeq;
+    private Integer memberSeq;
 }
