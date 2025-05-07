@@ -1,7 +1,6 @@
 package org.koreait.global.services;
 
 import org.koreait.board.services.BoardService;
-import org.koreait.global.configs.ControllerConfig;
 import org.koreait.member.services.MemberService;
 
 import java.lang.reflect.Method;
@@ -29,7 +28,7 @@ public class ServiceContainer {
 
     // 로드할 Class 클래스 객체 등록
     public void register(Class<?>... classes) {
-       Collections.addAll(this.classes, classes);
+        Collections.addAll(this.classes, classes);
     }
 
 
@@ -62,12 +61,7 @@ public class ServiceContainer {
                     Object bean = method.invoke(obj);
 
                     // 생성된 객체 컨테이너 저장공간에 저장
-                    Class<?>[] interfaces = bean.getClass().getInterfaces();
-                    if (interfaces.length > 0) {
-                        objects.put(interfaces[0], bean);
-                    } else {
-                        objects.put(bean.getClass(), bean);
-                    }
+                    objects.put(bean.getClass(), bean);
                 } // endfor
             } catch (Exception e) {
                 e.printStackTrace();
@@ -98,7 +92,7 @@ public class ServiceContainer {
         if (instance == null) {
             instance = new ServiceContainer();
 
-            instance.register(MemberService.class, BoardService.class, ControllerConfig.class);
+            instance.register(MemberService.class, BoardService.class);
             instance.init();
         }
 
