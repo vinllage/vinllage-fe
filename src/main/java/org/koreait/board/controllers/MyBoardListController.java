@@ -4,26 +4,28 @@ import org.koreait.board.entities.BoardData;
 import org.koreait.board.services.BoardInfoService;
 import org.koreait.global.paging.SearchForm;
 import org.koreait.global.router.Controller;
+import org.koreait.member.MemberSession;
 
 import java.util.List;
 
-public class BoardListController extends Controller {
-
+public class MyBoardListController extends Controller{
     private final BoardInfoService service;
     private List<BoardData> items;
 
-    public BoardListController(BoardInfoService service){
+    public MyBoardListController(BoardInfoService service){
         this.service = service;
     }
 
     @Override
     public void common() {
-        System.out.println("***************** 게시판 목록 *********************");
+        System.out.println("***************** 내 게시글 목록 *********************");
     }
 
     @Override
     public void show() {
         SearchForm search = new SearchForm();
+        search.setMemberSeq(MemberSession.getMember().getSeq()); //
+
         items = service.getList(search);
 
         printLine();

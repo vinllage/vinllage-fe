@@ -3,8 +3,10 @@ package org.koreait.global.configs;
 import org.koreait.board.controllers.BoardController;
 import org.koreait.board.controllers.BoardListController;
 import org.koreait.board.controllers.BoardWriteController;
+import org.koreait.board.controllers.MyBoardListController;
 import org.koreait.board.services.BoardInfoService;
 import org.koreait.board.services.BoardSaveService;
+import org.koreait.global.services.Bean;
 import org.koreait.global.services.ServiceContainer;
 import org.koreait.main.controllers.MainController;
 import org.koreait.member.controllers.*;
@@ -81,5 +83,11 @@ public class ControllerConfig {
     public BoardListController boardListController() {
         BoardInfoService service = ServiceContainer.getBean(BoardInfoService.class);
         return new BoardListController(service);
+    }
+
+    @Bean
+    public MyBoardListController myBoardListController() {
+        BoardInfoService service = ServiceContainer.getBean(BoardInfoService.class);
+        return new MyBoardListController(service);
     }
 }
