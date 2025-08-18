@@ -45,6 +45,7 @@ const StyledHeader = styled.header`
 
 const Header = () => {
   const { isLogin, isAdmin, loggedMember } = useUser()
+  console.log(isLogin)
   return (
     <StyledHeader>
       <div className="inner layout-width">

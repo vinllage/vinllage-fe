@@ -5,10 +5,11 @@ import color from '../styles/color'
 import fontsize from '../styles/fontsize'
 const { extra } = fontsize
 const { black } = color
+import useTitle from '../hooks/useTitle'
 
-export const MainTitle = styled.h1<TitleType>`
+const StyledMainTitle = styled.h1<TitleType>`
   font-size: ${extra};
-  padding: 0 10px 20px;
+  padding: 0 10px 15px;
   margin: 0;
   color: ${black};
   ${({ center }) =>
@@ -20,6 +21,12 @@ export const MainTitle = styled.h1<TitleType>`
     border &&
     css`
       border-bottom: 3px solid ${black};
-      margin-bottom: 30px;
+      margin-bottom: 25px;
     `}
 `
+
+export function MainTitle(props) {
+  useTitle(props.children)
+
+  return <StyledMainTitle {...props} />
+}
