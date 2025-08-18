@@ -8,6 +8,7 @@ const color = {
   light: '#f8f9fa',
   dark: '#212529',
   black: '#000',
+  green: '#4C6265',
 }
 
 export default color
