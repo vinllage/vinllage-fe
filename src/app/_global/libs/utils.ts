@@ -11,12 +11,25 @@ export async function getToken() {
 
   return cookie.get('token')?.value
 }
+export async function getUseHash() {
+  const cookie = await  cookies()
+
+  return  cookie.get('Use-Hash')?.value
+}
+
 export async function fetchSSR(url, options : RequestInit ={}){
+  
   const token = await getToken();
   if(token){
     options.headers = options.headers ?? {}
     options.headers['Authorization'] = `Bearer${token}`
   }
+  const userHash  = getUseHash()
+  if(userHash){
+    options.headers = options.headers ?? {}
+    options.headers['User-Hash'] = userHash;
+  }
   
+
   return fetch(`${process.env.API_URL}${url}`, options)
 }
