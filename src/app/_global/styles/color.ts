@@ -7,6 +7,7 @@ const color = {
   danger: '#dc3545',
   light: '#f8f9fa',
   dark: '#212529',
+  white: '#fff',
   black: '#000',
   green: '#4C6265',
 }
