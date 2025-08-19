@@ -35,12 +35,14 @@ const CommonProvider = ({ children }) => {
 
   return (
     <CommonContext.Provider value={value}>
-      <HelmetProvider>
-        <Helmet>
-          <title>{mainTitle}</title>
-        </Helmet>
-        {children}
-      </HelmetProvider>
+      <CookiesProvider>
+        <HelmetProvider>
+          <Helmet>
+            <title>{mainTitle}</title>
+          </Helmet>
+          {children}
+        </HelmetProvider>
+      </CookiesProvider>
     </CommonContext.Provider>
   )
 }
