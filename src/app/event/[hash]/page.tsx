@@ -5,9 +5,11 @@ import type { EventType } from '../_types'
 export default async function EventDetailPage({
   params,
 }: {
-  params: { hash: string }
+  params: Promise<{ hash: string }>
 }) {
-  const event: EventType | null = await getEvent(params.hash)
+  const { hash } = await params 
+  const event: EventType | null = await getEvent(hash)
+
   if (!event) {
     return null
   }
