@@ -6,7 +6,10 @@ import { Input } from '@/app/_global/components/Forms'
 import { SubmitButton } from '@/app/_global/components/Buttons'
 import MessageBox from '@/app/_global/components/MessageBox'
 
-const StyledForm = styled.form``
+const StyledForm = styled.form`
+  max-width: 500px;
+  margin: 0 auto;
+`
 
 type MyPageFormProps = {
   form: {
@@ -72,7 +75,7 @@ const MyPageForm = ({
       <Input
         type="password"
         name="password"
-        placeholder="비밀번호(변경 시 입력)"
+        placeholder="비밀번호 (변경 시 입력)"
         value={form.password}
         onChange={onChange}
       />
@@ -98,7 +101,7 @@ const MyPageForm = ({
       )}
 
       <SubmitButton type="submit" disabled={pending}>
-        정보 수정
+        {pending ? '저장 중...' : '정보 수정'}
       </SubmitButton>
     </StyledForm>
   )
