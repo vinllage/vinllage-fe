@@ -2,7 +2,7 @@
 
 import React, { useActionState, useState, useCallback, useEffect } from 'react'
 import { getLoggedMember, processProfile } from '../_services/actions'
-import MyPageForm from '../_components/MyPageForm'
+import ProfileForm from '../_components/ProfileForm'
 
 type FormType = {
   email: string
@@ -43,7 +43,7 @@ const MyPageContainer = () => {
   }, [])
 
   return (
-    <MyPageForm
+    <ProfileForm
       form={form}
       errors={errors}
       pending={pending}

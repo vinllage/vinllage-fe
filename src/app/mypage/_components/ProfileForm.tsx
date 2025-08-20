@@ -1,14 +1,23 @@
 'use client'
 
 import React from 'react'
+import styled from 'styled-components'
+import { Input } from '@/app/_global/components/Forms'
+import { SubmitButton } from '@/app/_global/components/Buttons'
+import MessageBox from '@/app/_global/components/MessageBox'
+
+const StyledForm = styled.form`
+  max-width: 500px;
+  margin: 0 auto;
+`
 
 type ProfileFormProps = {
   form: {
-    password: string
-    confirmPassword: string
     email: string
     name: string
     mobile: string
+    password: string
+    confirmPassword: string
   }
   errors: any
   pending: boolean
@@ -26,99 +35,80 @@ const ProfileForm = ({
   onChange,
 }: ProfileFormProps) => {
   return (
-    <form
-      action={action}
-      className="max-w-md mx-auto p-4 space-y-4"
-      autoComplete="off"
-    >
-      <div>
-        <label className="block mb-1">이메일</label>
-        <input
-          type="email"
-          name="email"
-          value={form.email}
-          onChange={onChange}
-          className="w-full border rounded px-2 py-1"
-          disabled
-        />
-        {errors?.email && (
-          <p className="text-red-500 text-sm">{renderErr(errors.email)}</p>
-        )}
-      </div>
-
-      <div>
-        <label className="block mb-1">이름</label>
-        <input
-          type="text"
-          name="name"
-          value={form.name}
-          onChange={onChange}
-          className="w-full border rounded px-2 py-1"
-        />
-        {errors?.name && (
-          <p className="text-red-500 text-sm">{renderErr(errors.name)}</p>
-        )}
-      </div>
-
-      <div>
-        <label className="block mb-1">휴대폰</label>
-        <input
-          type="text"
-          name="mobile"
-          inputMode="numeric"
-          pattern="\d*"
-          value={form.mobile}
-          onChange={onChange}
-          className="w-full border rounded px-2 py-1"
-        />
-        {errors?.mobile && (
-          <p className="text-red-500 text-sm">{renderErr(errors.mobile)}</p>
-        )}
-      </div>
-
-      <div>
-        <label className="block mb-1">비밀번호</label>
-        <input
-          type="password"
-          name="password"
-          value={form.password}
-          onChange={onChange}
-          className="w-full border rounded px-2 py-1"
-          placeholder="변경 시 입력"
-        />
-        {errors?.password && (
-          <p className="text-red-500 text-sm">{renderErr(errors.password)}</p>
-        )}
-      </div>
-
-      <div>
-        <label className="block mb-1">비밀번호 확인</label>
-        <input
-          type="password"
-          name="confirmPassword"
-          value={form.confirmPassword}
-          onChange={onChange}
-          className="w-full border rounded px-2 py-1"
-        />
-        {errors?.confirmPassword && (
-          <p className="text-red-500 text-sm">
-            {renderErr(errors.confirmPassword)}
-          </p>
-        )}
-      </div>
-
-      {errors?.global && (
-        <p className="text-red-500 text-center">{renderErr(errors.global)}</p>
+    <StyledForm action={action} autoComplete="off">
+      {/* 이메일 (수정 불가, 기본값 있음) */}
+      <Input
+        type="email"
+        name="email"
+        placeholder="이메일"
+        value={form.email}
+        onChange={onChange}
+        disabled
+      />
+      {errors?.email && (
+        <MessageBox color="danger">{renderErr(errors.email)}</MessageBox>
       )}
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 disabled:opacity-50"
-      >
+      {/* 이름 (기본값 있음) */}
+      <Input
+        type="text"
+        name="name"
+        placeholder="이름"
+        value={form.name}
+        onChange={onChange}
+      />
+      {errors?.name && (
+        <MessageBox color="danger">{renderErr(errors.name)}</MessageBox>
+      )}
+
+      {/* 휴대폰 */}
+      <Input
+        type="text"
+        name="mobile"
+        placeholder="휴대폰"
+        inputMode="numeric"
+        pattern="\d*"
+        value={form.mobile}
+        onChange={onChange}
+      />
+      {errors?.mobile && (
+        <MessageBox color="danger">{renderErr(errors.mobile)}</MessageBox>
+      )}
+
+      {/* 비밀번호 */}
+      <Input
+        type="password"
+        name="password"
+        placeholder="비밀번호 (변경 시 입력)"
+        value={form.password}
+        onChange={onChange}
+      />
+      {errors?.password && (
+        <MessageBox color="danger">{renderErr(errors.password)}</MessageBox>
+      )}
+
+      {/* 비밀번호 확인 */}
+      <Input
+        type="password"
+        name="confirmPassword"
+        placeholder="비밀번호 확인"
+        value={form.confirmPassword}
+        onChange={onChange}
+      />
+      {errors?.confirmPassword && (
+        <MessageBox color="danger">{renderErr(errors.confirmPassword)}</MessageBox>
+      )}
+
+      {/* 글로벌 에러 */}
+      {errors?.global && (
+        <MessageBox color="danger">{renderErr(errors.global)}</MessageBox>
+      )}
+
+      {/* 제출 버튼 */}
+      <SubmitButton type="submit" disabled={pending}>
         {pending ? '저장 중...' : '정보 수정'}
-      </button>
-    </form>
+      </SubmitButton>
+    </StyledForm>
   )
 }
 
