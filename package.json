@@ -6,12 +6,14 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "server": "pm2 start server.config.js"
   },
   "dependencies": {
     "@loadable/component": "^5.16.7",
     "classnames": "^2.5.1",
     "next": "15.4.6",
+    "pm2": "^6.0.8",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-helmet-async": "^2.0.5",

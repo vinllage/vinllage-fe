@@ -1,16 +1,50 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { ResultComponents, type RecycleResult } from '../components/ResultList'
 import { Button } from '@/app/_global/components/Buttons'
 import { BiLeftArrow, BiRightArrow } from 'react-icons/bi'
 import color from '@/app/_global/styles/color'
+import styled from 'styled-components'
 
-const { dark, light } = color
+const { dark } = color
+
+const ResultWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 80px;
+`
+
+const ResultNav = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+`
+
+const ArrowButton = styled(Button)`
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+
+  svg {
+    color: ${dark};
+    font-size: 100px;
+  }
+`
+
 type Pagination = { page: number; limit: number; total: number }
 type ListData = { items: RecycleResult[]; pagination: Pagination }
 
-const LIMIT = 3 // 추후에 변경 한번에 보여줄 데이터 갯수
+const LIMIT = 4 // 추후에 변경 한번에 보여줄 데이터 갯수
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000'
 
 export default function ResultContainer() {
@@ -55,35 +89,27 @@ export default function ResultContainer() {
     return <div className="error">에러: {(error as Error)?.message}</div>
 
   return (
-    <div className="resultWrapper">
-      <div className="resultNav">
-        <Button
-          width={40}
-          height={40}
-          color={light}
-          fontColor={dark}
-          fontSize="30px"
+    <ResultWrapper>
+      <ResultNav>
+        <ArrowButton
           onClick={() => setPage((p) => Math.max(1, p - 1))}
           disabled={!canPrev}
         >
           <BiLeftArrow />
-        </Button>
+        </ArrowButton>
 
         <ResultComponents items={data?.items ?? []} />
 
-        <Button
-          width={40}
-          height={40}
-          color={light}
-          fontColor={dark}
-          fontSize="30px"
-          onClick={() => setPage((p) => p + 1)}
-          disabled={!canNext}
-        >
-          <BiRightArrow />
-        </Button>
-      </div>
-      <Button>다시 찍기</Button>
-    </div>
+          <ArrowButton
+            onClick={() => setPage((p) => p + 1)}
+            disabled={!canNext}
+          >
+            <BiRightArrow />
+          </ArrowButton>
+      </ResultNav>
+      <Link href="/recycle/detect">
+        <Button>다시 찍기</Button>
+      </Link>
+    </ResultWrapper>
   )
 }
