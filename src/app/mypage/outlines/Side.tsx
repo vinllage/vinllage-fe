@@ -38,8 +38,8 @@ const Side = () => {
   return (
     <StyledAside>
       <Link
-        href="/mypage/profile"
-        className={classNames({ on: urlPath === '/mypage/profile' })}
+        href="/mypage"
+        className={classNames({ on: urlPath === '/mypage' })}
       >
         개인정보 수정
       </Link>
