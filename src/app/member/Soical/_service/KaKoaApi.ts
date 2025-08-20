@@ -5,14 +5,14 @@ import { fetchSSR } from '@/app/_global/libs/utils'
 export default class KakaoApi implements SocialApi {
   constructor(
     private apikey: string | undefined = process.env.NEXT_PUBLIC_KAKAO_API_KEY,
-    private redirectUri: string = `${process.env.NEXT_PUBLITC_DOMAIN}/member/kakao/social/callback`,
+    private redirectUri: string = `${process.env.NEXT_PUBLIC_DOMAIN}/member/kakao/social/callback`,
   ) {}
   async getToken(code: string) {
     const formData = new FormData()
     formData.append('grant_type', 'authorization_code')
     formData.append('client_id', this.apikey ?? '')
     formData.append('code', code)
-    formData.append('redirectUri', this.redirectUri)
+    formData.append('redirect_uri', this.redirectUri)
 
     const res = await fetch('https://kauth.kakao.com/oauth/token', {
       method: 'POST',

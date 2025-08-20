@@ -25,7 +25,9 @@ export async function GET(request: NextRequest) {
       headers: {
         'Context-Type': 'application/json'
       },
-      body:
+      body: JSON.stringify({socialChannel: channel.toLocaleUpperCase(), 
+        socialToken: id
+      })
     })
     return NextResponse.json({})
   } catch (err) {
