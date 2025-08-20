@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react'
 import DetectObject from '../components/DetectObject'
 import DetectedItems from '../components/DetectedItems'
 import { Button } from '@/app/_global/components/Buttons'
-import { processDetectData } from '../services/actions'
+import { processDetectData } from '../_services/actions'
 
 const DetectContainer = () => {
   const [items, setItems] = useState<any>([])
