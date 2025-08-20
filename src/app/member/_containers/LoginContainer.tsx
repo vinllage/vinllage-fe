@@ -10,7 +10,7 @@ type FormType = {
   redirectUrl?: string
 }
 
-const LoginContainer = ({ redirectUrl = '/' }: { redirectUrl?: string }) => {
+const LoginContainer = ({ redirectUrl }: { redirectUrl?: string}) => {
   const [errors, action, pending] = useActionState<any, any>(processLogin, {})
   const [form, setForm] = useState<FormType>({
     email: '',
