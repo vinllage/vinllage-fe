@@ -152,6 +152,7 @@ export async function processLogin(errors, formData: FormData) {
  */
 export async function getLoggedMember() {
   try {
+
     const res = await fetchSSR('/member', {
       method: 'GET',
       next: {

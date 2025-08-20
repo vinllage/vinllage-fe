@@ -1,6 +1,8 @@
 'use server' // ssr
 
 import { cookies } from 'next/headers'
+import { headers } from 'next/headers'
+
 
 /**
  * token 쿠키값 조회
@@ -32,4 +34,11 @@ export async function fetchSSR(url, options : RequestInit ={}){
   
 
   return fetch(`${process.env.API_URL}${url}`, options)
+}
+
+export async function getUrl(url) {
+  const _headers = await headers()
+  const domain = `${process.env.NODE ! == 'production' ?'http': 'https'}"//${_headers.get('host')}`
+
+  return `${domain}${url}`
 }

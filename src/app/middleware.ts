@@ -5,6 +5,8 @@ export function middlewre (request : NextRequest){
     if(!request.cookies.get('User-Hash')?.value){
         response.cookies.set('User-Hash', '' + Date.now())
     }
+
+    
     return NextResponse.next();
 }
 

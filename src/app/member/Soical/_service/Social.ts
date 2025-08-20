@@ -8,7 +8,7 @@ export default interface SocialApi {
    * @param code : authorization code
    * @returns
    */
-  getToken: (code: string) => string
+  getToken: (code: string) => Promise<string | null>
 
   /**
    * 회원의 프로필 정보
@@ -16,7 +16,7 @@ export default interface SocialApi {
    * @param token : access token
    * @returns
    */
-  getProfile: (token: string) => ProfileType
+  getProfile: (token: string) => Promise<ProfileType |null>
 
   /**
    * 인증 서버에서 client_id를 통해서 authorization code를 발급받을 수 있는
