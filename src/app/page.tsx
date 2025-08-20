@@ -3,14 +3,15 @@
 import ContentBox from '@/app/_global/components/ContentBox'
 import { MainTitle } from '@/app/_global/components/TitleBox'
 import { Button } from './_global/components/Buttons'
-import Link from 'next/link'
 import { useCallback } from 'react'
-import { processRecycle } from './recycle/_services/actions'
+import { useRouter } from 'next/navigation'
 
 export default function MainPage() {
+  const router = useRouter()
+
   const onClick = useCallback(() => {
-    processRecycle()
-  }, [])
+    router.push('/recycle')
+  }, [router])
 
   return (
     <ContentBox width={500}>

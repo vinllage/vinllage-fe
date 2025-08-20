@@ -61,16 +61,13 @@ export async function processRecycle() {
   }
 
   // 현재 카운트
-  const raw = cookie.get('guestCount')?.value
-  const count = raw ? parseInt(raw, 10) : 0
+  const curr = cookie.get('guestCount')?.value
+  const count = curr ? parseInt(curr, 10) : 0
 
   // 허용 횟수 넘어가면 로그인 페이지로 이동
   if (count >= MAX_GUEST_ATTEMPTS) {
     redirect('/member/login?reload=true')
   }
-
-  // 허용 + 카운트 증가
-  cookie.set('guestCount', String(count + 1), base)
 
   // 페이지 이동
   redirect('/recycle/detect?reload=true')
