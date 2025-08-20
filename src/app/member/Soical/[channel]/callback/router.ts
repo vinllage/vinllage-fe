@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server'
 import KakaoApi from '../../_service/KaKoaApi'
 import { redirect } from 'next/navigation'
 import NaverApi from '../../_service/NaverApi'
+import { fetchSSR } from '@/app/_global/libs/utils'
 
 export async function GET(request: NextRequest) {
   const channel = request.nextUrl.pathname.split('/')[3]
@@ -18,8 +19,14 @@ export async function GET(request: NextRequest) {
     if (!token) {
       throw new Error('Access Token 토큰 발급 실패')
     }
-    const profile = await api.getProfile(token)
-
+    const {id} = await api.getProfile(token)
+    const res = await fetch('/member/token',{
+      method: 'POST',
+      headers: {
+        'Context-Type': 'application/json'
+      },
+      body:
+    })
     return NextResponse.json({})
   } catch (err) {
     redirect(`member/login?redirectUrl=${redirectUrl}`)
