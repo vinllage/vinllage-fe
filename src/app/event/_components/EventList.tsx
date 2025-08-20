@@ -59,16 +59,9 @@ const Pagination = styled.nav`
   }
 `
 
-const EventList = ({
-  query,
-  onSearch,
-  events,
-  page,
-  totalPages,
-  onPageChange,
-}: Props) => {
+const EventList = ({query, onSearch, events, page, totalPages, onPageChange,}: Props) => {
   return (
-    <Wrapper className="layout-width">
+    <Wrapper>
       <SearchBox>
         <input
           type="text"
