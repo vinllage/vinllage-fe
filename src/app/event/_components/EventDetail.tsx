@@ -30,7 +30,7 @@ const Article = styled.article`
 `
 
 const EventDetail = ({ event }: Props) => (
-  <Article className="layout-width">
+  <Article>
     <h1>{event.title}</h1>
     <time>{event.date}</time>
     {event.content &&
