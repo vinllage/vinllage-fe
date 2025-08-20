@@ -30,5 +30,9 @@
     "eslint": "^9",
     "eslint-config-next": "15.4.6",
     "typescript": "^5"
-  }
+  },
+  "main": "index.js",
+  "repository": "https://github.com/vinllage/vinllage-fe.git",
+  "author": "songmikim <ksm0200@gmail.com>",
+  "license": "MIT"
 }
