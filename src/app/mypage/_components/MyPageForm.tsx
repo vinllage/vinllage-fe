@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import styled from 'styled-components'
 import { Input } from '@/app/_global/components/Forms'
@@ -20,34 +22,84 @@ type MyPageFormProps = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const MyPageForm = ({ form, errors, pending, action, onChange }: MyPageFormProps) => {
+const renderErr = (v: any) => (Array.isArray(v) ? v.join('\n') : v ?? '')
+
+const MyPageForm = ({
+  form,
+  errors,
+  pending,
+  action,
+  onChange,
+}: MyPageFormProps) => {
   return (
-    <StyledForm
-      action={action}
-      autoComplete="off"
-      onSubmit={(e) => {
-        e.preventDefault()
-        action(new FormData(e.currentTarget))
-      }}
-    >
-      <Input type="text" name="email" placeholder="이메일" value={form.email} onChange={onChange} disabled />
-      <MessageBox color="danger">{errors?.email}</MessageBox>
+    <StyledForm action={action} autoComplete="off">
+      <Input
+        type="text"
+        name="email"
+        placeholder="이메일"
+        value={form.email}
+        onChange={onChange}
+        disabled
+      />
+      {errors?.email && (
+        <MessageBox color="danger">{renderErr(errors.email)}</MessageBox>
+      )}
 
-      <Input type="text" name="name" placeholder="이름" value={form.name} onChange={onChange} />
-      <MessageBox color="danger">{errors?.name}</MessageBox>
+      <Input
+        type="text"
+        name="name"
+        placeholder="이름"
+        value={form.name}
+        onChange={onChange}
+      />
+      {errors?.name && (
+        <MessageBox color="danger">{renderErr(errors.name)}</MessageBox>
+      )}
 
-      <Input type="text" name="mobile" placeholder="휴대폰" value={form.mobile} onChange={onChange} />
-      <MessageBox color="danger">{errors?.mobile}</MessageBox>
+      <Input
+        type="text"
+        name="mobile"
+        placeholder="휴대폰"
+        inputMode="numeric"
+        pattern="\d*"
+        value={form.mobile}
+        onChange={onChange}
+      />
+      {errors?.mobile && (
+        <MessageBox color="danger">{renderErr(errors.mobile)}</MessageBox>
+      )}
 
-      <Input type="password" name="password" placeholder="비밀번호" value={form.password} onChange={onChange} />
-      <MessageBox color="danger">{errors?.password}</MessageBox>
+      <Input
+        type="password"
+        name="password"
+        placeholder="비밀번호(변경 시 입력)"
+        value={form.password}
+        onChange={onChange}
+      />
+      {errors?.password && (
+        <MessageBox color="danger">{renderErr(errors.password)}</MessageBox>
+      )}
 
-      <Input type="password" name="confirmPassword" placeholder="비밀번호 확인" value={form.confirmPassword} onChange={onChange} />
-      <MessageBox color="danger">{errors?.confirmPassword}</MessageBox>
+      <Input
+        type="password"
+        name="confirmPassword"
+        placeholder="비밀번호 확인"
+        value={form.confirmPassword}
+        onChange={onChange}
+      />
+      {errors?.confirmPassword && (
+        <MessageBox color="danger">
+          {renderErr(errors.confirmPassword)}
+        </MessageBox>
+      )}
 
-      <MessageBox color="danger">{errors?.global}</MessageBox>
+      {errors?.global && (
+        <MessageBox color="danger">{renderErr(errors.global)}</MessageBox>
+      )}
 
-      <SubmitButton type="submit" disabled={pending}>정보 수정</SubmitButton>
+      <SubmitButton type="submit" disabled={pending}>
+        정보 수정
+      </SubmitButton>
     </StyledForm>
   )
 }

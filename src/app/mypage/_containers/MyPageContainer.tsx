@@ -1,4 +1,5 @@
 'use client'
+
 import React, { useActionState, useState, useCallback, useEffect } from 'react'
 import { getLoggedMember, processProfile } from '../_services/actions'
 import MyPageForm from '../_components/MyPageForm'
@@ -22,7 +23,7 @@ const MyPageContainer = () => {
   })
 
   useEffect(() => {
-    const fetchMember = async () => {
+    ;(async () => {
       const member = await getLoggedMember()
       if (member) {
         setForm({
@@ -33,12 +34,12 @@ const MyPageContainer = () => {
           confirmPassword: '',
         })
       }
-    }
-    fetchMember()
+    })()
   }, [])
 
   const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+    const { name, value } = e.target
+    setForm((prev) => ({ ...prev, [name]: value }))
   }, [])
 
   return (
