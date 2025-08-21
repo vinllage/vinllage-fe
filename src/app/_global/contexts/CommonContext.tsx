@@ -2,6 +2,7 @@
 import { createContext, useState } from 'react'
 import { HelmetProvider, Helmet } from 'react-helmet-async'
 import { useEffect } from 'react'
+import { CookiesProvider } from 'react-cookie'
 import { useSearchParams } from 'next/navigation'
 
 type CommonContextType = {
@@ -34,12 +35,14 @@ const CommonProvider = ({ children }) => {
 
   return (
     <CommonContext.Provider value={value}>
-      <HelmetProvider>
-        <Helmet>
-          <title>{mainTitle}</title>
-        </Helmet>
-        {children}
-      </HelmetProvider>
+      <CookiesProvider>
+        <HelmetProvider>
+          <Helmet>
+            <title>{mainTitle}</title>
+          </Helmet>
+          {children}
+        </HelmetProvider>
+      </CookiesProvider>
     </CommonContext.Provider>
   )
 }
