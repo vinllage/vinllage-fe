@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { ResultComponents, type RecycleResult } from '../components/ResultList'
+import { ResultComponents, type DetectedRecycle } from '../components/ResultList'
 import { Button } from '@/app/_global/components/Buttons'
 import { BiLeftArrow, BiRightArrow } from 'react-icons/bi'
 import color from '@/app/_global/styles/color'
@@ -42,10 +42,10 @@ const ArrowButton = styled(Button)`
 `
 
 type Pagination = { page: number; limit: number; total: number }
-type ListData = { items: RecycleResult[]; pagination: Pagination }
+type ListData = { items: DetectedRecycle[]; pagination: Pagination }
 
 const LIMIT = 4 // 추후에 변경 한번에 보여줄 데이터 갯수
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000'
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
 export default function ResultContainer() {
   const [page, setPage] = useState(1)
@@ -61,7 +61,7 @@ export default function ResultContainer() {
         setError(null)
 
         const res = await fetch(
-          `${BASE_URL}/api/v1/recycle/list?page=${page}&limit=${LIMIT}`,
+          `${BASE_URL}/recycle/list?page=${page}&limit=${LIMIT}`,
           { cache: 'no-store' },
         )
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
