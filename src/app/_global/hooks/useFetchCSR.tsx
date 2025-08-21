@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { getToken, getUserHash } from '../libs/utils'
+import { getToken, getUseHash } from '../libs/utils'
 
 export default function useFetchCSR() {
   const [token, setToken] = useState<string | undefined>()
@@ -9,7 +9,7 @@ export default function useFetchCSR() {
   useEffect(() => {
     ;(async () => {
       setToken(await getToken())
-      setHash(await getUserHash())
+      setHash(await getUseHash())
     })()
   }, [])
 
