@@ -1,14 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
 import color from '@/app/_global/styles/color'
+import fontsize from '@/app/_global/styles/fontsize';
 
-export type RecycleResult = {
-  rid: number
-  topConfidence: number
-  topJson: string | null
-}
+export type DetectedRecycle = {
+  seq : number
+  data : string
+  imageUrl : string
+};
 
+/* 스타일 정리 S */
 const { dark } = color
+const { normal, medium } = fontsize
 
 const ResultList = styled.div`
   display: flex;
@@ -29,23 +32,78 @@ const ResultItem = styled.div`
   gap: 6px;
   text-align: center;
 `
+const Categories = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  font-size: ${normal};
+`
 
-export function ResultComponents({ items }: { items: RecycleResult[] }) {
+const CategoryItem = styled.div`
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: ${medium};
+  font-weight: 500;
+  white-space: nowrap;
+`
+
+const Images = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`
+
+const ImageItem = styled.img`
+  width: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+`
+/* 스타일 정리 E */
+
+export function ResultComponents({ items }: { items: DetectedRecycle[] }) {
   if (!items?.length) {
     return <div className="noData">데이터가 없습니다.</div>
   }
 
-  return (
-    <ResultList>
-      {items.map((item) => (
-        <ResultItem key={item.rid}>
-          <div className="rid">{item.rid}번</div>
-          <div className="confidence">
-            신뢰도 : {item.topConfidence?.toFixed(3)}
-          </div>
-          <div className="topJson">{item.topJson ?? '-'}</div>
-        </ResultItem>
-      ))}
-    </ResultList>
-  )
+   return (
+     <ResultList>
+       {items.map((item) => {
+         // JSON 문자열 파싱
+         let categories: { category1: string; category2: string }[] = []
+         let images: { url: string; name: string; ext: string }[] = []
+
+         try {
+           categories = JSON.parse(item.data || '[]')
+         } catch (e) {
+           console.error('data JSON 파싱 오류', e)
+         }
+
+         try {
+           images = JSON.parse(item.imageUrl || '[]')
+         } catch (e) {
+           console.error('imageUrl JSON 파싱 오류', e)
+         }
+
+         return (
+           <ResultItem key={item.seq}>
+             <Categories>
+               {categories.map((c, idx) => (
+                 <CategoryItem key={idx}>
+                   {c.category1} ({c.category2})
+                 </CategoryItem>
+               ))}
+             </Categories>
+
+             <Images>
+               {images.map((img, idx) => (
+                 <ImageItem key={idx} src={img.url} alt={img.name} />
+               ))}
+             </Images>
+           </ResultItem>
+         )
+       })}
+     </ResultList>
+   )
 }
