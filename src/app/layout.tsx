@@ -12,7 +12,8 @@ import { redirect } from 'next/navigation'
 
 export const metadata: Metadata = {
   title: 'vinllage',
-  description: 'AI 기반 카메라 인식을 통해 쓰레기를 올바르게 분리배출할 수 있도록 돕는 친환경 플랫폼',
+  description:
+    'AI 기반 카메라 인식을 통해 쓰레기를 올바르게 분리배출할 수 있도록 돕는 친환경 플랫폼',
 }
 
 export default async function RootLayout({
@@ -28,7 +29,7 @@ export default async function RootLayout({
 
   return (
     <html lang="ko">
-      <body>
+      <body id="body">
         <StyledComponentsRegistry>
           <CommonProvider>
             <UserProvider
