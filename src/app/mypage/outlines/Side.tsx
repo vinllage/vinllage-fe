@@ -47,6 +47,12 @@ const Side = () => {
       >
         내 프로필
       </Link>
+      <Link
+        href="/mypage/recycle"
+        className={classNames({ on: urlPath.startsWith('/mypage/recycle') })}
+      >
+        분리수거 결과 보기
+      </Link>
     </StyledAside>
   )
 }
