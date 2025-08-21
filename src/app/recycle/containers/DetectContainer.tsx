@@ -4,6 +4,7 @@ import DetectObject from '../components/DetectObject'
 import DetectedItems from '../components/DetectedItems'
 import { Button } from '@/app/_global/components/Buttons'
 import { processDetectData } from '../_services/actions'
+import { redirect } from 'next/navigation'
 
 const DetectContainer = () => {
   const [items, setItems] = useState<any>([])
@@ -25,6 +26,8 @@ const DetectContainer = () => {
     formData.append('items', JSON.stringify(_items))
 
     processDetectData(formData) // API 백엔드 반영
+
+    redirect('/recycle/result') // 결과 페이지 이동
   }, [items])
 
   return (
