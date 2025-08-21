@@ -16,7 +16,7 @@ export default interface SocialApi {
    * @param token : access token
    * @returns
    */
-  getProfile: (token: string) => Promise<ProfileType |null>
+  getProfile: (token: string) => Promise<ProfileType | null>
 
   /**
    * 인증 서버에서 client_id를 통해서 authorization code를 발급받을 수 있는
