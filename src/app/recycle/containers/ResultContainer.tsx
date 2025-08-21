@@ -61,7 +61,7 @@ export default function ResultContainer() {
         setError(null)
 
         const res = await fetch(
-          `${BASE_URL}/recycle/list?page=${page}&limit=${LIMIT}`,
+          `${BASE_URL}/recycle/list?page=${page}&limit=${LIMIT}&gid=${gid}`,
           { cache: 'no-store' },
         )
         if (!res.ok) throw new Error(`HTTP ${res.status}`)

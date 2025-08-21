@@ -5,6 +5,7 @@ import fontsize from '@/app/_global/styles/fontsize';
 
 export type DetectedRecycle = {
   seq : number
+  gid : string
   data : string
   imageUrl : string
 };
@@ -23,7 +24,7 @@ const ResultList = styled.div`
 const ResultItem = styled.div`
   width: 160px;
   min-height: 120px;
-  border: 2px solid ${dark};
+  border: 1.5px solid ${dark};
   border-radius: 12px;
   padding: 12px;
 
