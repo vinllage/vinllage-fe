@@ -4,7 +4,9 @@ import { MdCheckBox, MdCheckBoxOutlineBlank } from 'react-icons/md'
 import { Input } from '@/app/_global/components/Forms'
 import { SubmitButton } from '@/app/_global/components/Buttons'
 import MessageBox from '@/app/_global/components/MessageBox'
-import FileBox from '@/app/_global/components/FileBox'
+import FileUpload from '@/app/_global/components/FileUpload'
+import FileImages from '@/app/_global/components/FileImages'
+import FileItems from '@/app/_global/components/FileItems'
 
 const StyledForm = styled.form`
   .message {
@@ -12,9 +14,10 @@ const StyledForm = styled.form`
   }
 `
 
-const JoinForm = ({ errors, action, pending, onChange, onToggle, form }) => {
+const JoinForm = ({ errors, action, pending, onChange, onToggle, form, fileUploadCallback, fileDeleteCallback }) => {
   return (
     <StyledForm action={action} autoComplete="off">
+      <input type="hidden" name="gid" value={form.gid} />
       <input type="hidden" name="termsAgree" value={form.termsAgree} />
       <Input
         type="text"
@@ -62,7 +65,15 @@ const JoinForm = ({ errors, action, pending, onChange, onToggle, form }) => {
       <MessageBox color="danger">{errors?.mobile}</MessageBox>
 
       <h3>프로필 이미지</h3>
-      <FileBox />
+
+      <FileImages items={form.profileImage} callback={fileDeleteCallback}/>
+      <FileItems items={form.profileImage} />
+      <FileUpload
+        gid={form.gid}
+        imageOnly={true}
+        single={true} // 여러개 업로드 필요시 false
+        callback={fileUploadCallback}
+      />
 
       <h3>약관동의</h3>
       <div>약관 동의 작성...</div>
