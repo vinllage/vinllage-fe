@@ -15,9 +15,10 @@ type FormType = {
   redirectUrl?: string
 }
 
-const kakaoApi = new KakaoApi() // kakao 인스턴스 화 
+const kakaoApi = new KakaoApi() // kakao 인스턴스화 
 
 const LoginContainer = ({ redirectUrl }: {redirectUrl?: string}) => {
+
   const [errors, action, pending] = useActionState<any, any>(processLogin, {})
   const [form, setForm] = useState<FormType>({
     email: '',

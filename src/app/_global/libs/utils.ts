@@ -13,6 +13,7 @@ export async function getToken() {
 
   return cookie.get('token')?.value
 }
+
 export async function getUseHash() {
   const cookie = await  cookies()
 
