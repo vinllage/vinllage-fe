@@ -3,20 +3,14 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export type FileInfo = {
+export type DetectedRecycle = {
   seq: number
-  fileUrl: string
-  thumbBaseUrl?: string
-  originalName: string
-}
-
-interface Props {
-  items: FileInfo[]
+  data: string
+  imageUrl: string
 }
 
 const ListWrapper = styled.div`
   display: flex;
-  flex-wrap: wrap;
   gap: 16px;
   justify-content: center;
   align-items: center;
@@ -31,26 +25,37 @@ const FileItem = styled.div`
   text-align: center;
 
   img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
+    max-width: 100%;
     border-radius: 6px;
   }
 `
 
-export const RecycleList = ({ items }: Props) => {
+export const RecycleList = ({ items }: { items: DetectedRecycle[] }) => {
   if (!items.length) return <p>저장된 이미지가 없습니다.</p>
+
   return (
     <ListWrapper>
-      {items.map((f) => (
-        <FileItem key={f.seq}>
-          <img
-            src={f.thumbBaseUrl || f.fileUrl}
-            alt="분리수거 결과 이미지"
-            title={f.originalName}
-          />
-        </FileItem>
-      ))}
+      {items.map((f) => {
+        let images: { name: string; url: string; ext: string }[] = []
+        try {
+          images = JSON.parse(f.imageUrl)
+        } catch (e) {
+          console.error('imageUrl parse error', e)
+        }
+
+        // 첫 번째 이미지 url만 가져오기
+        const firstImage = images.length > 0 ? images[0].url : null
+
+        return (
+          <FileItem key={f.seq}>
+            {firstImage ? (
+              <img src={firstImage} alt={images[0].name} />
+            ) : (
+              <p>이미지 없음</p>
+            )}
+          </FileItem>
+        )
+      })}
     </ListWrapper>
   )
 }
