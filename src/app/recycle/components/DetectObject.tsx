@@ -62,7 +62,7 @@ const DetectObject = ({ width, height, callback }: PropType) => {
       const formData = new FormData()
       formData.append('file', blob, 'canvas.jpg')
 
-      fetch(`${process.env.NEXT_PUBLIC_AI_API_URL2}/detect`, {
+      fetch(`${process.env.NEXT_PUBLIC_AI_API_URL}/detect`, {
         method: 'POST',
         body: formData,
       })
