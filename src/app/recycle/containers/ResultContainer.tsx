@@ -2,7 +2,10 @@
 
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { ResultComponents, type DetectedRecycle } from '../components/ResultList'
+import {
+  ResultComponents,
+  type DetectedRecycle,
+} from '../components/ResultList'
 import { Button } from '@/app/_global/components/Buttons'
 import { BiLeftArrow, BiRightArrow } from 'react-icons/bi'
 import color from '@/app/_global/styles/color'
@@ -54,7 +57,8 @@ type Pagination = { page: number; limit: number; total: number }
 type ListData = { items: DetectedRecycle[]; pagination: Pagination }
 
 const LIMIT = 4 // 추후에 변경 한번에 보여줄 데이터 갯수
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api/v1'
+const BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api/v1'
 
 export default function ResultContainer() {
   const [page, setPage] = useState(1)
@@ -64,13 +68,14 @@ export default function ResultContainer() {
 
   useEffect(() => {
     let alive = true
+    const gid = data?.items[0].gid
     ;(async () => {
       try {
         setLoading(true)
         setError(null)
 
         const res = await fetch(
-          `${BASE_URL}/recycle/result?page=${page}&limit=${LIMIT}`,
+          `${BASE_URL}/recycle/result?page=${page}&limit=${LIMIT}&gid=${gid}`,
           { cache: 'no-store' },
         )
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
@@ -123,7 +128,7 @@ export default function ResultContainer() {
       </ResultWrapper>
 
       <GuideNav>
-          <RecycleGuide items={data?.items ?? []} />
+        <RecycleGuide items={data?.items ?? []} />
       </GuideNav>
     </>
   )
