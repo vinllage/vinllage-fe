@@ -12,8 +12,6 @@ const { dark, white } = color
 const { big } = fontsize
 
 const StyledAside = styled.aside`
-  background: #ccc;
-
   a {
     display: block;
     height: 55px;
@@ -41,25 +39,19 @@ const Side = () => {
         href="/mypage"
         className={classNames({ on: urlPath === '/mypage' })}
       >
-        개인정보 수정
+        홈
       </Link>
       <Link
-        href="/mypage/delete"
-        className={classNames({ on: urlPath === '/mypage/delete' })}
+        href="/mypage/profile"
+        className={classNames({ on: urlPath.startsWith('/mypage/profile') })}
       >
-        회원 탈퇴
+        내 프로필
       </Link>
       <Link
-        href="/recycle/detect"
-        className={classNames({ on: urlPath === '/recycle/detect' })}
+        href="/mypage/recycle"
+        className={classNames({ on: urlPath.startsWith('/mypage/recycle') })}
       >
         분리수거 결과 보기
-      </Link>
-      <Link
-        href="/mypage/statistics"
-        className={classNames({ on: urlPath === '/mypage/statistics' })}
-      >
-        누적 통계 보기
       </Link>
     </StyledAside>
   )

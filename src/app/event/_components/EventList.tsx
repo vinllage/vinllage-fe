@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import type { EventType } from '../_types'
 import color from '@/app/_global/styles/color'
 import fontsize from '@/app/_global/styles/fontsize'
+import Pagination from '@/app/_global/components/Pagination'
 
 type Props = {
   query: string
@@ -76,39 +77,6 @@ const Item = styled.li`
   }
 `
 
-const Pagination = styled.nav`
-  margin-top: 24px;
-  text-align: center;
-
-  button {
-    margin: 0 4px;
-    padding: 8px 14px;
-    border: none;
-    border-radius: 6px;
-    background: #f1f1f1;
-    font-size: ${fontsize.small};
-    cursor: pointer;
-    transition: all 0.2s ease;
-
-    &:hover:not(:disabled) {
-      background: ${color.primary};
-      color: #fff;
-    }
-
-    &:disabled {
-      background: #ddd;
-      cursor: not-allowed;
-      color: #aaa;
-    }
-  }
-
-  .active {
-    background: ${color.primary};
-    color: ${color.white};
-    font-weight: 600;
-  }
-`
-
 const EventList = ({
   query,
   onSearch,
@@ -137,34 +105,12 @@ const EventList = ({
           </Item>
         ))}
       </List>
-      {totalPages > 1 && (
-        <Pagination>
-          <button
-            onClick={() => onPageChange(Math.max(page - 1, 1))}
-            disabled={page === 1}
-          >
-            Prev
-          </button>
-          {Array.from({ length: totalPages }).map((_, idx) => {
-            const p = idx + 1
-            return (
-              <button
-                key={p}
-                onClick={() => onPageChange(p)}
-                disabled={p === page}
-              >
-                {p}
-              </button>
-            )
-          })}
-          <button
-            onClick={() => onPageChange(Math.min(page + 1, totalPages))}
-            disabled={page === totalPages}
-          >
-            Next
-          </button>
-        </Pagination>
-      )}
+      <Pagination
+        page={page}
+        totalPages={totalPages}
+        onPageChange={onPageChange}
+      />
+
     </Wrapper>
   )
 }

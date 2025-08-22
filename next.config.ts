@@ -10,6 +10,9 @@ const nextConfig: NextConfig = {
     },
     authInterrupts: true,
   },
+  images: {
+    domains: ['localhost', 'vinllage.xyz']
+  }
 }
 
 export default nextConfig

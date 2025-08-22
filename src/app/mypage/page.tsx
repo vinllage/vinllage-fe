@@ -1,58 +1,30 @@
 'use client'
 
-import React from 'react'
-import styled from 'styled-components'
-import UserOnlyContainer from '../_global/wrappers/UserOnlyContainer'
-import Side from './outlines/Side'
-import MyPageContainer from './_containers/MyPageContainer'
-import { MainTitle } from '../_global/components/TitleBox'
-import color from '../_global/styles/color'
+import React, { useEffect, useContext } from 'react'
+import { MainTitle } from '@/app/_global/components/TitleBox'
+import MyPageForm from './_components/MyPageForm'
+import useUser from '@/app/_global/hooks/useUser'
+import CommonContext from '@/app/_global/contexts/CommonContext'
 
-const { light } = color
+export default function ProfilePage() {
+  const { loggedMember } = useUser()
+  const { actions } = useContext(CommonContext)
 
-/** 전체 레이아웃 */
-const Layout = styled.div`
-  display: flex;
-  min-height: 100vh;
+  useEffect(() => {
+    if (loggedMember) {
+      // mainTitle을 항상 문자열로만 넘김
+      actions.setMainTitle(`${loggedMember.name}님 환영합니다`)
+    }
+  }, [loggedMember, actions])
 
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
-`
-
-/** 사이드바 영역 */
-const SideWrapper = styled.aside`
-  width: 240px;
-  background: ${light};
-
-  @media (max-width: 768px) {
-    width: 100%;
-  }
-`
-
-/** 본문 영역 */
-const Main = styled.main`
-  flex: 1;
-  padding: 40px;
-  background: ${light};
-
-  @media (max-width: 768px) {
-    padding: 20px;
-  }
-`
-
-export default function Mypage() {
   return (
-    <UserOnlyContainer>
-      <Layout>
-        <SideWrapper>
-          <Side />
-        </SideWrapper>
-        <Main>
-          <MainTitle border='true'>마이페이지</MainTitle>
-          <MyPageContainer />
-        </Main>
-      </Layout>
-    </UserOnlyContainer>
+    <>
+      <MainTitle border="true">
+        <span className="badge">
+          {loggedMember.name}님, 환영합니다.
+        </span>
+      </MainTitle>
+      <MyPageForm />
+    </>
   )
 }
