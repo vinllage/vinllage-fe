@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import type { EventType } from '../_types'
 import color from '@/app/_global/styles/color'
 import fontsize from '@/app/_global/styles/fontsize'
+import Pagination from '@/app/_global/components/Pagination'
 
 type Props = {
   query: string
@@ -76,7 +77,7 @@ const Item = styled.li`
   }
 `
 
-const Pagination = styled.nav`
+const PaginationWrapper = styled.nav`
   margin-top: 24px;
   text-align: center;
 
@@ -137,34 +138,13 @@ const EventList = ({
           </Item>
         ))}
       </List>
-      {totalPages > 1 && (
-        <Pagination>
-          <button
-            onClick={() => onPageChange(Math.max(page - 1, 1))}
-            disabled={page === 1}
-          >
-            Prev
-          </button>
-          {Array.from({ length: totalPages }).map((_, idx) => {
-            const p = idx + 1
-            return (
-              <button
-                key={p}
-                onClick={() => onPageChange(p)}
-                disabled={p === page}
-              >
-                {p}
-              </button>
-            )
-          })}
-          <button
-            onClick={() => onPageChange(Math.min(page + 1, totalPages))}
-            disabled={page === totalPages}
-          >
-            Next
-          </button>
-        </Pagination>
-      )}
+      <PaginationWrapper>
+        <Pagination
+          page={page}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+        />
+      </PaginationWrapper>
     </Wrapper>
   )
 }
