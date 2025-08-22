@@ -77,39 +77,6 @@ const Item = styled.li`
   }
 `
 
-const PaginationWrapper = styled.nav`
-  margin-top: 24px;
-  text-align: center;
-
-  button {
-    margin: 0 4px;
-    padding: 8px 14px;
-    border: none;
-    border-radius: 6px;
-    background: #f1f1f1;
-    font-size: ${fontsize.small};
-    cursor: pointer;
-    transition: all 0.2s ease;
-
-    &:hover:not(:disabled) {
-      background: ${color.primary};
-      color: #fff;
-    }
-
-    &:disabled {
-      background: #ddd;
-      cursor: not-allowed;
-      color: #aaa;
-    }
-  }
-
-  .active {
-    background: ${color.primary};
-    color: ${color.white};
-    font-weight: 600;
-  }
-`
-
 const EventList = ({
   query,
   onSearch,
@@ -138,13 +105,12 @@ const EventList = ({
           </Item>
         ))}
       </List>
-      <PaginationWrapper>
-        <Pagination
-          page={page}
-          totalPages={totalPages}
-          onPageChange={onPageChange}
-        />
-      </PaginationWrapper>
+      <Pagination
+        page={page}
+        totalPages={totalPages}
+        onPageChange={onPageChange}
+      />
+
     </Wrapper>
   )
 }
