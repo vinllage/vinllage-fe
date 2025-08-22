@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { FaRegWindowClose } from 'react-icons/fa'
 import LayerPopup from './LayerPopup'
 import useFetchCSR from '../hooks/useFetchCSR'
+import useConfirmDialog from '../hooks/useConfirmDialog'
 import color from '../styles/color'
 const { dark, white } = color
 
@@ -41,32 +42,51 @@ type FileType = {
   items: any
   width?: number
   height?: number
+  viewOnly?: boolean
+  viewOrgImage?: boolean
   callback?: (item: any) => void
 }
 
-const ImageItem = ({ item, width, height, callback }) => {
+const ImageItem = ({
+  item,
+  width,
+  height,
+  callback,
+  viewOnly,
+  viewOrgImage,
+}) => {
   const { seq, fileUrl, thumbBaseUrl, fileName, image } = item
   const [open, setOpen] = useState<boolean>(false)
   const fetchCSR = useFetchCSR()
-
+  const confirmDialog = useConfirmDialog()
   const onClose = useCallback(() => setOpen(false), [])
   const onShow = useCallback(() => setOpen(true), [])
 
-  const onRemove = useCallback((seq) => {
-    fetchCSR(`/file/delete/${seq}`, {method: 'DELETE'})
-    .then(res => res.json())
-    .then(item => {
-        // 삭제 후 후속처리
-        if (typeof callback == 'function') {
-            callback(item)
-        }
-    })
-  }, [fetchCSR]);
+  const onRemove = useCallback(
+    (seq) => {
+      confirmDialog({
+        text: '정말 삭제하겠습니까?',
+        confirmCallback: () => {
+          fetchCSR(`/file/delete/${seq}`, { method: 'DELETE' })
+            .then((res) => res.json())
+            .then((item) => {
+              //  삭제 후 후속처리
+              if (typeof callback === 'function') {
+                callback(item)
+              }
+            })
+        },
+      })
+    },
+    [fetchCSR, callback, confirmDialog],
+  )
 
   return (
     image && (
       <li>
-        <FaRegWindowClose className="remove" onClick={() => onRemove(seq)} />
+        {!viewOnly && (
+          <FaRegWindowClose className="remove" onClick={() => onRemove(seq)} />
+        )}
         <Image
           src={`${thumbBaseUrl}&width=${width}&height=${height}&crop=true`}
           alt={fileName}
@@ -74,25 +94,35 @@ const ImageItem = ({ item, width, height, callback }) => {
           height={height}
           onClick={onShow}
         />
-        <LayerPopup width={500} isOpen={open} onClose={onClose}>
-          <Image
-            className="org-image"
-            width={500}
-            height={500}
-            src={fileUrl}
-            alt={fileName}
-          />
-        </LayerPopup>
+        {viewOrgImage && (
+          <LayerPopup width={500} isOpen={open} onClose={onClose}>
+            <Image
+              className="org-image"
+              width={500}
+              height={500}
+              src={fileUrl}
+              alt={fileName}
+            />
+          </LayerPopup>
+        )}
       </li>
     )
   )
 }
 
-const FileImages = ({ items, width, height, callback }: FileType) => {
+const FileImages = ({
+  items,
+  width,
+  height,
+  callback,
+  viewOnly,
+  viewOrgImage,
+}: FileType) => {
   items = Array.isArray(items) ? items : items ? [items] : []
   if (items.length === 0) return <></>
   width = width ?? 100
   height = height ?? 100
+
   return (
     <ImageItems>
       {items.map((item) => (
@@ -102,6 +132,8 @@ const FileImages = ({ items, width, height, callback }: FileType) => {
           width={width}
           height={height}
           callback={callback}
+          viewOnly={viewOnly}
+          viewOrgImage={viewOrgImage}
         />
       ))}
     </ImageItems>
