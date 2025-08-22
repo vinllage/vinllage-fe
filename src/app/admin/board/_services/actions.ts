@@ -1,10 +1,12 @@
 'use server'
 import { redirect } from 'next/navigation'
+import { fetchSSR } from '@/app/_global/libs/utils'
+
 
 export async function processBoardConfig(errors, formData: FormData) {
   errors = {}
     const params: any = {}
-  
+
     // 필요한 필드와 값만 추출
     for (const [key, value] of formData.entries()) {
       if (key.startsWith('$ACTION_')) continue
@@ -15,7 +17,7 @@ export async function processBoardConfig(errors, formData: FormData) {
   
       params[key] = _value
     }
-  
+    
     let hasErrors: boolean = false
     // 필수 항목 검증 S
     const requiredFields = {
@@ -34,13 +36,14 @@ export async function processBoardConfig(errors, formData: FormData) {
         errors[field].push(message)
       }
     }
+
     // 필수 항목 검증 E
   
     // 검증 실패시에는 에레 메세지를 출력하기 위한 상태값을 반환
     if (hasErrors) {
       return errors
     }
-  
+
     // 회원 가입 처리를 위해  API 서버에 요청
     try {
       const apiUrl = `http://localhost:4000/api/v2/admin/board/register`
@@ -50,19 +53,27 @@ export async function processBoardConfig(errors, formData: FormData) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(params),
-      })
-  
-      // API 백앤드에서 검증 실패시 메세지
-      if (res.status !== 201) {
-        const errorData = await res.json()
-        return errorData.errors || { global: errorData.message }
-}
-    } catch (err: any) {
-      return { global: err?.message }
+    })
+
+    if (res.status !== 201) {
+      const errorData = await res.json()
+      return {
+        success: false,
+        message: errorData.message,
+        errors: errorData.errors
+      }
     }
+
+    const result = await res.json()
+    console.log('Success:', result)
+
+  } catch (err: any) {
+    console.error('Error:', err);
+    return { message: err?.message }
+  }
   
     // 게시판 작성 완료시 리스트로 이동
-    redirect('/board/list')
+    redirect('/admin/board')
 }
 
 // actions.ts에 추가
@@ -78,4 +89,38 @@ export async function fetchBoardForm(bid?: string) {
   } catch (error) {
     throw new Error('폼 데이터 조회에 실패했습니다.');
   }
+}
+
+export async function getBoardList(search = {}) {
+  console.log("getBoardList 시작");
+  try {
+    const res = await fetch('http://localhost:4000/api/v1/admin/board/list');
+    console.log("fetch 응답:", res);
+    
+    if (res.ok) {
+      const data = await res.json();
+      console.log("데이터:", data);
+      return data;
+    }
+  } catch (err) {
+    console.log('에러:', err);
+  }
+  return null;
+}
+
+export async function getEvents() {
+  try {
+    const res = await fetchSSR('/events')
+    if (res.ok) {
+      const data = await res.json()
+      return data.items ?? []
+    }
+  } catch (err) {
+    console.error(err)
+  }
+  return []
+}
+
+export async function test() {
+  console.log("1");
 }

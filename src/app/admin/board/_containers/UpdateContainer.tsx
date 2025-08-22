@@ -21,10 +21,15 @@ const UpdateContainer = ({ bid }: PropType) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }, [])
 
+  const onKeyValue = useCallback((key, value) => {
+    setForm((prev) => ({ ...prev, [key]: value }))
+  }, [])
+
   return (
     <BoardConfigForm
       form={form}
       onChange={onChange}
+      onKeyValue={onKeyValue}
       errors={errors}
       action={action}
       pending={pending}

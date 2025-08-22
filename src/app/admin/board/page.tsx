@@ -1,7 +1,9 @@
 import ListContainer from './_containers/ListContainer'
+import { MainTitle } from '@/app/_global/components/TitleBox'
 
 export default function BoardListPage() {
   return (<div>
-      <h1>게시판 목록</h1>
+      <MainTitle border="true">게시판 설정 등록</MainTitle>
+            <ListContainer />
     </div>)
 }
