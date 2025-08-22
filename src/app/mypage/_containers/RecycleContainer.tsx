@@ -43,7 +43,7 @@ const ArrowButton = styled(Button)`
 type Pagination = { page: number; limit: number; total: number }
 type ListData = { items: FileInfo[]; pagination: Pagination }
 
-const LIMIT = 4
+const LIMIT = 4 // 페이지당 기본 개수
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
 export default function RecycleContainer() {
