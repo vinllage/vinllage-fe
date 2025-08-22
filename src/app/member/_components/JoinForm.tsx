@@ -37,7 +37,7 @@ const JoinForm = ({
           />
 
           <input type="hidden" name="socialToken" value={form.socialToken} />
-          <div>KAKAO 계정 연결 회원가입</div>
+          <div>{form.socialChannel} 계정 연결 회원가입</div>
         </>
       )}
 
