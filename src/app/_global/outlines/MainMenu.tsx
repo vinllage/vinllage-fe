@@ -83,6 +83,13 @@ const MainMenu = () => {
           >
             자유게시판
           </Link>
+          <Link
+            href="/event"
+            onMouseEnter={onSubMenuOpen}
+            onMouseLeave={onSubMenuClose}
+          >
+            환경 행사
+          </Link>
         </div>
       </StyledNav>
       {open && (

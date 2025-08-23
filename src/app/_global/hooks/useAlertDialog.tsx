@@ -11,6 +11,8 @@ type AlertDialogType = {
 
 export default function useAlertDialog() {
   return ({ title, text, icon, callback }: AlertDialogType) => {
+    title = title ?? '알림'
+    icon = icon ?? 'warning'
     Swal.fire({
       title,
       text,
