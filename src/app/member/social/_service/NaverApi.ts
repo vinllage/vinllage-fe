@@ -4,12 +4,11 @@ import SocialApi from './SocialApi'
 export default class NaverApi implements SocialApi {
   private state?: string
 
-  constructor(
-    private apiKey: string | undefined = process.env.NEXT_PUBLIC_NAVER_API_KEY,
-    private apiSecret: string | undefined = process.env
-      .NEXT_PUBLIC_NAVER_API_SECRET,
-    private redirectUri: string = `${process.env.NEXT_PUBLIC_DOMAIN}/member/social/naver/callback`,
-  ) {}
+    constructor(
+      private apiKey: string | undefined = process.env.NEXT_PUBLIC_NAVER_API_KEY,
+      private apiSecret: string | undefined = process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET,
+      private redirectUri: string =`${process.env.NEXT_PUBLIC_DOMAIN}/member/social/naver/callback`,
+    ) {}
 
 
   async getToken(code: string) {
@@ -22,24 +21,18 @@ export default class NaverApi implements SocialApi {
     params.append("redirect_uri", this.redirectUri)
     params.append('state', this.state ?? '')
     const res = await fetch('https://nid.naver.com/oauth2.0/token', {
-        method: 'GET',
+        method: 'POST',
         body: params, // URLSearchParams 객체로 변경
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
         },
-      
-    })
+    });
 
     if (res.status === 200) {
         const { access_token } = await res.json()
         return access_token
     }
     console.log("확안", res)
-
-    // 에러를 좀 더 자세히 확인하기 위한 로직 추가
-    const errorData = await res.json();
-    console.error('Token 발급 실패:', res.status, errorData);
-
     return null
 }
 
