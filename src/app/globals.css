@@ -56,7 +56,7 @@ main.main-content {
   min-height: 650px;
 }
 
-/* 모달 배경 */
+/* 모달 레이어 배경 */
 .ReactModal__Overlay {
   background-color: rgba(0, 0, 0, 0.3) !important;
 }
