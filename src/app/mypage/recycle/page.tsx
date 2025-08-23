@@ -1,13 +1,14 @@
 'use client'
 
-import React from 'react'
-import MyRecycleForm from '../_components/MyRecycleForm'
+import ContentBox from '@/app/_global/components/ContentBox'
+import { MainTitle } from '@/app/_global/components/TitleBox'
+import RecycleContainer from '../_containers/RecycleContainer'
 
 export default function MyPageRecyclePage() {
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>분리수거 결과 보기</h1>
-      <MyRecycleForm />
-    </div>
+    <ContentBox width={720}>
+      <MainTitle border="true">분리수거 결과 보기</MainTitle>
+      <RecycleContainer />
+    </ContentBox>
   )
 }

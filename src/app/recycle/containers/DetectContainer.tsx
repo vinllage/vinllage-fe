@@ -13,7 +13,7 @@ const DetectContainer = () => {
     setItems([...items])
   }, [])
 
-  const onClick = useCallback(async () => {
+  const onClick = useCallback(() => {
     // items 값을 저장 후속 처리
     const _items: Array<{ category1: string; category2: string }> = []
     const formData = new FormData()
@@ -25,9 +25,9 @@ const DetectContainer = () => {
 
     formData.append('items', JSON.stringify(_items))
 
-    const data = await processDetectData(formData) // API 백엔드 반영
+    processDetectData(formData) // API 백엔드 반영
 
-    redirect('/recycle/result?gid=' + data.gid) // 결과 페이지 이동
+    redirect('/recycle/result?') // 결과 페이지 이동
   }, [items])
 
   return (

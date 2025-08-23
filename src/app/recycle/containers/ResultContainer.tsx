@@ -7,6 +7,7 @@ import { Button } from '@/app/_global/components/Buttons'
 import { BiLeftArrow, BiRightArrow } from 'react-icons/bi'
 import color from '@/app/_global/styles/color'
 import styled from 'styled-components'
+import RecycleGuide from '../components/RecycleGuide'
 
 const { dark } = color
 
@@ -19,6 +20,14 @@ const ResultWrapper = styled.div`
 `
 
 const ResultNav = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+`
+
+const GuideNav = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -45,7 +54,7 @@ type Pagination = { page: number; limit: number; total: number }
 type ListData = { items: DetectedRecycle[]; pagination: Pagination }
 
 const LIMIT = 4 // 추후에 변경 한번에 보여줄 데이터 갯수
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api/v1'
 
 export default function ResultContainer() {
   const [page, setPage] = useState(1)
@@ -61,7 +70,7 @@ export default function ResultContainer() {
         setError(null)
 
         const res = await fetch(
-          `${BASE_URL}/recycle/list?page=${page}&limit=${LIMIT}&gid=${gid}`,
+          `${BASE_URL}/recycle/result?page=${page}&limit=${LIMIT}`,
           { cache: 'no-store' },
         )
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
@@ -89,16 +98,17 @@ export default function ResultContainer() {
     return <div className="error">에러: {(error as Error)?.message}</div>
 
   return (
-    <ResultWrapper>
-      <ResultNav>
-        <ArrowButton
-          onClick={() => setPage((p) => Math.max(1, p - 1))}
-          disabled={!canPrev}
-        >
-          <BiLeftArrow />
-        </ArrowButton>
+    <>
+      <ResultWrapper>
+        <ResultNav>
+          <ArrowButton
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={!canPrev}
+          >
+            <BiLeftArrow />
+          </ArrowButton>
 
-        <ResultComponents items={data?.items ?? []} />
+          <ResultComponents items={data?.items ?? []} />
 
           <ArrowButton
             onClick={() => setPage((p) => p + 1)}
@@ -106,10 +116,15 @@ export default function ResultContainer() {
           >
             <BiRightArrow />
           </ArrowButton>
-      </ResultNav>
-      <Link href="/recycle/detect">
-        <Button>다시 찍기</Button>
-      </Link>
-    </ResultWrapper>
+        </ResultNav>
+        <Link href="/recycle/detect">
+          <Button>다시 찍기</Button>
+        </Link>
+      </ResultWrapper>
+
+      <GuideNav>
+          <RecycleGuide items={data?.items ?? []} />
+      </GuideNav>
+    </>
   )
 }

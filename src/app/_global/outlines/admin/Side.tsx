@@ -20,20 +20,36 @@ const StyledAside = styled.aside`
     padding: 0 25px;
     font-weight: 500;
   }
-    a.on {
-      background: ${dark};
-      color: ${white};
-    }
+  a.on {
+    background: ${dark};
+    color: ${white};
+  }
 `
 
 const Side = () => {
   const urlPath = usePathname()
-  return <StyledAside>
-    <Link href="/admin/member" className={classNames({ on: urlPath === '/admin/member' })}>
-      회원 관리
-    </Link>
-    <Link href="/admin/board" className={classNames({on: urlPath === 'admin/board'})}>게시판 관리</Link>
-  </StyledAside>
+  return (
+    <StyledAside>
+      <Link
+        href="/admin/member"
+        className={classNames({ on: urlPath === '/admin/member' })}
+      >
+        회원 관리
+      </Link>
+      <Link
+        href="/admin/board"
+        className={classNames({ on: urlPath === 'admin/board' })}
+      >
+        게시판 관리
+      </Link>
+      <Link
+        href="/admin/crawler"
+        className={classNames({ on: urlPath === '/admin/crawler' })}
+      >
+        크롤링 관리
+      </Link>
+    </StyledAside>
+  )
 }
 
 export default React.memo(Side)

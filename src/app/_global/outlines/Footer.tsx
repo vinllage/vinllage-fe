@@ -8,6 +8,7 @@ const StyledFooter = styled.footer`
   min-height: 200px;
   background: ${green};
   color: ${light};
+  margin-top: 150px;
 `
 
 const Footer = () => {

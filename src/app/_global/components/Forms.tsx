@@ -53,3 +53,31 @@ export const Textarea = styled.textarea<CommonType>`
         height: ${height}px;
     `}
 `
+
+const tableCommonStyle = css`
+  border-spacing: 0;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+`
+type TableType = {
+  thwidth?: number
+}
+export const TableCols = styled.table<TableType>`
+  ${tableCommonStyle}
+  th, td {
+    border-bottom: 1px solid #ccc;
+    padding: 8px 10px;
+  }
+  th {
+    background: #f8f8f8;
+    border-right: 1px solid #ccc;
+    width: ${({ thwidth }) => (thwidth ? thwidth : 120)}px;
+  }
+  tr:first-of-type {
+    th,
+    td {
+      border-top: 1px solid #ccc;
+    }
+  }
+`

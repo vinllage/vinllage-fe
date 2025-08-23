@@ -9,6 +9,8 @@ const AdminSubMenu = loadable(() => import("../outlines/admin/SubMenu"))
 const Header = loadable(() => import('../outlines/Header'))
 const Footer = loadable(() => import('../outlines/Footer'))
 
+const MainMenu = loadable(() => import("../outlines/MainMenu"))
+
 const AdminMain = styled.main`
   display: flex;
   min-height: 850px;
@@ -39,6 +41,7 @@ export default function LayoutContainer({ children }) {
   ) : (
     <>
       <Header />
+      <MainMenu />
       <main className="main-content">{children}</main>
       <Footer />
     </>
