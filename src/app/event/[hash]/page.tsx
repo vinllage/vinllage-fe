@@ -12,7 +12,7 @@ export default async function EventDetailPage({ params }) {
   }
   
   return (
-    <div className="layout-width">
+    <div className="layout-width pd-top30">
       <MainTitle border="true">환경 행사</MainTitle>
       <EventDetailContainer event={event} />
     </div>
