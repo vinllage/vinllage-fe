@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { MdCheckBox, MdCheckBoxOutlineBlank } from 'react-icons/md'
 import { Input } from '@/app/_global/components/Forms'
@@ -6,7 +6,6 @@ import { SubmitButton } from '@/app/_global/components/Buttons'
 import MessageBox from '@/app/_global/components/MessageBox'
 import FileUpload from '@/app/_global/components/FileUpload'
 import FileImages from '@/app/_global/components/FileImages'
-import FileItems from '@/app/_global/components/FileItems'
 
 const StyledForm = styled.form`
   .message {
@@ -32,6 +31,7 @@ const JoinForm = ({
   sendCode,
   verifyCode,
   verified,
+  sendState,
 }) => {
   return (
     <StyledForm action={action} autoComplete="off">
@@ -61,8 +61,18 @@ const JoinForm = ({
           disabled={verified}
         />
         {verified && <input type="hidden" name="email" value={form.email} />}
-        <button type="button" onClick={sendCode} disabled={verified}>
-          {verified ? '인증완료' : '코드발송'}
+        <button
+          type="button"
+          onClick={sendCode}
+          disabled={verified || sendState === 'loading'}
+        >
+          {verified
+            ? '인증완료'
+            : sendState === 'loading'
+            ? '발송 중...'
+            : sendState === 'sent'
+            ? '재전송'
+            : '메일 발송'}
         </button>
       </div>
 
@@ -124,8 +134,11 @@ const JoinForm = ({
 
       <h3>프로필 이미지</h3>
 
-      <FileImages items={form.profileImage} callback=
-      {fileDeleteCallback} viewOrgImage={true}/>
+      <FileImages
+        items={form.profileImage}
+        callback={fileDeleteCallback}
+        viewOrgImage={true}
+      />
       <FileUpload
         gid={form.gid}
         imageOnly={true}
