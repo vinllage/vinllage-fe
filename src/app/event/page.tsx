@@ -6,7 +6,7 @@ import EventListContainer from './_containers/EventListContainer'
 export default async function EventPage() {
   const events: EventType[] = await getEvents()
   return (
-    <div className="layout-width">
+    <div className="layout-width pd-top30">
       <MainTitle border="true">환경 행사</MainTitle>
       <EventListContainer events={events} />
     </div>
