@@ -77,6 +77,12 @@ const Item = styled.li`
   }
 `
 
+const NoItem = styled.li`
+  padding: 40px 16px;
+  text-align: center;
+  color: ${color.secondary};
+`
+
 const EventList = ({
   query,
   onSearch,
@@ -96,14 +102,18 @@ const EventList = ({
         />
       </SearchBox>
       <List>
-        {events.map((event) => (
-          <Item key={event.hash}>
-            <Link href={`/event/${event.hash}`} target="_self">
-              {event.title}
-            </Link>
-            <span>{event.date}</span>
-          </Item>
-        ))}
+        {events.length === 0 ? (
+          <NoItem>등록된 환경 행사가 없습니다.</NoItem>
+        ) : (
+          events.map((event) => (
+            <Item key={event.hash}>
+              <Link href={`/event/${event.hash}`} target="_self">
+                {event.title}
+              </Link>
+              <span>{event.date}</span>
+            </Item>
+          ))
+        )}
       </List>
       <Pagination
         page={page}

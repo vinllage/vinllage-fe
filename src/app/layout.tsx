@@ -24,7 +24,7 @@ export default async function RootLayout({
   const member = await getLoggedMember()
   const cookie = await cookies()
   if (member == null && cookie.has('token')) {
-    redirect('/member/api/logout?redirectUrl=/')
+    redirect('/member/api/logout?redirectUrl=/session-expired')
   }
 
   return (
