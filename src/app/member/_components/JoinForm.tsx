@@ -12,6 +12,12 @@ const StyledForm = styled.form`
   .message {
     margin-bottom: 10px;
   }
+
+  .email-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
 `
 
 const JoinForm = ({
@@ -23,11 +29,15 @@ const JoinForm = ({
   form,
   fileUploadCallback,
   fileDeleteCallback,
+  sendCode,
+  verifyCode,
+  verified,
 }) => {
   return (
     <StyledForm action={action} autoComplete="off">
       <input type="hidden" name="gid" value={form.gid} />
       <input type="hidden" name="termsAgree" value={form.termsAgree} />
+
       {form.socialChannel && form.socialToken && (
         <>
           <input
@@ -41,14 +51,37 @@ const JoinForm = ({
         </>
       )}
 
-      <Input
-        type="text"
-        name="email"
-        placeholder="이메일을 입력하세요"
-        value={form.email}
-        onChange={onChange}
-      />
+      <div className="email-row">
+        <Input
+          type="text"
+          name="email"
+          placeholder="이메일을 입력하세요"
+          value={form.email}
+          onChange={onChange}
+          disabled={verified}
+        />
+        <button type="button" onClick={sendCode} disabled={verified}>
+          {verified ? '인증완료' : '코드발송'}
+        </button>
+      </div>
+
       <MessageBox color="danger">{errors?.email}</MessageBox>
+
+      {!verified && (
+        <div className="email-row">
+          <Input
+            type="text"
+            name="code"
+            placeholder="인증 코드 입력"
+            value={form.code || ''}
+            onChange={onChange}
+          />
+          <button type="button" onClick={verifyCode}>
+            확인
+          </button>
+        </div>
+      )}
+
       {(!form?.socialChannel || !form?.socialToken) && (
         <>
           <Input
@@ -110,7 +143,7 @@ const JoinForm = ({
       </div>
       <MessageBox color="danger">{errors?.termsAgree}</MessageBox>
 
-      <SubmitButton type="submit" disabled={pending}>
+      <SubmitButton type="submit" disabled={pending || !verified}>
         가입하기
       </SubmitButton>
       <MessageBox color="danger">{errors?.global}</MessageBox>
