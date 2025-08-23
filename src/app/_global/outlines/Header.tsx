@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { Button } from '../components/Buttons'
 import useUser from '../hooks/useUser'
 import LinkLoading from '../components/LinkLoading'
+import FileImages from '../components/FileImages'
 
 const StyledHeader = styled.header`
   background: #fff;
@@ -34,10 +35,21 @@ const StyledHeader = styled.header`
 }
 
     .right {
-      text-align: right;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
 
       a + a {
         margin-left: 5px;
+      }
+    }
+
+    .profile-image {
+      li {
+        border-radius: 50%;
+      }
+      img {
+        border-radius: 50%;
       }
     }
   }
@@ -57,11 +69,7 @@ const Header = () => {
         </div>
         <div className="right">
           {isLogin ? (
-            <>
-              {/*
-              <span>
-                {loggedMember.name}({loggedMember.email})
-              </span> */}
+            <>                           
               <Link href="/mypage" prefetch={false}>
                 <Button type="button">
                   <CgProfile />
@@ -83,6 +91,11 @@ const Header = () => {
                   </Button>
                 </a>
               )}
+              <Link href="/mypage" className='profile-image'>
+                <FileImages 
+                items={loggedMember.profileImage} 
+                viewOnly={true} width={45} height={45} />
+              </Link> 
             </>
           ) : (
             <>

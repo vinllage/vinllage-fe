@@ -27,7 +27,7 @@ const DetectContainer = () => {
 
     processDetectData(formData) // API 백엔드 반영
 
-    redirect('/recycle/result') // 결과 페이지 이동
+    redirect('/recycle/result?') // 결과 페이지 이동
   }, [items])
 
   return (

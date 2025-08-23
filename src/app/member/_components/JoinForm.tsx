@@ -124,11 +124,8 @@ const JoinForm = ({
 
       <h3>프로필 이미지</h3>
 
-      <FileImages
-        items={form.profileImage}
-        callback={fileDeleteCallback}
-        viewOrgImage={true}
-      />
+      <FileImages items={form.profileImage} callback=
+      {fileDeleteCallback} viewOrgImage={true}/>
       <FileUpload
         gid={form.gid}
         imageOnly={true}
