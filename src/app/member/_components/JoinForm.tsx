@@ -60,6 +60,7 @@ const JoinForm = ({
           onChange={onChange}
           disabled={verified}
         />
+        {verified && <input type="hidden" name="email" value={form.email} />}
         <button type="button" onClick={sendCode} disabled={verified}>
           {verified ? '인증완료' : '코드발송'}
         </button>
