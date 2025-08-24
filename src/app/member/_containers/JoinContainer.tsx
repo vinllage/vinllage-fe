@@ -4,6 +4,7 @@ import { v4 as uuid } from 'uuid'
 import { useSearchParams } from 'next/navigation'
 import { processJoin } from '../_services/actions'
 import JoinForm from '../_components/JoinForm'
+import useAlertDialog from '@/app/_global/hooks/useAlertDialog'
 
 type FormType = {
   gid: string
@@ -17,10 +18,12 @@ type FormType = {
   socialToken?: string | number
   profileImage?: any
   code?: string
+  sendState?: string
 }
 
 const JoinContainer = () => {
   const searchParams = useSearchParams()
+  const alertDialog = useAlertDialog()
 
   const [errors, action, pending] = useActionState<any, any>(processJoin, {})
   const [form, setForm] = useState<FormType>({
@@ -36,6 +39,9 @@ const JoinContainer = () => {
   })
 
   const [verified, setVerified] = useState(false)
+  const [sendState, setSendState] = useState<'idle' | 'loading' | 'sent'>(
+    'idle',
+  )
 
   const onChange = useCallback((e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -47,6 +53,8 @@ const JoinContainer = () => {
 
   // 이메일 인증 코드 요청
   const sendCode = useCallback(async () => {
+    setSendState('loading')
+
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/auth/send-code`,
       {
@@ -56,11 +64,13 @@ const JoinContainer = () => {
       },
     )
     if (res.ok) {
-      alert('인증 코드가 이메일로 발송되었습니다.')
+      alertDialog.success('인증 코드가 이메일로 발송되었습니다.', () =>
+        setSendState('sent'),
+      )
     } else {
-      alert('코드 발송 실패')
+      alertDialog.error('코드 발송 실패', () => setSendState('idle'))
     }
-  }, [form.email])
+  }, [form.email, alertDialog])
 
   // 이메일 코드 검증
   const verifyCode = useCallback(async () => {
@@ -73,10 +83,9 @@ const JoinContainer = () => {
       },
     )
     if (res.ok) {
-      alert('이메일 인증 완료!')
-      setVerified(true)
+      alertDialog.success('이메일 인증 완료!', () => setVerified(true))
     } else {
-      alert('코드 인증 실패')
+      alertDialog.error('코드 인증 실패')
     }
   }, [form.email, form.code])
 
@@ -109,6 +118,7 @@ const JoinContainer = () => {
       sendCode={sendCode}
       verifyCode={verifyCode}
       verified={verified}
+      sendState={sendState}
     />
   )
 }

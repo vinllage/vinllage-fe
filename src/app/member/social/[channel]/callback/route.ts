@@ -11,8 +11,12 @@ export async function GET(request: NextRequest) {
   const code = searchParams.get('code')
   let redirectUrl = searchParams.get('state') ?? '/'
   redirectUrl += redirectUrl.includes('?') ? '&' : '?'
-  redirectUrl += 'reload=true'
+  // redirectUrl += 'reload=true'
   const api = channel === 'NAVER' ? new NaverApi() : new KakaoApi()
+
+  if (redirectUrl.endsWith('?')) {
+    redirectUrl = redirectUrl.slice(0, -1)
+  }
 
   try {
     if (!code) {
@@ -53,5 +57,8 @@ export async function GET(request: NextRequest) {
     redirect(`/member/login?redirectUrl=${redirectUrl}`)
   }
 
-  redirect(redirectUrl)
+  return NextResponse.redirect(
+    new URL(redirectUrl, process.env.NEXT_PUBLIC_DOMAIN),
+    302,
+  )
 }
