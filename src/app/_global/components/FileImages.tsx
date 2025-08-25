@@ -78,7 +78,7 @@ const ImageItem = ({
         },
       })
     },
-    [fetchCSR, callback, confirmDialog],
+    [fetchCSR, callback],
   )
 
   return (

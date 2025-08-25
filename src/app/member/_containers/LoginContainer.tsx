@@ -11,7 +11,9 @@ import { useSearchParams } from 'next/navigation'
 import { processLogin } from '../_services/actions'
 import LoginForm from '../_components/LoginForm'
 import KakaoApi from '../social/_service/KakaoApi'
+import NaverApi from '../social/_service/NaverApi'
 import kakaoLoginButton from '../../_global/assets/images/kakao_login.png'
+import naverLoginButton from '../../_global/assets/images/naver_login.png'
 
 type FormType = {
   email: string
@@ -20,7 +22,7 @@ type FormType = {
 }
 
 const kakaoApi = new KakaoApi()
-
+const naverApi = new NaverApi()
 const LoginContainer = ({ redirectUrl }: { redirectUrl?: string }) => {
   const [errors, action, pending] = useActionState<any, any>(processLogin, {})
   const [form, setForm] = useState<FormType>({
@@ -33,6 +35,11 @@ const LoginContainer = ({ redirectUrl }: { redirectUrl?: string }) => {
 
   const kakaoLoginUrl = useMemo(
     () => kakaoApi.getUrl(form.redirectUrl),
+    [form.redirectUrl],
+  )
+
+  const naverLoginUrl = useMemo(
+    () => naverApi.getUrl(form.redirectUrl),
     [form.redirectUrl],
   )
 
@@ -57,7 +64,15 @@ const LoginContainer = ({ redirectUrl }: { redirectUrl?: string }) => {
         onChange={onChange}
       />
       <a href={kakaoLoginUrl}>
-        <Image src={kakaoLoginButton} alt="카카오 로그인" />
+        <Image src={kakaoLoginButton} alt="카카오 로그인" width={400} />
+      </a>
+      <a href={naverLoginUrl}>
+        <Image
+          src={naverLoginButton}
+          alt="네이버 로그인"
+          width={400}
+          height={60}
+        />
       </a>
     </>
   )

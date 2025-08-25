@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { MdCheckBox, MdCheckBoxOutlineBlank } from 'react-icons/md'
 import { Input } from '@/app/_global/components/Forms'
@@ -6,11 +6,16 @@ import { SubmitButton } from '@/app/_global/components/Buttons'
 import MessageBox from '@/app/_global/components/MessageBox'
 import FileUpload from '@/app/_global/components/FileUpload'
 import FileImages from '@/app/_global/components/FileImages'
-import FileItems from '@/app/_global/components/FileItems'
 
 const StyledForm = styled.form`
   .message {
     margin-bottom: 10px;
+  }
+
+  .email-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
   }
 `
 
@@ -23,11 +28,16 @@ const JoinForm = ({
   form,
   fileUploadCallback,
   fileDeleteCallback,
+  sendCode,
+  verifyCode,
+  verified,
+  sendState,
 }) => {
   return (
     <StyledForm action={action} autoComplete="off">
       <input type="hidden" name="gid" value={form.gid} />
       <input type="hidden" name="termsAgree" value={form.termsAgree} />
+
       {form.socialChannel && form.socialToken && (
         <>
           <input
@@ -37,18 +47,52 @@ const JoinForm = ({
           />
 
           <input type="hidden" name="socialToken" value={form.socialToken} />
-          <div>KAKAO 계정 연결 회원가입</div>
+          <div>{form.socialChannel} 계정 연결 회원가입</div>
         </>
       )}
 
-      <Input
-        type="text"
-        name="email"
-        placeholder="이메일을 입력하세요"
-        value={form.email}
-        onChange={onChange}
-      />
+      <div className="email-row">
+        <Input
+          type="text"
+          name="email"
+          placeholder="이메일을 입력하세요"
+          value={form.email}
+          onChange={onChange}
+          disabled={verified}
+        />
+        {verified && <input type="hidden" name="email" value={form.email} />}
+        <button
+          type="button"
+          onClick={sendCode}
+          disabled={verified || sendState === 'loading'}
+        >
+          {verified
+            ? '인증완료'
+            : sendState === 'loading'
+            ? '발송 중...'
+            : sendState === 'sent'
+            ? '재전송'
+            : '메일 발송'}
+        </button>
+      </div>
+
       <MessageBox color="danger">{errors?.email}</MessageBox>
+
+      {!verified && (
+        <div className="email-row">
+          <Input
+            type="text"
+            name="code"
+            placeholder="인증 코드 입력"
+            value={form.code || ''}
+            onChange={onChange}
+          />
+          <button type="button" onClick={verifyCode}>
+            확인
+          </button>
+        </div>
+      )}
+
       {(!form?.socialChannel || !form?.socialToken) && (
         <>
           <Input
@@ -110,7 +154,7 @@ const JoinForm = ({
       </div>
       <MessageBox color="danger">{errors?.termsAgree}</MessageBox>
 
-      <SubmitButton type="submit" disabled={pending}>
+      <SubmitButton type="submit" disabled={pending || !verified}>
         가입하기
       </SubmitButton>
       <MessageBox color="danger">{errors?.global}</MessageBox>
