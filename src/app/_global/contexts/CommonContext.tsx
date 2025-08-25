@@ -16,7 +16,7 @@ const CommonContext = createContext<CommonContextType>({
 })
 
 const CommonProvider = ({ children }) => {
-  const [mainTitle, setMainTitle] = useState('게시판')
+  const [mainTitle, setMainTitle] = useState('vinllage')
   const value = {
     states: { mainTitle },
     actions: { setMainTitle },
