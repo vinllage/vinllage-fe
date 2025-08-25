@@ -50,6 +50,14 @@ const ArrowButton = styled(Button)`
     font-size: 100px;
   }
 `
+
+const ButtonWrapper = styled.div`
+  width: 100%;
+  max-width: 870px;
+  display: flex;
+  justify-content: flex-end; /* 오른쪽 정렬 */
+  margin-top: 12px;
+`
 /* 스타일 정리 E */
 
 export type DetectedRecycle = {
@@ -154,9 +162,11 @@ export default function ResultContainer() {
             <BiRightArrow />
           </ArrowButton>
         </ResultNav>
-        <Link href="/recycle/detect">
-          <Button>다시 찍기</Button>
-        </Link>
+        <ButtonWrapper>
+          <Link href="/recycle/detect">
+            <Button>다시 찍기</Button>
+          </Link>
+        </ButtonWrapper>
       </ResultWrapper>
 
       <GuideNav>
