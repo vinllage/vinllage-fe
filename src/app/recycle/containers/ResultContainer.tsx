@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import {
   ResultComponents,
   type DetectedRecycle,
@@ -56,7 +57,7 @@ const ArrowButton = styled(Button)`
 type Pagination = { page: number; limit: number; total: number }
 type ListData = { items: DetectedRecycle[]; pagination: Pagination }
 
-const LIMIT = 4 // 추후에 변경 한번에 보여줄 데이터 갯수
+const LIMIT = 3 // 추후에 변경 한번에 보여줄 데이터 갯수
 const BASE_URL =
   process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api/v1'
 
@@ -66,9 +67,13 @@ export default function ResultContainer() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<unknown>(null)
 
+  const searchParams = useSearchParams()
+  const gid = searchParams.get('gid')
+
   useEffect(() => {
+    if (!gid) return
+
     let alive = true
-    const gid = data?.items[0].gid
     ;(async () => {
       try {
         setLoading(true)
@@ -91,7 +96,7 @@ export default function ResultContainer() {
     return () => {
       alive = false
     }
-  }, [page])
+  }, [gid, page])
 
   const canPrev = page > 1
   const canNext = data

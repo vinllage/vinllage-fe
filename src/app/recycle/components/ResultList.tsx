@@ -58,8 +58,9 @@ const Images = styled.div`
 
 const ImageItem = styled.img`
   width: 100%;
+  height: 120px;
   border-radius: 8px;
-  object-fit: cover;
+  object-fit: contain;
 `
 /* 스타일 정리 E */
 
@@ -87,21 +88,21 @@ export function ResultComponents({ items }: { items: DetectedRecycle[] }) {
           console.error('imageUrl JSON 파싱 오류', e)
         }
 
-    return images.map((img, idx) => (
+    return images.map((img, idx) => {
+      const category = categories[idx] // 이미지와 같은 인덱스의 카테고리
+
+      return (
         <ResultItem key={`${item.seq}-${idx}`}>
           <Categories>
-            {categories.map((c, idx2) => (
-              <CategoryItem key={idx2}>
-                {c.category1} ({c.category2})
-              </CategoryItem>
-            ))}
+            {category && <CategoryItem>{category.category2}</CategoryItem>}
           </Categories>
 
           <Images>
             <ImageItem src={img.url} alt={img.name} />
           </Images>
         </ResultItem>
-        ))
+      )
+    })
       })}
     </ResultList>
   )
