@@ -2,24 +2,24 @@ import React from 'react'
 import styled from 'styled-components'
 import color from '@/app/_global/styles/color'
 import fontsize from '@/app/_global/styles/fontsize'
-import { DetectedRecycle } from '../components/ResultList'
+import { DetectedRecycle } from '../containers/ResultContainer'
 import recyclePlastic from '@/app/_global/assets/images/recycle_plastic.png'
 import recycleVinyl from '@/app/_global/assets/images/recycle_vinyl.png'
 import recycleCan from '@/app/_global/assets/images/recycle_can.png'
 import recycleGlass from '@/app/_global/assets/images/recycle_glass.png'
-import recyclePaper1 from '@/app/_global/assets/images/recycle_paper1.png'
-import recyclePaper2 from '@/app/_global/assets/images/recycle_paper2.png'
+import recyclePaper from '@/app/_global/assets/images/recycle_paper.png'
+
 
 const recycleImages: Record<string, any> = {
   plastic: recyclePlastic,
   vinyl: recycleVinyl,
   can: recycleCan,
   glass: recycleGlass,
-  paper1: recyclePaper1,
-  paper2: recyclePaper2,
+  paper: recyclePaper,
 }
 
-const { secondary, black } = color
+/* 스타일 정리 S */
+const { secondary, black, info, light } = color
 const { small, extra } = fontsize
 
 const GuideWrapper = styled.div`
@@ -53,6 +53,7 @@ const GuideTitle = styled.div`
   font-size: ${extra};
   font-weight: bold; 
   text-align: center;
+  border-radius: 12px;
 `
 
 const SourceText = styled.div`
@@ -61,6 +62,7 @@ const SourceText = styled.div`
   color: ${secondary};
   text-align: center;
 `
+/* 스타일 정리 E */
 
 export default function RecycleGuide({ items }: { items: DetectedRecycle[] }) {
   // 전체 카테고리 수집
@@ -72,12 +74,20 @@ export default function RecycleGuide({ items }: { items: DetectedRecycle[] }) {
     } catch {}
   })
 
+  const uniqueCategories = Array.from(
+    new Map(categories.map((c) => [c.category1, c])).values(),
+    )
+
+  const filteredCategories = uniqueCategories.filter(
+    (c) => c.category1 !== 'sticker' && c.category2 !== '기타',
+  )  
+
   return (
     <GuideWrapper>
-      {categories.map((c, idx) => (
+      {filteredCategories.map((c, idx) => (
         <GuideItem key={idx}>
           <GuideTitle>
-            {c.category1} ({c.category2})
+            {c.category2}
           </GuideTitle>
 
           {recycleImages[c.category1] ? (
