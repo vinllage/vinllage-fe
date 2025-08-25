@@ -28,7 +28,7 @@ const StyledNav = styled.nav`
 const StyledSubMenu = styled.div`
   background: rgba(0, 0, 0, 0.7);
   min-height: 150px;
-  transition: background 0.5s;
+  transition: background 0.5s, color 0.5s;
   position: absolute;
   width: 100%;
   left: 0;
@@ -36,6 +36,7 @@ const StyledSubMenu = styled.div`
 
   &.fadeout {
     background: rgba(0, 0, 0, 0);
+    color: transparent;
   }
 `
 
@@ -63,7 +64,7 @@ const MainMenu = () => {
     }
     timeoutRef.current = setTimeout(() => {
       setOpen(false)
-    }, 1000)
+    }, 300)
   }, [subMenuRef])
   return (
     <>
