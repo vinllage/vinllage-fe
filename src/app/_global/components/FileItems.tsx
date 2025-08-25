@@ -16,14 +16,14 @@ type FileType = {
 
 const StyledItems = styled.ul`
     li {
-        padding: 8px; 10px;
+        padding: 8px 10px;
         background: ${light};
-        fontsize: ${small};
+        font-size: ${small};
         display: flex;
     }
 
     a {
-        flex-glow: 1;
+        flex-grow: 1;
         svg {
             margin-left: 10px;
         }
