@@ -75,7 +75,6 @@ const JoinForm = ({
             : '메일 발송'}
         </button>
       </div>
-
       <MessageBox color="danger">{errors?.email}</MessageBox>
 
       {!verified && (
@@ -154,7 +153,7 @@ const JoinForm = ({
       </div>
       <MessageBox color="danger">{errors?.termsAgree}</MessageBox>
 
-      <SubmitButton type="submit" disabled={pending || !verified}>
+      <SubmitButton type="submit" disabled={pending}>
         가입하기
       </SubmitButton>
       <MessageBox color="danger">{errors?.global}</MessageBox>
