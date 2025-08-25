@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import color from '@/app/_global/styles/color'
 import fontsize from '@/app/_global/styles/fontsize'
-import { DetectedRecycle } from '../components/ResultList'
+import { DetectedRecycle } from '../containers/ResultContainer'
 import recyclePlastic from '@/app/_global/assets/images/recycle_plastic.png'
 import recycleVinyl from '@/app/_global/assets/images/recycle_vinyl.png'
 import recycleCan from '@/app/_global/assets/images/recycle_can.png'
@@ -19,7 +19,7 @@ const recycleImages: Record<string, any> = {
 }
 
 /* 스타일 정리 S */
-const { secondary, black } = color
+const { secondary, black, info, light } = color
 const { small, extra } = fontsize
 
 const GuideWrapper = styled.div`
@@ -53,6 +53,7 @@ const GuideTitle = styled.div`
   font-size: ${extra};
   font-weight: bold; 
   text-align: center;
+  border-radius: 12px;
 `
 
 const SourceText = styled.div`
