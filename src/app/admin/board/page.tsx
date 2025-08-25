@@ -1,9 +1,13 @@
 import ListContainer from './_containers/ListContainer'
-import { MainTitle } from '@/app/_global/components/TitleBox'
+import { getBoardList } from '@/app/board/_services/boardConfig'
+import type CommonSearchType from '@/app/_global/types/CommonSearchType'
 
-export default function BoardListPage() {
-  return (<div>
-      <MainTitle border="true">게시판 설정 등록</MainTitle>
-            <ListContainer />
-    </div>)
+export default async function BoardListPage({
+  searchParams,
+}: {
+  searchParams: Promise<CommonSearchType>
+}) {
+  const params = await searchParams
+  const { items, pagination } = await getBoardList(params)
+  return <ListContainer items={items} pagination={pagination} />
 }

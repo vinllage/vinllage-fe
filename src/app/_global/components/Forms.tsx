@@ -2,7 +2,7 @@
 import styled, { css } from 'styled-components'
 import color from '../styles/color'
 import fontsize from '../styles/fontsize'
-const { dark, light } = color
+const { dark, light, white, black } = color
 const { medium } = fontsize
 
 const commonStyle = css`
@@ -100,5 +100,28 @@ export const TableCols = styled.table<TableType>`
 
   & + & {
     margin-top: 30px;
+  }
+`
+
+export const TableRows = styled.table`
+  ${tableCommonStyle}
+  thead {
+    th {
+      background: ${black};
+      color: ${white};
+      font-size: ${medium};
+      height: 45px;
+      padding: 0 10px;
+    }
+    th + th {
+      border-left: 1px solid ${light};
+    }
+  }
+
+  tbody {
+    td {
+      border-bottom: 1px solid #ccc;
+      padding: 10px;
+    }
   }
 `

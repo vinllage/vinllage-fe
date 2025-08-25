@@ -1,9 +1,10 @@
 'use server'
 import { redirect } from 'next/navigation'
 import { fetchSSR } from '@/app/_global/libs/utils'
+import { fetchBoardForm } from '@/app/admin/board/_services/actions'
 
 
-export async function processBoardConfig(errors, formData: FormData) {
+export async function processBoardData(errors, formData: FormData) {
   errors = {}
     const params: any = {}
 
@@ -21,8 +22,9 @@ export async function processBoardConfig(errors, formData: FormData) {
     let hasErrors: boolean = false
     // 필수 항목 검증 S
     const requiredFields = {
-      bid: '게시판 아이디를 입력하세요.',
-      name: '게시판 이름을 입력하세요.',
+      subject: '게시글 제목을 입력하세요.',
+      poster: '작성자 이름을 입력하세요.',
+      content: '게시글 내용을 입력하세요.'
     }
   
     for (const [field, message] of Object.entries(requiredFields)) {
@@ -46,7 +48,7 @@ export async function processBoardConfig(errors, formData: FormData) {
 
     // 회원 가입 처리를 위해  API 서버에 요청
     try {
-      const apiUrl = `http://localhost:4000/api/v1/admin/board/register`
+      const apiUrl = `http://localhost:4000/api/v1/board/save`
       const res = await fetch(apiUrl, {
         method: 'POST',
         headers: {
@@ -78,11 +80,11 @@ export async function processBoardConfig(errors, formData: FormData) {
 }
 
 // actions.ts에 추가
-export async function fetchBoardForm(bid?: string) {
+export async function fetchBoardDataForm(bid?: string) {
   try {
     const url = bid 
-      ? `http://localhost:4000/api/v1/admin/board/update/${bid}`
-      : `http://localhost:4000/api/v1/admin/board/register/form`;
+      ? `http://localhost:4000/api/v2/admin/board/update/${bid}`
+      : `http://localhost:4000/api/v2/admin/board/register/form`;
     
     const response = await fetch(url);
     if (!response.ok) throw new Error('Failed to fetch');
@@ -92,10 +94,10 @@ export async function fetchBoardForm(bid?: string) {
   }
 }
 
-export async function getBoardList() {
+export async function getBoardDataList(bid: string, search = {}) {
   console.log("getBoardList 시작");
   try {
-    const res = await fetch('http://localhost:4000/api/v1/admin/board/list');
+    const res = await fetch(`http://localhost:4000/api/v1//board/list/${bid}`);
     console.log("fetch 응답:", res);
     
     if (res.ok) {
@@ -107,21 +109,4 @@ export async function getBoardList() {
     console.log('에러:', err);
   }
   return null;
-}
-
-export async function getEvents() {
-  try {
-    const res = await fetchSSR('/events')
-    if (res.ok) {
-      const data = await res.json()
-      return data.items ?? []
-    }
-  } catch (err) {
-    console.error(err)
-  }
-  return []
-}
-
-export async function test() {
-  console.log("1");
 }

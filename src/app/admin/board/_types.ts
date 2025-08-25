@@ -1,4 +1,4 @@
-interface Board {
+export interface Board {
   bid: string;
   name: string;
   rowsForPage: number;
@@ -13,7 +13,7 @@ interface Board {
   // AuthorityEntity_seul에서 상속받는 필드들도 있을 것
 }
 
-interface Boards {
+export interface Boards {
   items: Board[];
   pagination?: any;
   totalCount?: number;
