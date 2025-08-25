@@ -1,10 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import color from '@/app/_global/styles/color'
 import fontsize from '@/app/_global/styles/fontsize'
 
 /* 스타일 정리 S */
-const { dark } = color
 const { normal, extra } = fontsize
 
 const ResultList = styled.div`
@@ -17,7 +15,6 @@ const ResultList = styled.div`
 const ResultItem = styled.div`
   width: 220px;
   min-height: 180px;
-  border: 1.5px solid ${dark};
   border-radius: 12px;
   padding: 8px;
   display: flex;
@@ -37,6 +34,7 @@ const CategoryItem = styled.div`
   padding: 4px 8px;
   border-radius: 6px;
   font-size: ${extra};
+  font-weight: bold;
   font-weight: 500;
   white-space: nowrap;
 `
@@ -72,12 +70,15 @@ export function ResultComponents({ items }: { items: FlatImage[] }) {
     <ResultList>
       {items.map((img) => (
         <ResultItem key={img.key}>
-          <Categories>
-            {img.category && <CategoryItem>{img.category}</CategoryItem>}
-          </Categories>
+          {/* 이미지 먼저 */}
           <Images>
             <ImageItem src={img.url} alt={img.name} />
           </Images>
+
+          {/* 카테고리 라벨 */}
+          <Categories>
+            {img.category && <CategoryItem>{img.category}</CategoryItem>}
+          </Categories>
         </ResultItem>
       ))}
     </ResultList>

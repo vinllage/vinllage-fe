@@ -38,8 +38,7 @@ const GuideNav = styled.div`
 `
 
 const ArrowButton = styled(Button)`
-  width: 40px;
-  height: 40px;
+  width: 60px;
   display: flex;
   align-items: center;
   justify-content: center;

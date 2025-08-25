@@ -19,7 +19,7 @@ const recycleImages: Record<string, any> = {
 }
 
 /* 스타일 정리 S */
-const { secondary, black, info, light } = color
+const { secondary, black } = color
 const { small, extra } = fontsize
 
 const GuideWrapper = styled.div`
@@ -47,13 +47,21 @@ const GuideImage = styled.img`
   max-height: 400px;
   object-fit: contain;
   border-radius: 12px;
+  margin-bottom: 12px;
 `
 
 const GuideTitle = styled.div`
+  align-self: flex-start;
+  display: inline-block;
+  padding: 6px 16px;
   font-size: ${extra};
-  font-weight: bold; 
+  font-weight: bold;
   text-align: center;
-  border-radius: 12px;
+  border-radius: 999px;
+  background: #1e90ff;
+  color: #fff;
+  margin-bottom: 16px;
+  margin-left: 16px;
 `
 
 const SourceText = styled.div`
