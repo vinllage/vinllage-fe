@@ -70,7 +70,7 @@ const StyledSubMenu = styled.div`
   left: 0;
   width: 100%;
   min-height: 150px;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0, 0, 0, 0.7);
   color: #fff;
   transition: all 0.3s;
   pointer-events: none;
@@ -119,14 +119,22 @@ const Header = () => {
 
         <div className="menu-right">
           {/* 게시판 메뉴 */}
-          {['공지사항','자유게시판','환경 행사'].map((label, idx) => (
+          {['공지사항', '자유게시판', '환경 행사'].map((label, idx) => (
             <div
               className="menu-link"
               key={idx}
               onMouseEnter={() => onMenuOpen('board')}
               onMouseLeave={onMenuClose}
             >
-              <Link href={label === '공지사항' ? '/board/list/notice' : label === '자유게시판' ? '/board/list/freetalk' : '/event'}>
+              <Link
+                href={
+                  label === '공지사항'
+                    ? '/board/list/notice'
+                    : label === '자유게시판'
+                    ? '/board/list/freetalk'
+                    : '/event'
+                }
+              >
                 {label}
               </Link>
             </div>
@@ -135,7 +143,11 @@ const Header = () => {
           {/* 로그인/회원가입 / 마이페이지 */}
           {isLogin ? (
             <>
-              <div className="menu-link" onMouseEnter={() => onMenuOpen('mypage')} onMouseLeave={onMenuClose}>
+              <div
+                className="menu-link"
+                onMouseEnter={() => onMenuOpen('mypage')}
+                onMouseLeave={onMenuClose}
+              >
                 <Link href="/mypage" prefetch={false}>
                   <Button type="button">
                     <CgProfile />
@@ -151,7 +163,7 @@ const Header = () => {
               </a>
               {isAdmin && (
                 <a href="/admin">
-                  <Button type="button" color="info">
+                  <Button type="button" color="info" width={180}>
                     <FaCog /> 사이트 관리
                   </Button>
                 </a>
@@ -168,7 +180,11 @@ const Header = () => {
             </>
           ) : (
             <>
-              <div className="menu-link" onMouseEnter={() => onMenuOpen('guest')} onMouseLeave={onMenuClose}>
+              <div
+                className="menu-link"
+                onMouseEnter={() => onMenuOpen('guest')}
+                onMouseLeave={onMenuClose}
+              >
                 <Link href="/member/join" prefetch={false}>
                   <Button type="button">
                     <FiUserPlus /> 회원가입
@@ -176,7 +192,11 @@ const Header = () => {
                   </Button>
                 </Link>
               </div>
-              <div className="menu-link" onMouseEnter={() => onMenuOpen('guest')} onMouseLeave={onMenuClose}>
+              <div
+                className="menu-link"
+                onMouseEnter={() => onMenuOpen('guest')}
+                onMouseLeave={onMenuClose}
+              >
                 <Link href="/member/login" prefetch={false}>
                   <Button type="button" color="secondary">
                     <FiLogIn /> 로그인
