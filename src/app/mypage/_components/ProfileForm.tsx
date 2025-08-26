@@ -22,7 +22,14 @@ const ProfileForm = ({
       <StyledForm action={action} autoComplete="off">
         <dl>
           <dt>이메일</dt>
-          <dd>{form.email}</dd>
+          <dd>
+            <Input 
+              type="email" 
+              name="email" 
+              value={form.email} 
+              readOnly // 수정 불가, 보여주기만 함
+            />
+          </dd>
         </dl>
         <dl>
           <dt>회원명</dt>

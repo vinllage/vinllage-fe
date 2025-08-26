@@ -41,7 +41,7 @@ const Side = () => {
         href="/mypage/profile"
         className={classNames({ on: urlPath === '/mypage/profile' })}
       >
-        내 프로필
+        개인 정보
       </Link>
       <Link
         href="/mypage/recycle"
