@@ -28,6 +28,7 @@ const GuideWrapper = styled.div`
   flex-direction: column;
   gap: 20px;
   align-items: center;
+  margin-bottom: 100px;
 `
 
 const GuideItem = styled.div`
