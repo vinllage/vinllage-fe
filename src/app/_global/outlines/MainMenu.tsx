@@ -1,6 +1,5 @@
 'use client'
 import React, { useState, useCallback, useRef } from 'react'
-import Link from 'next/link'
 import styled from 'styled-components'
 import color from '../styles/color'
 import fontsize from '../styles/fontsize'
@@ -28,7 +27,7 @@ const StyledNav = styled.nav`
 const StyledSubMenu = styled.div`
   background: rgba(0, 0, 0, 0.7);
   min-height: 150px;
-  transition: background 0.5s, color 0.5s;
+  transition: background 0.5s;
   position: absolute;
   width: 100%;
   left: 0;
@@ -36,7 +35,6 @@ const StyledSubMenu = styled.div`
 
   &.fadeout {
     background: rgba(0, 0, 0, 0);
-    color: transparent;
   }
 `
 
@@ -70,27 +68,20 @@ const MainMenu = () => {
     <>
       <StyledNav>
         <div className="layout-width">
-          <Link
+          <a
             href="/board/list/notice"
             onMouseEnter={onSubMenuOpen}
             onMouseLeave={onSubMenuClose}
           >
             공지사항
-          </Link>
-          <Link
+          </a>
+          <a
             href="/board/list/freetalk"
             onMouseEnter={onSubMenuOpen}
             onMouseLeave={onSubMenuClose}
           >
             자유게시판
-          </Link>
-          <Link
-            href="/event"
-            onMouseEnter={onSubMenuOpen}
-            onMouseLeave={onSubMenuClose}
-          >
-            환경 행사
-          </Link>
+          </a>
         </div>
       </StyledNav>
       {open && (
