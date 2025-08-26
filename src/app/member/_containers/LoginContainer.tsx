@@ -23,13 +23,13 @@ type FormType = {
   redirectUrl?: string
 }
 
-const { Navergreen } = color;
+const { naverGreen } = color;
 
 const NaverButton = styled.a`
   display: flex;
   justify-content: center;
   align-items: flex-start; /* 이미지를 위로 붙임 */
-  background-color: ${Navergreen}; /* 네이버 초록색 */
+  background-color: ${naverGreen}; /* 네이버 초록색 */
   width: 400px; 
   height: 60px;
   border-radius: 8px;

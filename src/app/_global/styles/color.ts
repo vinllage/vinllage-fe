@@ -10,7 +10,7 @@ const color = {
   white: '#fff',
   black: '#000',
   green: '#D2D591',
-  Navergreen: '#03c75a',
+  naverGreen: '#03c75a',
 }
 
 export default color
