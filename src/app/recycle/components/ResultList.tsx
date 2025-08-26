@@ -4,7 +4,7 @@ import fontsize from '@/app/_global/styles/fontsize'
 import color from '@/app/_global/styles/color'
 
 /* 스타일 정리 S */
-const { dark } = color 
+const { dark, light } = color 
 const { normal, extra } = fontsize
 
 const ResultList = styled.div`
@@ -40,7 +40,10 @@ const CategoryItem = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  color: ${dark};
+  color: ${dark}; 
+  & :hover {
+    color: ${light};
+  }
 `
 
 const Images = styled.div`

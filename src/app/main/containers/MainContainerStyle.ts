@@ -42,12 +42,9 @@ export const SubText = styled.div`
 
 export const StyledButton = styled(Button)`
   font-size: 24px;
-  padding: 16px 50px;
   border-radius: 12px;
+  width: 200px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  transition: all 0.2s;
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(0,0,0,0.3);
-  }
+  background-color:rgba(255,255,255,0.7);
+  color: #000;
 `

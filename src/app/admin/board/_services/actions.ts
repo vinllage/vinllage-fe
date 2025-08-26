@@ -33,9 +33,11 @@ export async function processBoardConfig(errors, formData: FormData) {
   if (hasErrors) {
     return errors
   }
+
+
   // 필수 항목 검증 S
   // API 백엔드에 처리 요청
-  const res = await fetchSSR('/board/update/config', {
+  const res = await fetchSSR('/admin/board/save', {
     method: params.mode === 'update' ? 'PATCH' : 'POST',
     headers: {
       'Content-Type': 'application/json',

@@ -17,8 +17,7 @@ const ResultWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  margin-top: 80px;
+  margin-top:30px;
 `
 
 const ResultNav = styled.div`
