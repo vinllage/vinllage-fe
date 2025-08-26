@@ -30,7 +30,6 @@ export default function MyPageForm() {
 
   return (
     <div>
-      <h2>내 정보</h2>
       <ul>
         <li>
           <strong>이메일:</strong> {member.email}
