@@ -80,5 +80,7 @@ export async function processRecycle() {
   // 허용 횟수 넘어가면 로그인 페이지로 이동
   if (count >= MAX_GUEST_ATTEMPTS) {
     redirect('/member/login?reload=true')
+  } else {
+    redirect('/recycle/detect?reload=true')
   }
 }

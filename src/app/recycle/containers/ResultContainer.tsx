@@ -93,10 +93,9 @@ export default function ResultContainer() {
         setLoading(true)
         setError(null)
 
-        const res = await fetch(
-          `${BASE_URL}/recycle/result?gid=${gid}`,
-          { cache: 'no-store' },
-        )
+        const res = await fetch(`${BASE_URL}/recycle/result?gid=${gid}`, {
+          cache: 'no-store',
+        })
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         const json: ListData = await res.json()
         if (alive) setData(json)
@@ -175,7 +174,7 @@ export default function ResultContainer() {
         </ResultNav>
 
         <ButtonWrapper>
-          <Link href="/recycle/detect">
+          <Link href="/recycle">
             <Button>다시 찍기</Button>
           </Link>
         </ButtonWrapper>
