@@ -1,32 +1,15 @@
 'use client'
 
-import React, { useEffect, useContext } from 'react'
+import UserOnlyContainer from '../_global/wrappers/UserOnlyContainer'
+import ContentBox from '@/app/_global/components/ContentBox'
 import { MainTitle } from '@/app/_global/components/TitleBox'
-import MyPageForm from './_components/MyPageForm'
-import useUser from '@/app/_global/hooks/useUser'
-import CommonContext from '@/app/_global/contexts/CommonContext'
-import RecycleStats from './_containers/RecycleStats'
 
-export default function ProfilePage() {
-  const { loggedMember } = useUser()
-  const { actions } = useContext(CommonContext)
-
-  useEffect(() => {
-    if (loggedMember) {
-      // mainTitle을 항상 문자열로만 넘김
-      actions.setMainTitle(`${loggedMember.name}님 환영합니다`)
-    }
-  }, [loggedMember, actions])
-
+export default function MyPage() {
   return (
-    <>
-      <MainTitle border="true">
-        <span className="badge">
-          {loggedMember.name}님, 환영합니다.
-        </span>
-      </MainTitle>
-      <MyPageForm />
-      <RecycleStats />
-    </>
+    <UserOnlyContainer>
+      <ContentBox>
+        <MainTitle border="true">내 프로필</MainTitle>
+      </ContentBox>
+    </UserOnlyContainer>
   )
 }

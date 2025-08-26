@@ -1,6 +1,5 @@
 'use client'
 import React, { useState, useCallback, useRef } from 'react'
-import Link from 'next/link'
 import styled from 'styled-components'
 import color from '../styles/color'
 import fontsize from '../styles/fontsize'
@@ -63,33 +62,26 @@ const MainMenu = () => {
     }
     timeoutRef.current = setTimeout(() => {
       setOpen(false)
-    }, 1000)
+    }, 300)
   }, [subMenuRef])
   return (
     <>
       <StyledNav>
         <div className="layout-width">
-          <Link
+          <a
             href="/board/list/notice"
             onMouseEnter={onSubMenuOpen}
             onMouseLeave={onSubMenuClose}
           >
             공지사항
-          </Link>
-          <Link
+          </a>
+          <a
             href="/board/list/freetalk"
             onMouseEnter={onSubMenuOpen}
             onMouseLeave={onSubMenuClose}
           >
             자유게시판
-          </Link>
-          <Link
-            href="/event"
-            onMouseEnter={onSubMenuOpen}
-            onMouseLeave={onSubMenuClose}
-          >
-            환경 행사
-          </Link>
+          </a>
         </div>
       </StyledNav>
       {open && (

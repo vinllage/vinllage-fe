@@ -1,17 +1,18 @@
 'use client'
 
 import React, { useMemo, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import EventList from '../_components/EventList'
-import type { EventType } from '../_types'
+import type { EventType, PaginationType } from '../_types'
 
 type Props = {
   events: EventType[]
+  pagination: PaginationType
 }
 
-const EventListContainer = ({ events }: Props) => {
+const EventListContainer = ({ events, pagination }: Props) => {
   const [query, setQuery] = useState('')
-  const [page, setPage] = useState(1)
-  const itemsPerPage = 4
+  const router = useRouter()
 
   const filteredEvents = useMemo(() => {
     return events.filter((event) =>
@@ -19,28 +20,20 @@ const EventListContainer = ({ events }: Props) => {
     )
   }, [events, query])
 
-  const totalPages = Math.ceil(filteredEvents.length / itemsPerPage)
-  const paginatedEvents = useMemo(
-    () => filteredEvents.slice((page - 1) * itemsPerPage, page * itemsPerPage),
-    [filteredEvents, page],
-  )
-
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value)
-    setPage(1)
   }
 
   const handlePageChange = (p: number) => {
-    setPage(p)
+    router.push(`/event?page=${p}`)
   }
 
   return (
     <EventList
       query={query}
       onSearch={handleSearch}
-      events={paginatedEvents}
-      page={page}
-      totalPages={totalPages}
+      events={filteredEvents}
+      pagination={pagination}
       onPageChange={handlePageChange}
     />
   )

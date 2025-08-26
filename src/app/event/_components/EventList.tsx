@@ -12,8 +12,7 @@ type Props = {
   query: string
   onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void
   events: EventType[]
-  page: number
-  totalPages: number
+  pagination: any
   onPageChange: (p: number) => void
 }
 
@@ -87,8 +86,7 @@ const EventList = ({
   query,
   onSearch,
   events,
-  page,
-  totalPages,
+  pagination,
   onPageChange,
 }: Props) => {
   return (
@@ -115,12 +113,7 @@ const EventList = ({
           ))
         )}
       </List>
-      <Pagination
-        page={page}
-        totalPages={totalPages}
-        onPageChange={onPageChange}
-      />
-
+      <Pagination pagination={pagination} onClick={onPageChange} />
     </Wrapper>
   )
 }
