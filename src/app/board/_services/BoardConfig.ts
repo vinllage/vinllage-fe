@@ -26,7 +26,7 @@ export const defaultData: BoardConfigType = {
 export async function getBoardConfig(bid?: string): Promise<BoardConfigType> {
   'use server'
   if (bid) {
-    const res = await fetchSSR(`/board/config/${bid}`)
+    const res = await fetchSSR(`/admin/board/update/${bid}`)
     if (res.status === 200) {
       const _data = await res.json()
       _data.mode = 'update'
@@ -48,7 +48,8 @@ export async function getBoardList(searchParams: CommonSearchType): Promise<{
 }> {
   'use server'
   const qs = await toQueryString(searchParams)
-  const res = await fetchSSR(`/board/configs/all${qs}`)
+  const res = await fetchSSR(`/admin/board/list`)
+  console.log(res)
   if (res.status === 200) {
     return await res.json()
   }
