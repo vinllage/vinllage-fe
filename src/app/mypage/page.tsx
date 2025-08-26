@@ -19,10 +19,12 @@ export default function MyProfilePage() {
   }, [loggedMember, actions])
 
   return (
+    <>
     <ContentBox width={720}>
       <MainTitle border="true">내 프로필</MainTitle>
       <MyPageForm />
       <RecycleStats />
     </ContentBox>
+    </>
   )
 }
