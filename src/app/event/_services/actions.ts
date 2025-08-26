@@ -1,19 +1,28 @@
 'use server'
 
 import { fetchSSR } from '@/app/_global/libs/utils'
-import type { EventType } from '../_types'
+import type { EventListDataType } from '../_types'
 
-export async function getEvents() {
+export async function getEvents(page = 1): Promise<EventListDataType> {
   try {
-    const res = await fetchSSR('/events')
+    const res = await fetchSSR(`/events?page=${page}`)
     if (res.ok) {
-      const data = await res.json()
-      return data.items ?? []
+      return await res.json()
     }
   } catch (err) {
     console.error(err)
   }
-  return []
+  return {
+    items: [],
+    pagination: {
+      pages: [],
+      page: 1,
+      prevRangePage: 0,
+      nextRangePage: 0,
+      lastPage: 1,
+      baseUrl: '',
+    },
+  }
 }
 
 export async function getEvent(hash: string) {
