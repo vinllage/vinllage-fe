@@ -33,7 +33,9 @@ const ProfileForm = ({
               value={form.name}
               onChange={onChange}
             />
-            <MessageBox color="danger">{errors?.name}</MessageBox>
+            <MessageBox color="danger">
+              {!errors?.done && errors?.name}
+            </MessageBox>
           </dd>
         </dl>
         <dl>
@@ -42,10 +44,12 @@ const ProfileForm = ({
             <Input
               type="password"
               name="password"
-              value={form.password}
+              value={form.password ?? ''}
               onChange={onChange}
             />
-            <MessageBox color="danger">{errors?.name}</MessageBox>
+            <MessageBox color="danger">
+              {!errors?.done && errors?.password}
+            </MessageBox>
           </dd>
         </dl>
         <dl>
@@ -54,10 +58,12 @@ const ProfileForm = ({
             <Input
               type="password"
               name="confirmPassword"
-              value={form.confirmPassword}
+              value={form.confirmPassword ?? ''}
               onChange={onChange}
             />
-            <MessageBox color="danger">{errors?.name}</MessageBox>
+            <MessageBox color="danger">
+              {!errors?.done && errors?.confirmPassword}
+            </MessageBox>
           </dd>
         </dl>
         <dl>
@@ -69,7 +75,27 @@ const ProfileForm = ({
               value={form.mobile}
               onChange={onChange}
             />
-            <MessageBox color="danger">{errors?.name}</MessageBox>
+            <MessageBox color="danger">
+              {!errors?.done && errors?.mobile}
+            </MessageBox>
+          </dd>
+        </dl>
+        <dl>
+          <dt>프로필 이미지</dt>
+          <dd>
+            <FileImages
+              items={form.ProfileImage}
+              width={250}
+              height={250}
+              viewOrgImage={true}
+              callback={fileDeleteCallback}
+            />
+            <FileUpload
+              gid={form.gid}
+              single={true}
+              imageOnly={true}
+              callback={fileUploadCallback}
+            />
           </dd>
         </dl>
         <SubmitButton type="submit" width={350} disabled={pending}>
