@@ -10,7 +10,8 @@ import Pagination from '@/app/_global/components/Pagination'
 
 type Props = {
   query: string
-  onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onSearch: () => void
   events: EventType[]
   pagination: any
   onPageChange: (p: number) => void
@@ -29,7 +30,6 @@ const SearchBox = styled.div`
     border: 1px solid #ddd;
     border-radius: 8px;
     font-size: ${fontsize.medium};
-    box-sizing: border-box;
     transition: border 0.2s ease;
 
     &:focus {
@@ -84,6 +84,7 @@ const NoItem = styled.li`
 
 const EventList = ({
   query,
+  onChange,
   onSearch,
   events,
   pagination,
@@ -96,7 +97,10 @@ const EventList = ({
           type="text"
           placeholder="검색"
           value={query}
-          onChange={onSearch}
+          onChange={onChange}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') onSearch()
+          }}
         />
       </SearchBox>
       <List>
