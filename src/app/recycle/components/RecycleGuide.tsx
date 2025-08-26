@@ -72,8 +72,13 @@ const SourceText = styled.div`
 `
 /* 스타일 정리 E */
 
-export default function RecycleGuide({ items }: { items: DetectedRecycle[] }) {
-  // 전체 카테고리 수집
+export default function RecycleGuide({
+  items,
+  selectedCategory,
+}: {
+  items: DetectedRecycle[]
+  selectedCategory: string | null
+}) {
   const categories: { category1: string; category2: string }[] = []
   items.forEach((item) => {
     try {
@@ -84,21 +89,23 @@ export default function RecycleGuide({ items }: { items: DetectedRecycle[] }) {
 
   const uniqueCategories = Array.from(
     new Map(categories.map((c) => [c.category1, c])).values(),
-    )
+  )
 
   const filteredCategories = uniqueCategories.filter(
     (c) => c.category1 !== 'sticker' && c.category2 !== '기타',
-  )  
+  )
+
+  // 👉 선택된 카테고리만 보여주기
+  const visibleCategories = selectedCategory
+    ? filteredCategories.filter((c) => c.category1 === selectedCategory)
+    : []
 
   return (
     <GuideWrapper>
-      {filteredCategories.map((c, idx) => (
+      {visibleCategories.map((c, idx) => (
         <GuideItem key={idx}>
-          <GuideTitle>
-            {c.category2}
-          </GuideTitle>
-
-          {recycleImages[c.category1] ? (
+          <GuideTitle>{c.category2}</GuideTitle>
+          {recycleImages[c.category1] && (
             <>
               <GuideImage
                 src={
@@ -108,10 +115,9 @@ export default function RecycleGuide({ items }: { items: DetectedRecycle[] }) {
               />
               <SourceText>출처: 한국소비자원</SourceText>
             </>
-          ) : null}
+          )}
         </GuideItem>
       ))}
     </GuideWrapper>
   )
-
 }

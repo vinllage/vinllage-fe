@@ -1,8 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import fontsize from '@/app/_global/styles/fontsize'
+import color from '@/app/_global/styles/color'
 
 /* 스타일 정리 S */
+const { dark } = color 
 const { normal, extra } = fontsize
 
 const ResultList = styled.div`
@@ -30,13 +32,15 @@ const Categories = styled.div`
   font-size: ${normal};
 `
 
-const CategoryItem = styled.div`
+const CategoryItem = styled.button`
   padding: 4px 8px;
   border-radius: 6px;
   font-size: ${extra};
-  font-weight: bold;
   font-weight: 500;
-  white-space: nowrap;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: ${dark};
 `
 
 const Images = styled.div`
@@ -57,11 +61,18 @@ const ImageItem = styled.img`
 export type FlatImage = {
   key: string
   category: string
+  categoryKey: string
   url: string
   name: string
 }
 
-export function ResultComponents({ items }: { items: FlatImage[] }) {
+export function ResultComponents({
+  items,
+  onSelect,
+}: {
+  items: FlatImage[]
+  onSelect: (cat: string) => void
+}) {
   if (!items?.length) {
     return <div className="noData">데이터가 없습니다.</div>
   }
@@ -70,14 +81,15 @@ export function ResultComponents({ items }: { items: FlatImage[] }) {
     <ResultList>
       {items.map((img) => (
         <ResultItem key={img.key}>
-          {/* 이미지 먼저 */}
           <Images>
             <ImageItem src={img.url} alt={img.name} />
           </Images>
-
-          {/* 카테고리 라벨 */}
           <Categories>
-            {img.category && <CategoryItem>{img.category}</CategoryItem>}
+            {img.category && (
+              <CategoryItem onClick={() => onSelect(img.categoryKey)}>
+                {img.category}
+              </CategoryItem>
+            )}
           </Categories>
         </ResultItem>
       ))}
