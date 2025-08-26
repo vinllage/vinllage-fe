@@ -83,7 +83,7 @@ const FileBox = ({ gid, location, single, imageOnly, callback }: FileType) => {
           }
         })
     }
-  }, [fetchCSR, gid, location, imageOnly, single, callback])
+  }, [fetchCSR, gid, location, imageOnly, single, callback, alertDialog])
 
   return (
     <>
