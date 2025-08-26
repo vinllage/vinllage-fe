@@ -37,8 +37,16 @@ export default function MainContainer() {
         <MainSection>
           <SubText>촬영만으로 간편하게, 환경을 지켜보세요</SubText>
           <Counter>누적 분리수거 {totalCount}회</Counter>
-          <StyledButton onClick={onClick}>분리수거 하기</StyledButton>
-          <StyledButton onClick={() => setIsOpen(true)}>공지사항 열기</StyledButton>
+          <StyledButton
+            onClick={onClick}
+          >
+            분리수거 하기
+          </StyledButton>
+          <StyledButton
+            onClick={() => setIsOpen(true)}
+          >
+            공지사항 열기
+          </StyledButton>
         </MainSection>
       </ContentBox>
     </PageWrapper>
