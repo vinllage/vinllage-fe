@@ -1,3 +1,4 @@
+import ContentBox from '@/app/_global/components/ContentBox'
 import { getEvents } from './_services/actions'
 import { MainTitle } from '../_global/components/TitleBox'
 import EventListContainer from './_containers/EventListContainer'
@@ -17,9 +18,9 @@ export default async function EventPage({
   }
   const { items: events, pagination } = await getEvents(search)
   return (
-    <div className="layout-width pd-top30">
+    <ContentBox style={{ paddingTop: 30 }}>
       <MainTitle border="true">환경 행사</MainTitle>
       <EventListContainer events={events} pagination={pagination} search={search} />
-    </div>
+    </ContentBox>
   )
 }

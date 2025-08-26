@@ -7,6 +7,7 @@ import type { EventType } from '../_types'
 import color from '@/app/_global/styles/color'
 import fontsize from '@/app/_global/styles/fontsize'
 import Pagination from '@/app/_global/components/Pagination'
+import { Input as BaseInput } from '@/app/_global/components/Forms'
 
 type Props = {
   query: string
@@ -23,21 +24,6 @@ const Wrapper = styled.div`
 
 const SearchBox = styled.div`
   margin-bottom: 20px;
-
-  input {
-    width: 100%;
-    padding: 12px 16px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: ${fontsize.medium};
-    transition: border 0.2s ease;
-
-    &:focus {
-      border-color: ${color.primary};
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(43, 108, 176, 0.15);
-    }
-  }
 `
 
 const List = styled.ul`
@@ -82,6 +68,24 @@ const NoItem = styled.li`
   color: ${color.secondary};
 `
 
+const StyledInput = styled(BaseInput)`
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid ${color.secondary};
+  border-radius: 6px;
+  font-size: ${fontsize.medium};
+  color: ${color.secondary};
+
+  &:focus {
+    outline: none;
+    border-color: ${color.primary};
+    box-shadow: 0 0 0 2px rgba(0, 128, 0, 0.15);
+  }
+
+  &::placeholder {
+    color: #aaa;
+  }
+`
 const EventList = ({
   query,
   onChange,
@@ -93,7 +97,7 @@ const EventList = ({
   return (
     <Wrapper>
       <SearchBox>
-        <input
+        <StyledInput
           type="text"
           placeholder="검색"
           value={query}
