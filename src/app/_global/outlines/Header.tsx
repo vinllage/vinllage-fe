@@ -282,8 +282,10 @@ const Header = () => {
       <StyledSubMenu ref={subMenuRef}>
         <div className="submenu-inner">
           {openMenu === 'board' && <div>게시판 하위 메뉴</div>}
-          {openMenu === 'mypage' && <div>마이페이지 하위 메뉴</div>}
-          {openMenu === 'guest' && <div>회원/로그인 안내</div>}
+          {openMenu === 'mypage' && <div>홈</div>}
+          {openMenu === 'mypage' && <div>개인 정보</div>}
+          {openMenu === 'mypage' && <div>분리수거 결과 보기</div>}
+          {openMenu === 'guest' && <div>회원가입 하기</div>}
         </div>
       </StyledSubMenu>
     </StyledHeader>
