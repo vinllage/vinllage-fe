@@ -28,6 +28,8 @@ const LoginForm = ({ errors, action, pending, form, onChange }) => {
       />
       <MessageBox color="danger">{errors?.password}</MessageBox>
 
+      <a href="/member/find-password">비밀번호 찾기</a>
+
       <SubmitButton type="submit" disabled={pending}>
         로그인
       </SubmitButton>

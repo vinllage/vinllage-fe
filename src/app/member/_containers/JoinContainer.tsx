@@ -93,7 +93,10 @@ const JoinContainer = () => {
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: form.email }),
+        body: JSON.stringify({
+          email: form.email,
+          type: 'SIGN_UP_VERIFICATION',
+        }),
       },
     )
     if (res.ok) {
@@ -116,7 +119,10 @@ const JoinContainer = () => {
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ email: form.email, code: form.code || '' }),
+        body: new URLSearchParams({
+          email: form.email,
+          code: form.code || '',
+        }),
       },
     )
     if (res.ok) {
@@ -124,7 +130,7 @@ const JoinContainer = () => {
     } else {
       alertDialog.error('코드 인증 실패')
     }
-  }, [form.email, form.code])
+  }, [form.email, form.code, alertDialog])
 
   // 프로필 이미지 업로드 후 후속 처리
   const fileUploadCallback = useCallback((items) => {
