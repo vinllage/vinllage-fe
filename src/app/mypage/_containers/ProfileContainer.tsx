@@ -1,5 +1,11 @@
 'use client'
-import React, { useActionState, useCallback, useState, useEffect, useContext } from 'react'
+import React, {
+  useActionState,
+  useCallback,
+  useState,
+  useEffect,
+  useContext,
+} from 'react'
 import ProfileForm from '../_components/ProfileForm'
 import useUser from '@/app/_global/hooks/useUser'
 import { processProfile } from '../_services/actions'
@@ -31,6 +37,10 @@ const ProfileContainer = () => {
   }, [errors, setLoggedMember])
 
   const onChange = useCallback((e) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+  }, [])
+
+  const onDelete = useCallback((e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }, [])
 
@@ -97,6 +107,7 @@ const ProfileContainer = () => {
           action={action}
           pending={pending}
           onChange={onChange}
+          onDelete={onDelete}
           fileUploadCallback={fileUploadCallback}
           fileDeleteCallback={fileDeleteCallback}
         />
@@ -128,6 +139,5 @@ const ProfileContainer = () => {
     </>
   )
 }
-
 
 export default React.memo(ProfileContainer)
