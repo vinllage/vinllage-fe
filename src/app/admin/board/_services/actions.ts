@@ -53,3 +53,18 @@ export async function processBoardConfig(errors, formData: FormData) {
   // 처리 성공시 - 게시판 설정 목록으로 이동
   redirect('/admin/board')
 }
+
+
+
+export async function deleteBoards(bids: string[]) {
+  const res = await fetchSSR(`/admin/board/delete`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(bids),
+  });
+
+  console.log(res)
+
+  if (!res.ok) throw new Error("삭제 실패");
+  return await res.text();
+}

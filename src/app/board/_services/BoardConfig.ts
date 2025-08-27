@@ -48,7 +48,7 @@ export async function getBoardList(searchParams: CommonSearchType): Promise<{
 }> {
   'use server'
   const qs = await toQueryString(searchParams)
-  const res = await fetchSSR(`/admin/board/list`)
+  const res = await fetchSSR(`/admin/board/list${qs}`)
   console.log(res)
   if (res.status === 200) {
     return await res.json()
