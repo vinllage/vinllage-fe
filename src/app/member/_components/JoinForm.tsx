@@ -37,7 +37,7 @@ const PasswordStrenth = styled.ul`
       background: ${color.success};
     }
     &:nth-of-type(6) {
-      background: ${color.primary};
+      background: ${color.naverGreen};
     }
   }
 `
