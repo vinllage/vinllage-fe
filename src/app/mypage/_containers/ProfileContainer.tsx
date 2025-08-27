@@ -8,123 +8,126 @@ import LayerPopup from '@/app/_global/components/LayerPopup'
 import { Button } from '@/app/_global/components/Buttons'
 
 const ProfileContainer = () => {
-    const { loggedMember } = useUser()
-    const [form, setForm] = useState(loggedMember)
-    const [errors, action, pending] = useActionState<any, any>(
-        processProfile, 
-        {},
-    )
-    const { 
-        actions: { setLoggedMember }, 
-    } = useContext(UserContext)
+  const { loggedMember } = useUser()
+  const [form, setForm] = useState(loggedMember)
+  const [errors, action, pending] = useActionState<any, any>(processProfile, {})
+  const {
+    actions: { setLoggedMember },
+  } = useContext(UserContext)
 
-    const [pwModalOpen, setPwModalOpen] = useState(true) // 페이지 접속 시 바로 모달 열림
-    const [pwAuthenticated, setPwAuthenticated] = useState(false) // 인증 성공 여부
-    const [password, setPassword] = useState('')
-    const [pwError, setPwError] = useState('')
+  const [pwModalOpen, setPwModalOpen] = useState(true) // 페이지 접속 시 바로 모달 열림
+  const [pwAuthenticated, setPwAuthenticated] = useState(false) // 인증 성공 여부
+  const [password, setPassword] = useState('')
+  const [pwError, setPwError] = useState('')
 
-    useEffect(() => {
-        // 회원 정보 수정이 완료 된 경우, 회원정보 업데이트
-        if (!errors.done) {
-            return
-        }
+  useEffect(() => {
+    // 회원 정보 수정이 완료 된 경우, 회원정보 업데이트
+    if (!errors.done) {
+      return
+    }
 
-        setLoggedMember(errors)
-        location.replace('/mypage')
-    }, [errors, setLoggedMember])
+    setLoggedMember(errors)
+    location.replace('/mypage')
+  }, [errors, setLoggedMember])
 
-    const onChange = useCallback((e) => {
-        setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
-    }, [])
+  const onChange = useCallback((e) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+  }, [])
 
-    const fileUploadCallback = useCallback((items) => {
-        setForm((prev) => ({ ...prev, profileImage: items[0] }))
-    }, [])
+  const fileUploadCallback = useCallback((items) => {
+    setForm((prev) => ({ ...prev, profileImage: items[0] }))
+  }, [])
 
-    const fileDeleteCallback = useCallback(() => {
-        setForm(prev => {
-            const data = { ...prev }
-            delete data.profileImage
-            return data
-        })
-    }, [])
+  const fileDeleteCallback = useCallback(() => {
+    setForm((prev) => {
+      const data = { ...prev }
+      delete data.profileImage
+      return data
+    })
+  }, [])
 
-    const onSubmitWithPassword = useCallback(async () => {
-        if (!password.trim()) {
-            setPwError('비밀번호를 입력하세요.')
-            return
-        }
+  const onSubmitWithPassword = useCallback(async () => {
+    if (!password.trim()) {
+      setPwError('비밀번호를 입력하세요.')
+      return
+    }
 
-        try {
-            const res = await fetch('/api/v1/member/check-password', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ password }),
-            })
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/member/token`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: form.email, // 현재 로그인된 회원 이메일
+            password: password, // 입력한 비밀번호
+          }),
+        },
+      )
 
-            const data = await res.json()
+      if (res.ok) {
+        // 로그인 성공 → 비밀번호 일치
+        setPwAuthenticated(true)
+        setPwModalOpen(false)
+        setPwError('')
+      } else {
+        const data = await res.json().catch(() => ({}))
+        setPwError(data.message || '비밀번호가 올바르지 않습니다.')
+      }
+    } catch (err) {
+      console.error(err)
+      setPwError('서버 오류가 발생했습니다.')
+    }
+  }, [password, form.email])
 
-            if (res.ok && data.success) {
-                setPwAuthenticated(true)
-                setPwModalOpen(false)
-                setPwError('')
-                action(form)
-            } else {
-                setPwError(data.message || '비밀번호가 올바르지 않습니다.')
-            }
-        } catch (err) {
-            console.error(err)
-            setPwError('서버 오류가 발생했습니다.')
-        }
-    }, [password, form, action])
+  const handleCloseModal = useCallback(() => {
+    if (!pwAuthenticated) {
+      history.back()
+    } else {
+      setPwModalOpen(false)
+    }
+  }, [pwAuthenticated])
 
-    const handleCloseModal = useCallback(() => {
-        if (!pwAuthenticated) {
-            history.back()
-        } else {
-            setPwModalOpen(false)
-        }
-    }, [pwAuthenticated])
+  return (
+    <>
+      {pwAuthenticated && (
+        <ProfileForm
+          form={form}
+          errors={errors}
+          action={action}
+          pending={pending}
+          onChange={onChange}
+          fileUploadCallback={fileUploadCallback}
+          fileDeleteCallback={fileDeleteCallback}
+        />
+      )}
 
-    return (
-        <>
-            {pwAuthenticated && (
-                <ProfileForm 
-                    form={form} 
-                    errors={errors} 
-                    action={onSubmitWithPassword}
-                    pending={pending} 
-                    onChange={onChange}
-                    fileUploadCallback={fileUploadCallback}
-                    fileDeleteCallback={fileDeleteCallback}
-                />
-            )}
-
-            <LayerPopup 
-                title="비밀번호 확인" 
-                isOpen={pwModalOpen} 
-                onClose={handleCloseModal}
-                width={400}
-            >
-                <input
-                    type="password"
-                    placeholder="비밀번호를 입력하세요"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full p-2 border rounded"
-                />
-                {pwError && <p className="text-red-500 mt-2">{pwError}</p>}
-                <div className="flex justify-end gap-2 mt-4">
-                    <Button type="button" onClick={handleCloseModal}>
-                        취소
-                    </Button>
-                    <Button type="button" onClick={onSubmitWithPassword}>
-                        확인
-                    </Button>
-                </div>
-            </LayerPopup>
-        </>
-    )
+      <LayerPopup
+        title="비밀번호 확인"
+        isOpen={pwModalOpen}
+        onClose={handleCloseModal}
+        width={400}
+      >
+        <input
+          type="password"
+          placeholder="비밀번호를 입력하세요"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="w-full p-2 border rounded"
+        />
+        {pwError && <p className="text-red-500 mt-2">{pwError}</p>}
+        <div className="flex justify-end gap-2 mt-4">
+          <Button type="button" onClick={handleCloseModal}>
+            취소
+          </Button>
+          <Button type="button" onClick={onSubmitWithPassword}>
+            확인
+          </Button>
+        </div>
+      </LayerPopup>
+    </>
+  )
 }
+
 
 export default React.memo(ProfileContainer)
