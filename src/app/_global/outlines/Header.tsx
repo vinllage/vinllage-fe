@@ -26,11 +26,12 @@ const StyledHeader = styled.header`
     padding: 0 20px;
 
     .logo-section {
-      flex: 1;
-      text-align: center;
+      flex: 0 0 auto;
+      text-align: left;
       .headerLogo {
-        width: 150px;
+        width: 120px;
         height: auto;
+        display: block;
       }
     }
 
@@ -44,9 +45,10 @@ const StyledHeader = styled.header`
         position: relative;
         a {
           display: inline-block;
-          padding: 0 15px;
+          padding: 0 12px;
           line-height: 120px;
           font-weight: 500;
+          font-size: 14px;
           color: #333;
           text-decoration: none;
           &:hover {
@@ -55,8 +57,32 @@ const StyledHeader = styled.header`
         }
       }
 
+      .menu-link button,
+      .mypage-btn button,
+      .logout-btn button,
+      .admin-btn button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+        line-height: normal; 
+        font-size: 14px;
+        background-color: #f0f0f0;
+        color: #333;
+        border-radius: 20px;
+        padding: 0 12px;
+        gap: 6px;
+      }
+
       .profile-image {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        overflow: hidden;
         img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
           border-radius: 50%;
         }
       }
@@ -144,27 +170,26 @@ const Header = () => {
           {isLogin ? (
             <>
               <div
-                className="menu-link"
+                className="menu-link mypage-btn"
                 onMouseEnter={() => onMenuOpen('mypage')}
                 onMouseLeave={onMenuClose}
               >
                 <Link href="/mypage" prefetch={false}>
                   <Button type="button">
-                    <CgProfile />
                     마이페이지
                     <LinkLoading />
                   </Button>
                 </Link>
               </div>
-              <a href="/member/api/logout">
+              <a href="/member/api/logout" className="logout-btn">
                 <Button type="button" color="secondary">
-                  <FiLogOut /> 로그아웃
+                  로그아웃
                 </Button>
               </a>
               {isAdmin && (
-                <a href="/admin">
-                  <Button type="button" color="info" width={180}>
-                    <FaCog /> 사이트 관리
+                <a href="/admin" className="admin-btn">
+                  <Button type="button" color="info">
+                    사이트 관리
                   </Button>
                 </a>
               )}
@@ -187,7 +212,7 @@ const Header = () => {
               >
                 <Link href="/member/join" prefetch={false}>
                   <Button type="button">
-                    <FiUserPlus /> 회원가입
+                    회원가입
                     <LinkLoading />
                   </Button>
                 </Link>
@@ -199,7 +224,7 @@ const Header = () => {
               >
                 <Link href="/member/login" prefetch={false}>
                   <Button type="button" color="secondary">
-                    <FiLogIn /> 로그인
+                    로그인
                     <LinkLoading />
                   </Button>
                 </Link>

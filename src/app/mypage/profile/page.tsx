@@ -11,7 +11,7 @@ export default function ProfilePage({
     return (
         <UserOnlyContainer>
             <ContentBox width={720}>
-            <MainTitle border="true">내 프로필</MainTitle>
+            <MainTitle border="true">프로필 수정</MainTitle>
             <ProfileContainer />
             </ContentBox>
         </UserOnlyContainer>

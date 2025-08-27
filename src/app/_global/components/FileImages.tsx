@@ -13,7 +13,6 @@ const ImageItems = styled.ul`
   display: flex;
   flex-wrap: wrap;
   li {
-    border: 3px solid ${dark};
     position: relative;
     margin: 3px 0;
     border-radius: 3px;
