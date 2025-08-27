@@ -8,7 +8,35 @@ import MessageBox from "@/app/_global/components/MessageBox"
 import FileUpload from "@/app/_global/components/FileUpload"
 import FileImages from "@/app/_global/components/FileImages"
 
-const StyledForm = styled.form``
+const StyledForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  dl {
+    margin: 0;
+  }
+
+  .button-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+
+    .delete-link {
+      font-size: 14px;
+      color: #999;
+      cursor: pointer;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+        color: #666;
+      }
+    }
+  }
+`
 const ProfileForm = ({ 
   form, 
   errors, 
@@ -17,18 +45,14 @@ const ProfileForm = ({
   onChange, 
   fileUploadCallback, 
   fileDeleteCallback, 
+  onDelete, // 탈퇴
 }) => {
     return (
       <StyledForm action={action} autoComplete="off">
         <dl>
           <dt>이메일</dt>
           <dd>
-            <Input 
-              type="email" 
-              name="email" 
-              value={form.email} 
-              readOnly // 수정 불가, 보여주기만 함
-            />
+            <Input type="email" name="email" value={form.email} readOnly />
           </dd>
         </dl>
         <dl>
@@ -105,9 +129,17 @@ const ProfileForm = ({
             />
           </dd>
         </dl>
-        <SubmitButton type="submit" width={350} disabled={pending}>
-          수정하기
-        </SubmitButton>
+        <div className="button-group">
+          <SubmitButton type="submit" width={350} disabled={pending}>
+            수정하기
+          </SubmitButton>
+          <span
+            className="delete-link"
+            onClick={onDelete} // 탈퇴
+          >
+            탈퇴하기
+          </span>
+        </div>
       </StyledForm>
     )
 }
