@@ -9,7 +9,7 @@ const commonStyle = css`
   height: 40px;
   border: 0;
   cursor: pointer;
-  border-rediuS: 3px;
+  border-radiuS: 3px;
   & + & {
     margin-left: 5px;
   }
