@@ -5,15 +5,18 @@ import DetectedItems from '../components/DetectedItems'
 import { Button } from '@/app/_global/components/Buttons'
 import { processDetectData } from '../_services/actions'
 import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 const DetectContainer = () => {
   const [items, setItems] = useState<any>([])
+  const router = useRouter()
+
   const callback = useCallback((items) => {
     if (items.length === 0) return
     setItems([...items])
   }, [])
 
-  const onClick = useCallback(() => {
+  const onClick = useCallback(async () => {
     // items 값을 저장 후속 처리
     const _items: Array<{ category1: string; category2: string }> = []
     const formData = new FormData()
@@ -25,10 +28,16 @@ const DetectContainer = () => {
 
     formData.append('items', JSON.stringify(_items))
 
-    processDetectData(formData) // API 백엔드 반영
+    const data = await processDetectData(formData) // API 백엔드 반영
 
-    redirect('/recycle/result?') // 결과 페이지 이동
-  }, [items])
+    console.log('data', data)
+
+    if ('gid' in data) {
+      router.push(`/recycle/result?gid=${data.gid}`)
+    } else {
+      console.error(data.global)
+    }
+  }, [items, router])
 
   return (
     <>

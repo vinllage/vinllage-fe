@@ -4,10 +4,24 @@ import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { getLoggedMember } from '@/app/member/_services/actions'
 
+type DetectDataSuccess = {
+  gid: string
+  count: number
+  ids: string[]
+}
+
+type DetectDataError = {
+  global: string
+}
+
+export type DetectDataResponse = DetectDataSuccess | DetectDataError
+
 /**
  * 감지된 분리수거 데이터 저장 처리
  */
-export async function processDetectData(formData: FormData) {
+export async function processDetectData(
+  formData: FormData,
+): Promise<DetectDataResponse> {
   try {
     const apiUrl = `${process.env.API_URL}/recycle`
 
@@ -23,8 +37,7 @@ export async function processDetectData(formData: FormData) {
     }
 
     // 정상 저장된 경우
-    const data = await res.json()
-    return data // { gid, count, ids: [...] }
+    return (await res.json()) as DetectDataSuccess
   } catch (err: any) {
     // 네트워크 에러 등
     return { global: err?.message }
@@ -67,8 +80,7 @@ export async function processRecycle() {
   // 허용 횟수 넘어가면 로그인 페이지로 이동
   if (count >= MAX_GUEST_ATTEMPTS) {
     redirect('/member/login?reload=true')
+  } else {
+    redirect('/recycle/detect?reload=true')
   }
-
-  // 페이지 이동
-  redirect('/recycle/detect?reload=true')
 }

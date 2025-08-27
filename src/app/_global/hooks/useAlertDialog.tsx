@@ -10,7 +10,9 @@ type AlertDialogType = {
 }
 
 export default function useAlertDialog() {
-  return ({ title, text, icon, callback }: AlertDialogType) => {
+  const show = ({ title, text, icon, callback }: AlertDialogType) => {
+    title = title ?? '알림'
+    icon = icon ?? 'warning'
     Swal.fire({
       title,
       text,
@@ -23,4 +25,15 @@ export default function useAlertDialog() {
       }
     })
   }
+
+  const success = (text: string, callback?: () => void) =>
+    show({ title: '성공', text, icon: 'success', callback })
+
+  const error = (text: string, callback?: () => void) =>
+    show({ title: '오류', text, icon: 'error', callback })
+
+  const warning = (text: string, callback?: () => void) =>
+    show({ title: '경고', text, icon: 'warning', callback })
+
+  return Object.assign(show, { success, error, warning })
 }

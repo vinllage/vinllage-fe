@@ -2,6 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import styled from 'styled-components'
 import type { EventType } from '../_types'
 import color from '@/app/_global/styles/color'
@@ -57,6 +58,13 @@ const Article = styled.article`
     border-bottom: 1px solid #eee;
     background: #fafcff;
     margin: 0;
+
+    img {
+      position: relative !important;
+      max-width: 100%;
+      display: block;
+      margin-top: 20px;
+    }
   }
 
   .btn-group {
@@ -70,7 +78,7 @@ const Article = styled.article`
     text-align: center;
     padding: 12px 18px;
     border-radius: 8px;
-    font-size: ${fontsize.normal};
+    font-size: ${fontsize.medium};
     font-weight: 600;
     cursor: pointer;
     transition: background 0.2s ease, color 0.2s ease;
@@ -94,33 +102,47 @@ const Article = styled.article`
       background: #ddd;
     }
   }
+  
+
 `
 
-const EventDetail = ({ event }: Props) => (
-  <Article>
-    <h2>{event.title}</h2>
-    <time>{event.date}</time>
-    {event.content &&
-      (event.html ? (
-        <div dangerouslySetInnerHTML={{ __html: event.content }} />
-      ) : (
-        <p>{event.content}</p>
-      ))}
+const EventDetail = ({ event }: Props) => {
+  const imageSrc = event.image
+    ? event.image.startsWith('http')
+      ? event.image
+      : new URL(event.image, event.link).href
+    : null
 
-    <div className="btn-group">
-      <a
-        className="btn btn-primary"
-        href={event.link}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        원문 바로가기
-      </a>
-      <Link className="btn btn-secondary" href="/event" target="_self">
-        목록으로
-      </Link>
-    </div>
-  </Article>
-)
+  return (
+    <Article>
+      <h2>{event.title}</h2>
+      <time>{event.date}</time>
+      {imageSrc && (
+        <p>
+          <Image
+            src={imageSrc}
+            alt={event.title}
+            fill
+            unoptimized
+          />
+        </p>
+      )}
+      {event.content &&
+        (event.html ? (
+          <div dangerouslySetInnerHTML={{ __html: event.content }} />
+        ) : (
+          <p>{event.content}</p>
+        ))}
+      <div className="btn-group">
+        <Link className="btn btn-secondary" href="/event" target="_self">
+          목록으로
+        </Link>
+        <a className="btn btn-primary" href={event.link} target="_blank" rel="noopener noreferrer">
+          원문 바로가기
+        </a>
+      </div>
+    </Article>
+  )
+}
 
 export default React.memo(EventDetail)

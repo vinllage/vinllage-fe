@@ -7,11 +7,15 @@ import React, {
   useEffect,
   useMemo,
 } from 'react'
+import styled from 'styled-components'
+import color from '@/app/_global/styles/color'
 import { useSearchParams } from 'next/navigation'
 import { processLogin } from '../_services/actions'
 import LoginForm from '../_components/LoginForm'
 import KakaoApi from '../social/_service/KakaoApi'
+import NaverApi from '../social/_service/NaverApi'
 import kakaoLoginButton from '../../_global/assets/images/kakao_login.png'
+import naverLoginButton from '../../_global/assets/images/naver_login.png'
 
 type FormType = {
   email: string
@@ -19,8 +23,20 @@ type FormType = {
   redirectUrl?: string
 }
 
-const kakaoApi = new KakaoApi()
+const { naverGreen } = color;
 
+const NaverButton = styled.a`
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* 이미지를 위로 붙임 */
+  background-color: ${naverGreen}; /* 네이버 초록색 */
+  width: 400px; 
+  height: 60px;
+  border-radius: 8px;
+`
+
+const kakaoApi = new KakaoApi()
+const naverApi = new NaverApi()
 const LoginContainer = ({ redirectUrl }: { redirectUrl?: string }) => {
   const [errors, action, pending] = useActionState<any, any>(processLogin, {})
   const [form, setForm] = useState<FormType>({
@@ -33,6 +49,11 @@ const LoginContainer = ({ redirectUrl }: { redirectUrl?: string }) => {
 
   const kakaoLoginUrl = useMemo(
     () => kakaoApi.getUrl(form.redirectUrl),
+    [form.redirectUrl],
+  )
+
+  const naverLoginUrl = useMemo(
+    () => naverApi.getUrl(form.redirectUrl),
     [form.redirectUrl],
   )
 
@@ -57,8 +78,15 @@ const LoginContainer = ({ redirectUrl }: { redirectUrl?: string }) => {
         onChange={onChange}
       />
       <a href={kakaoLoginUrl}>
-        <Image src={kakaoLoginButton} alt="카카오 로그인" />
+        <Image src={kakaoLoginButton} alt="카카오 로그인" width={400} />
       </a>
+      <NaverButton href={naverLoginUrl}>
+        <Image
+          src={naverLoginButton}
+          alt="네이버 로그인"
+          height={60}
+        />
+      </NaverButton>
     </>
   )
 }

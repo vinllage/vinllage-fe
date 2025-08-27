@@ -2,23 +2,23 @@ import React from 'react'
 import styled from 'styled-components'
 import color from '@/app/_global/styles/color'
 import fontsize from '@/app/_global/styles/fontsize'
-import { DetectedRecycle } from '../components/ResultList'
+import { DetectedRecycle } from '../containers/ResultContainer'
 import recyclePlastic from '@/app/_global/assets/images/recycle_plastic.png'
 import recycleVinyl from '@/app/_global/assets/images/recycle_vinyl.png'
 import recycleCan from '@/app/_global/assets/images/recycle_can.png'
 import recycleGlass from '@/app/_global/assets/images/recycle_glass.png'
-import recyclePaper1 from '@/app/_global/assets/images/recycle_paper1.png'
-import recyclePaper2 from '@/app/_global/assets/images/recycle_paper2.png'
+import recyclePaper from '@/app/_global/assets/images/recycle_paper.png'
+
 
 const recycleImages: Record<string, any> = {
   plastic: recyclePlastic,
   vinyl: recycleVinyl,
   can: recycleCan,
   glass: recycleGlass,
-  paper1: recyclePaper1,
-  paper2: recyclePaper2,
+  paper: recyclePaper,
 }
 
+/* 스타일 정리 S */
 const { secondary, black } = color
 const { small, extra } = fontsize
 
@@ -28,6 +28,7 @@ const GuideWrapper = styled.div`
   flex-direction: column;
   gap: 20px;
   align-items: center;
+  margin-bottom: 100px;
 `
 
 const GuideItem = styled.div`
@@ -47,12 +48,21 @@ const GuideImage = styled.img`
   max-height: 400px;
   object-fit: contain;
   border-radius: 12px;
+  margin-bottom: 12px;
 `
 
 const GuideTitle = styled.div`
+  align-self: flex-start;
+  display: inline-block;
+  padding: 6px 16px;
   font-size: ${extra};
-  font-weight: bold; 
+  font-weight: bold;
   text-align: center;
+  border-radius: 999px;
+  background: #1e90ff;
+  color: #fff;
+  margin-bottom: 16px;
+  margin-left: 16px;
 `
 
 const SourceText = styled.div`
@@ -61,9 +71,15 @@ const SourceText = styled.div`
   color: ${secondary};
   text-align: center;
 `
+/* 스타일 정리 E */
 
-export default function RecycleGuide({ items }: { items: DetectedRecycle[] }) {
-  // 전체 카테고리 수집
+export default function RecycleGuide({
+  items,
+  selectedCategory,
+}: {
+  items: DetectedRecycle[]
+  selectedCategory: string | null
+}) {
   const categories: { category1: string; category2: string }[] = []
   items.forEach((item) => {
     try {
@@ -72,15 +88,25 @@ export default function RecycleGuide({ items }: { items: DetectedRecycle[] }) {
     } catch {}
   })
 
+  const uniqueCategories = Array.from(
+    new Map(categories.map((c) => [c.category1, c])).values(),
+  )
+
+  const filteredCategories = uniqueCategories.filter(
+    (c) => c.category1 !== 'sticker' && c.category2 !== '기타',
+  )
+
+  // 👉 선택된 카테고리만 보여주기
+  const visibleCategories = selectedCategory
+    ? filteredCategories.filter((c) => c.category1 === selectedCategory)
+    : []
+
   return (
     <GuideWrapper>
-      {categories.map((c, idx) => (
+      {visibleCategories.map((c, idx) => (
         <GuideItem key={idx}>
-          <GuideTitle>
-            {c.category1} ({c.category2})
-          </GuideTitle>
-
-          {recycleImages[c.category1] ? (
+          <GuideTitle>{c.category2}</GuideTitle>
+          {recycleImages[c.category1] && (
             <>
               <GuideImage
                 src={
@@ -90,10 +116,9 @@ export default function RecycleGuide({ items }: { items: DetectedRecycle[] }) {
               />
               <SourceText>출처: 한국소비자원</SourceText>
             </>
-          ) : null}
+          )}
         </GuideItem>
       ))}
     </GuideWrapper>
   )
-
 }

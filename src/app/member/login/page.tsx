@@ -1,4 +1,3 @@
-'use client'
 import LoginContainer from '../_containers/LoginContainer'
 import ContentBox from '@/app/_global/components/ContentBox'
 import { MainTitle } from '@/app/_global/components/TitleBox'

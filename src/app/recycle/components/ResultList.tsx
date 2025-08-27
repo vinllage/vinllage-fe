@@ -1,18 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
+import fontsize from '@/app/_global/styles/fontsize'
 import color from '@/app/_global/styles/color'
-import fontsize from '@/app/_global/styles/fontsize';
-
-export type DetectedRecycle = {
-  seq : number
-  gid : string
-  data : string
-  imageUrl : string
-};
 
 /* 스타일 정리 S */
-const { dark } = color
-const { normal, medium } = fontsize
+const { dark, light } = color 
+const { normal, extra } = fontsize
 
 const ResultList = styled.div`
   display: flex;
@@ -22,12 +15,10 @@ const ResultList = styled.div`
   flex-wrap: wrap;
 `
 const ResultItem = styled.div`
-  width: 160px;
-  min-height: 120px;
-  border: 1.5px solid ${dark};
+  width: 220px;
+  min-height: 180px;
   border-radius: 12px;
-  padding: 12px;
-
+  padding: 8px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -41,12 +32,18 @@ const Categories = styled.div`
   font-size: ${normal};
 `
 
-const CategoryItem = styled.div`
+const CategoryItem = styled.button`
   padding: 4px 8px;
   border-radius: 6px;
-  font-size: ${medium};
+  font-size: ${extra};
   font-weight: 500;
-  white-space: nowrap;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: ${dark}; 
+  & :hover {
+    color: ${light};
+  }
 `
 
 const Images = styled.div`
@@ -58,51 +55,47 @@ const Images = styled.div`
 
 const ImageItem = styled.img`
   width: 100%;
+  height: 180px;
   border-radius: 8px;
   object-fit: cover;
 `
 /* 스타일 정리 E */
 
-export function ResultComponents({ items }: { items: DetectedRecycle[] }) {
+export type FlatImage = {
+  key: string
+  category: string
+  categoryKey: string
+  url: string
+  name: string
+}
+
+export function ResultComponents({
+  items,
+  onSelect,
+}: {
+  items: FlatImage[]
+  onSelect: (cat: string) => void
+}) {
   if (!items?.length) {
     return <div className="noData">데이터가 없습니다.</div>
   }
 
   return (
     <ResultList>
-      {items.map((item) => {
-        // JSON 문자열 파싱
-        let categories: { category1: string; category2: string }[] = []
-        let images: { url: string; name: string; ext: string }[] = []
-
-        try {
-          categories = JSON.parse(item.data || '[]')
-        } catch (e) {
-          console.error('data JSON 파싱 오류', e)
-        }
-
-        try {
-          images = JSON.parse(item.imageUrl || '[]')
-        } catch (e) {
-          console.error('imageUrl JSON 파싱 오류', e)
-        }
-
-    return images.map((img, idx) => (
-        <ResultItem key={`${item.seq}-${idx}`}>
-          <Categories>
-            {categories.map((c, idx2) => (
-              <CategoryItem key={idx2}>
-                {c.category1} ({c.category2})
-              </CategoryItem>
-            ))}
-          </Categories>
-
+      {items.map((img) => (
+        <ResultItem key={img.key}>
           <Images>
             <ImageItem src={img.url} alt={img.name} />
           </Images>
+          <Categories>
+            {img.category && (
+              <CategoryItem onClick={() => onSelect(img.categoryKey)}>
+                {img.category}
+              </CategoryItem>
+            )}
+          </Categories>
         </ResultItem>
-        ))
-      })}
+      ))}
     </ResultList>
   )
 }
