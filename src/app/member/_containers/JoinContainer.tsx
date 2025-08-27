@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import { processJoin } from '../_services/actions'
 import JoinForm from '../_components/JoinForm'
 import useAlertDialog from '@/app/_global/hooks/useAlertDialog'
+import { passwordStrenthLevel } from '@/app/_global/libs/commons'
 
 type FormType = {
   gid: string
@@ -19,6 +20,7 @@ type FormType = {
   profileImage?: any
   code?: string
   sendState?: string
+  passwordStrenth?: number
 }
 
 const JoinContainer = () => {
@@ -46,9 +48,14 @@ const JoinContainer = () => {
   const [sendState, setSendState] = useState<'idle' | 'loading' | 'sent'>(
     'idle',
   )
-
   const onChange = useCallback((e) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+    setForm((prev) => {
+      const data = { ...prev, [e.target.name]: e.target.value }
+      if (e.target.name === 'password') {
+        data.passwordStrenth = passwordStrenthLevel(e.target.value)
+      }
+      return data
+    })
   }, [])
 
   const onToggle = useCallback(() => {
