@@ -45,7 +45,7 @@ const FindPasswordForm = () => {
         setError(data.message ?? '비밀번호 찾기 요청에 실패했습니다.')
       }
     },
-    [email],
+    [email, alertDialog],
   )
 
   return (
