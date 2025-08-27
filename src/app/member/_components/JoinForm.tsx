@@ -6,16 +6,39 @@ import { SubmitButton } from '@/app/_global/components/Buttons'
 import MessageBox from '@/app/_global/components/MessageBox'
 import FileUpload from '@/app/_global/components/FileUpload'
 import FileImages from '@/app/_global/components/FileImages'
+import color from '@/app/_global/styles/color'
 
 const StyledForm = styled.form`
   .message {
     margin-bottom: 10px;
   }
+`
 
-  .email-row {
-    display: flex;
-    gap: 8px;
-    align-items: center;
+const PasswordStrenth = styled.ul`
+  display: flex;
+  background: #f8f8f8;
+  height: 15px;
+  width: 100%;
+  li {
+    width: calc(100% / 6);
+    &:nth-of-type(1) {
+      background: ${color.danger};
+    }
+    &:nth-of-type(2) {
+      background: ${color.warning};
+    }
+    &:nth-of-type(3) {
+      background: ${color.secondary};
+    }
+    &:nth-of-type(4) {
+      background: ${color.info};
+    }
+    &:nth-of-type(5) {
+      background: ${color.success};
+    }
+    &:nth-of-type(6) {
+      background: ${color.primary};
+    }
   }
 `
 
@@ -101,8 +124,12 @@ const JoinForm = ({
             value={form.password}
             onChange={onChange}
           />
+          <PasswordStrenth>
+            {Array.from({ length: form.passwordStrenth }).map((_, i) => (
+              <li key={'password-strenth-' + i}></li>
+            ))}
+          </PasswordStrenth>
           <MessageBox color="danger">{errors?.password}</MessageBox>
-
           <Input
             type="password"
             name="confirmPassword"
