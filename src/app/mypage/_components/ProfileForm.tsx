@@ -45,7 +45,6 @@ const ProfileForm = ({
   onChange, 
   fileUploadCallback, 
   fileDeleteCallback, 
-  onDelete, // 탈퇴
 }) => {
     return (
       <StyledForm action={action} autoComplete="off">
@@ -115,7 +114,7 @@ const ProfileForm = ({
           <dt>프로필 이미지</dt>
           <dd>
             <FileImages
-              items={form.ProfileImage}
+              items={form.profileImage}
               width={250}
               height={250}
               viewOrgImage={true}
@@ -135,7 +134,6 @@ const ProfileForm = ({
           </SubmitButton>
           <span
             className="delete-link"
-            onClick={onDelete} // 탈퇴
           >
             탈퇴하기
           </span>
