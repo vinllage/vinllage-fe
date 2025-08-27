@@ -41,10 +41,22 @@ export default function RecycleContainer() {
   /** 현재 페이지 데이터 */
   const currentItems = items.slice((page - 1) * pageSize, page * pageSize)
 
+  const pagination = {
+    pages: Array.from({ length: totalPages }, (_, idx) => {
+      const num = (idx + 1).toString()
+      return [num, `?page=${num}`] as [string, string]
+    }),
+    page,
+    prevRangePage: page > 1 ? page - 1 : 0,
+    nextRangePage: page < totalPages ? page + 1 : 0,
+    lastPage: totalPages,
+    baseUrl: '?page=',
+  }
+
   return (
     <>
       <RecycleList items={currentItems} />
-      <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+      <Pagination pagination={pagination} onClick={setPage} />
     </>
   )
 }

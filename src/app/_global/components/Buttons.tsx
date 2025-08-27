@@ -10,6 +10,7 @@ const commonStyle = css`
   border: 0;
   cursor: pointer;
   border-radius: 3px;
+
   & + & {
     margin-left: 5px;
   }
