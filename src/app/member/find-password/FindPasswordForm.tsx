@@ -29,7 +29,7 @@ const FindPasswordForm = () => {
 
       setLoading(true)
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/member/find-password`,
+        `${process.env.NEXT_PUBLIC_API_URL}/member/find-pw`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
