@@ -42,9 +42,9 @@ export async function GET(request: NextRequest) {
 
     if (res.status === 200) {
       // 로그인 처리
-      const token = await res.text()
+      const data = await res.json()
       const cookie = await cookies()
-      cookie.set('token', token, {
+      cookie.set('token', data.token, {
         httpOnly: true,
         path: '/',
       })
