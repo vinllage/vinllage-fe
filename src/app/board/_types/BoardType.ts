@@ -1,4 +1,3 @@
-
 export type AuthorityType = 'ALL' | 'MEMBER' | 'ADMIN'
 export type SkinType = 'default' | 'gallery'
 
@@ -23,10 +22,13 @@ export type BoardConfigType = {
   viewAuthority: AuthorityType
   writeAuthority: AuthorityType
   commentAuthority: AuthorityType
+  writable?: boolean
+  listable?: boolean
+  commentable?: boolean
 }
 
 export type BoardType = {
-  board: BoardConfigType
+  board?: BoardConfigType
 }
 
 export type BoardFormType = {
@@ -43,7 +45,9 @@ export type BoardFormType = {
 
 export type BoardDataType = {
   mode?: string
-  bid: string
+  bid?: string
+  board?: BoardConfigType
+  member?: any
   seq?: number
   gid: string
   category?: string
@@ -54,6 +58,12 @@ export type BoardDataType = {
   notice?: boolean
   secret?: boolean
   guest?: boolean
+  editable?: boolean
+  mine?: boolean
+  viewCount?: number
+  ip?: string
+  ua?: string
+  plainText?: boolean
   editorImages?: Array<any>
   attachFiles?: Array<any>
 }
