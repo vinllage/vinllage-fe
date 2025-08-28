@@ -1,6 +1,6 @@
 'use server'
+import useAlertDialog from '@/app/_global/hooks/useAlertDialog'
 import { fetchSSR } from '@/app/_global/libs/utils'
-import { redirect } from 'next/navigation'
 
 export async function processProfile(errors, formData: FormData) {
   errors = {}
@@ -9,6 +9,7 @@ export async function processProfile(errors, formData: FormData) {
   // 필요한 필드와 값만 추출
   for (const [key, value] of formData.entries()) {
     if (key.startsWith('$ACTION_')) continue
+    if (key === 'email') continue // 폼데이터에서 email은 제외
     params[key] = value.toString()
   }
 

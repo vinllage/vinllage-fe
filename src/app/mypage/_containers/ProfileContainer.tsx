@@ -12,6 +12,8 @@ import { processProfile } from '../_services/actions'
 import UserContext from '@/app/_global/contexts/UserContext'
 import LayerPopup from '@/app/_global/components/LayerPopup'
 import { Button } from '@/app/_global/components/Buttons'
+import useAlertDialog from '@/app/_global/hooks/useAlertDialog'
+import { redirect } from 'next/navigation'
 
 const ProfileContainer = () => {
   const { loggedMember } = useUser()
@@ -28,16 +30,16 @@ const ProfileContainer = () => {
 
   const [password, setPassword] = useState('')
   const [pwError, setPwError] = useState('')
+  const alertDialog = useAlertDialog()
 
   useEffect(() => {
     // 회원 정보 수정이 완료 된 경우, 회원정보 업데이트
-    if (!errors.done) {
-      return
+    if (errors?.status === 'DONE') {
+      alertDialog.success('회원 정보가 수정되었습니다!')
+      setLoggedMember(errors)
+      redirect('/mypage')
     }
-
-    setLoggedMember(errors)
-    location.replace('/mypage')
-  }, [errors, setLoggedMember])
+  }, [errors, setLoggedMember, alertDialog])
 
   const onChange = useCallback((e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -75,7 +77,6 @@ const ProfileContainer = () => {
       )
 
       if (res.ok) {
-        // 로그인 성공 → 비밀번호 일치
         setPwAuthenticated(true)
         setPwModalOpen(false)
         setPwError('')
@@ -87,7 +88,7 @@ const ProfileContainer = () => {
       console.error(err)
       setPwError('서버 오류가 발생했습니다.')
     }
-  }, [password, form.email])
+  }, [password, form])
 
   const handleCloseModal = useCallback(() => {
     if (!pwAuthenticated) {
