@@ -14,7 +14,7 @@ type FileType = {
 }
 
 const FileBox = ({ gid, location, single, imageOnly, callback }: FileType) => {
-  const fetchCSR = useFetchCSR()
+  const { fetchCSR, ready } = useFetchCSR()
   const alertDialog = useAlertDialog()
 
   const onUploadClick = useCallback(() => {
@@ -72,6 +72,8 @@ const FileBox = ({ gid, location, single, imageOnly, callback }: FileType) => {
       for (const file of files) {
         formData.append('file', file)
       }
+
+      if (!ready) return
       fetchCSR('/file/upload', {
         method: 'POST',
         body: formData,
@@ -83,7 +85,7 @@ const FileBox = ({ gid, location, single, imageOnly, callback }: FileType) => {
           }
         })
     }
-  }, [fetchCSR, gid, location, imageOnly, single, callback, alertDialog])
+  }, [fetchCSR, ready, gid, location, imageOnly, single, callback, alertDialog])
 
   return (
     <>
