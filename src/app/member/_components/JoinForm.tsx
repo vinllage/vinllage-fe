@@ -8,21 +8,25 @@ import FileUpload from '@/app/_global/components/FileUpload'
 import FileImages from '@/app/_global/components/FileImages'
 import color from '@/app/_global/styles/color'
 import { passwordStrenthLevel } from '@/app/_global/libs/commons'
+import { FaEye } from 'react-icons/fa'
+
+
+import { launchBus } from 'pm2'
 
 const StyledForm = styled.form`
   .message {
     margin-bottom: 10px;
   }
 `
-// 비밀 번호 강도 색상
-const passwordColor = (level1: number) => {
-  if (level1 <= 1) return color.danger // 위험
-  if (level1 <= 3) return color.warning // 경고
-  if (level1 <= 5) return color.primary // 중요한
-  return color.success // 안전
+const passowrdColor= (level1: number)=>{
+  if(level1 <= 2) return color.danger // 위험
+  if(level1 <=4) return color.warning // 경고 
+  if(level1 <=6) return color.primary// 중요한 
+  return color.success
 }
+
 // 비밀 번호 강도에 맞는 색상 지정
-const PasswordStrenth = styled.ul`
+const PasswordStrenth = styled.ul<{level: number}>`
   display: flex;
   background: #ddd;
   height: 15px;
@@ -31,25 +35,9 @@ const PasswordStrenth = styled.ul`
     width: calc(100% / 6 - 2px);
     margin-right: 2px;
     transition: background 0.3s;
-    &:nth-of-type(1) {
-      background: ${color.danger};
-    }
-    &:nth-of-type(2) {
-      background: ${color.danger};
-    }
-    &:nth-of-type(3) {
-      background: ${color.black};
-    }
-    &:nth-of-type(4) {
-      background: ${color.black};
-    }
-    &:nth-of-type(5) {
-      background: ${color.primary};
-    }
-    &:nth-of-type(6) {
-      background: ${color.primary};
-    }
+    background: ${({level})=> passowrdColor(level)};
   }
+
 `
 const JoinForm = ({
   errors,
@@ -144,7 +132,7 @@ const JoinForm = ({
             onChange={onChange}
             maxLength={16}
           />
-          <PasswordStrenth>
+          <PasswordStrenth level={passwordStrenth}>
             {Array.from({ length: passwordStrenth }).map((_, i) => (
               <li key={'password-strenth-' + i}></li>
             ))}
