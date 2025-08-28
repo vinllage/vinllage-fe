@@ -8,6 +8,9 @@ import FileUpload from '@/app/_global/components/FileUpload'
 import FileImages from '@/app/_global/components/FileImages'
 import color from '@/app/_global/styles/color'
 import { passwordStrenthLevel } from '@/app/_global/libs/commons'
+import { FaEye } from 'react-icons/fa'
+
+
 import { launchBus } from 'pm2'
 
 const StyledForm = styled.form`
