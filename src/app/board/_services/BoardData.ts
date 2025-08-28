@@ -1,7 +1,7 @@
-import type { BoardDataType } from '../_types/BoardType'
+// import type { BoardDataType } from '../_types/BoardType'
 import { v4 as uuid } from 'uuid'
 
-export async function get(seq?: number) {
+export async function get() {
   'use server'
   //if (seq) {
   // 게시글 조회
