@@ -3,6 +3,7 @@
 import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
 import LayerPopup from '@/app/_global/components/LayerPopup'
+import Image from 'next/image'
 
 export type DetectedRecycle = {
   seq: number
@@ -73,7 +74,7 @@ export const RecycleList = ({ items }: { items: DetectedRecycle[] }) => {
 
           return (
             <FileItem key={f.seq} onClick={() => setSelected(first)}>
-              <img src={first.url} alt={first.name} />
+              <Image src={first.url} alt={first.name} />
               <div className="name">{first.name}</div>
             </FileItem>
           )
@@ -82,7 +83,7 @@ export const RecycleList = ({ items }: { items: DetectedRecycle[] }) => {
 
       <LayerPopup isOpen={!!selected} onClose={onClose} width={600}>
         {selected && (
-          <img
+          <Image
             src={selected.url}
             alt={selected.name}
             style={{ maxWidth: '100%', maxHeight: '70vh', borderRadius: '8px' }}

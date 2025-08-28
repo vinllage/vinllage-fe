@@ -8,6 +8,8 @@ import { CommonProvider } from './_global/contexts/CommonContext'
 import LayoutContainer from './_global/wrappers/LayoutContainer'
 import { redirect } from 'next/navigation'
 
+export const dynamic = 'force-dynamic' // 모든 페이지는 SSR 강제
+
 export const metadata: Metadata = {
   title: 'vinllage',
   description:
