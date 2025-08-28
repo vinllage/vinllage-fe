@@ -185,7 +185,13 @@ const Header = () => {
       <div className="menu-left">
         <div className="headerLogo">
           <Link href="/">
-            <Image src={logo} alt="logo" className="headerLogo" />
+            <Image
+              src={logo}
+              alt="logo"
+              className="headerLogo"
+              width={50}
+              height={50}
+            />
           </Link>
         </div>
         <span className="badge">
