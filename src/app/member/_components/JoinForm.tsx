@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, use } from 'react'
 import styled from 'styled-components'
 import { MdCheckBox, MdCheckBoxOutlineBlank } from 'react-icons/md'
 import { Input } from '@/app/_global/components/Forms'
@@ -7,41 +7,50 @@ import MessageBox from '@/app/_global/components/MessageBox'
 import FileUpload from '@/app/_global/components/FileUpload'
 import FileImages from '@/app/_global/components/FileImages'
 import color from '@/app/_global/styles/color'
+import { passwordStrenthLevel } from '@/app/_global/libs/commons'
 
 const StyledForm = styled.form`
   .message {
     margin-bottom: 10px;
   }
 `
-
+// 비밀 번호 강도 색상
+const passwordColor = (level1: number) => {
+  if (level1 <= 1) return color.danger // 위험
+  if (level1 <= 3) return color.warning // 경고
+  if (level1 <= 5) return color.primary // 중요한
+  return color.success // 안전
+}
+// 비밀 번호 강도에 맞는 색상 지정
 const PasswordStrenth = styled.ul`
   display: flex;
-  background: #f8f8f8;
+  background: #ddd;
   height: 15px;
-  width: 100%;
+  width: 50%;
   li {
-    width: calc(100% / 6);
+    width: calc(100% / 6 - 2px);
+    margin-right: 2px;
+    transition: background 0.3s;
     &:nth-of-type(1) {
       background: ${color.danger};
     }
     &:nth-of-type(2) {
-      background: ${color.warning};
+      background: ${color.danger};
     }
     &:nth-of-type(3) {
-      background: ${color.secondary};
+      background: ${color.black};
     }
     &:nth-of-type(4) {
-      background: ${color.info};
+      background: ${color.black};
     }
     &:nth-of-type(5) {
-      background: ${color.success};
+      background: ${color.primary};
     }
     &:nth-of-type(6) {
-      background: ${color.naverGreen};
+      background: ${color.primary};
     }
   }
 `
-
 const JoinForm = ({
   errors,
   action,
@@ -56,6 +65,16 @@ const JoinForm = ({
   verified,
   sendState,
 }) => {
+  const [passwordStrenth, setPasswordStrenth] = useState(0)
+  // 비밀 번호 강도 레벨 에 맞게 하는 것
+  useEffect(() => {
+    if (form.password) {
+      setPasswordStrenth(passwordStrenthLevel(form.password))
+    } else {
+      setPasswordStrenth(0)
+    }
+  }, [form.password])
+
   return (
     <StyledForm action={action} autoComplete="off">
       <input type="hidden" name="gid" value={form.gid} />
@@ -123,9 +142,10 @@ const JoinForm = ({
             placeholder="비밀번호를 입력하세요."
             value={form.password}
             onChange={onChange}
+            maxLength={16}
           />
           <PasswordStrenth>
-            {Array.from({ length: form.passwordStrenth }).map((_, i) => (
+            {Array.from({ length: passwordStrenth }).map((_, i) => (
               <li key={'password-strenth-' + i}></li>
             ))}
           </PasswordStrenth>
@@ -137,6 +157,7 @@ const JoinForm = ({
             value={form.confirmPassword}
             onChange={onChange}
           />
+
           <MessageBox color="danger">{errors?.confirmPassword}</MessageBox>
         </>
       )}
