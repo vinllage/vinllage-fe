@@ -143,7 +143,9 @@ const ProfileForm = ({
         <SubmitButton type="submit" width={350} disabled={pending}>
           수정하기
         </SubmitButton>
-        <span className="delete-link">탈퇴하기</span>
+        <a href="/member/withdraw" className="delete-link">
+          탈퇴하기
+        </a>
       </div>
     </StyledForm>
   )
