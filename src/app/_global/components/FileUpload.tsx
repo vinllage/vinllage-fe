@@ -17,7 +17,7 @@ const FileBox = ({ gid, location, single, imageOnly, callback }: FileType) => {
   const { fetchCSR, ready } = useFetchCSR()
   const alertDialog = useAlertDialog()
 
-  const onUploadClick = useCallback(async () => {
+  const onUploadClick = useCallback(() => {
     const fileEl = document.createElement('input')
     fileEl.type = 'file'
     fileEl.multiple = single ? false : true
