@@ -1,17 +1,19 @@
 'use client'
-import React, { useState, useRef, useCallback } from 'react'
-import Link from 'next/link'
-import styled from 'styled-components'
-import Image from 'next/image'
-import logo from '../assets/images/logo.png'
-import { Button } from '../components/Buttons'
-import useUser from '../hooks/useUser'
-import FileImages from '../components/FileImages'
 import NoProfileImage from '../assets/images/no_profile.png'
+import React, { useState, useRef, useCallback } from 'react'
+import FileImages from '../components/FileImages'
+import { Button } from '../components/Buttons'
+import logo from '../assets/images/logo.png'
+import useUser from '../hooks/useUser'
+import styled from 'styled-components'
+import Link from 'next/link'
+import Image from 'next/image'
+import color from '../styles/color'
+const { light } = color
 
 const StyledHeader = styled.header`
   position: relative;
-  background: #fff;
+  background: ${light};
   border-bottom: 1px solid #ddd;
 
   display: flex;
@@ -55,7 +57,7 @@ const StyledHeader = styled.header`
     white-space: nowrap;
 
     &:hover {
-      color: #0070f3;
+      color: #74895f;
     }
   }
 
@@ -75,12 +77,19 @@ const StyledHeader = styled.header`
       justify-content: center;
       height: 36px;
       font-size: 13px;
-      background-color: #f0f0f0;
-      color: #333;
+      background-color: #96bc48;
+      color: #fff;
       border-radius: 18px;
       padding: 0 12px;
       gap: 6px;
       white-space: nowrap;
+    }
+
+    .menu-link button:hover,
+    .mypage-btn button:hover,
+    .logout-btn button:hover,
+    .admin-btn button:hover {
+      background-color: #87aa41;
     }
 
     .profile-image {
@@ -150,6 +159,8 @@ const StyledSubMenu = styled.div`
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    justify-content: flex-end; // 오른쪽 끝 정렬
+    text-align: right; // 글자 정렬
   }
 
   .submenu-inner a {
