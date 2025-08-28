@@ -6,6 +6,6 @@
  * @param formData
  */
 export async function processUpdate(
-  errors: any,
-  formData: FormData,
+  // errors: any,
+  // formData: FormData,
 ): Promise<any> {}
