@@ -18,13 +18,13 @@ export default function RecycleStats() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const {fetchCSR, ready} = useFetchCSR()
+  const { fetchCSR, ready } = useFetchCSR()
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
       try {
-        if (!ready) return;
+        if (!ready) return
         fetchCSR(`/recycle/my-data`, {
           method: 'GET',
         })
@@ -39,7 +39,7 @@ export default function RecycleStats() {
       }
     }
     fetchData()
-  }, [])
+  }, [ready]) // fetchCSR 넣으면 안 됨.
 
   if (loading) return <p>로딩중...</p>
   if (error) return <p style={{ color: 'red' }}>{error}</p>
@@ -61,6 +61,8 @@ export default function RecycleStats() {
       if (typeof parsed === 'string') {
         parsed = JSON.parse(parsed)
       }
+
+      console.log('parsed', parsed)
 
       if (Array.isArray(parsed)) {
         parsed.forEach((obj) => {

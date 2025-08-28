@@ -12,6 +12,8 @@ import { processProfile } from '../_services/actions'
 import UserContext from '@/app/_global/contexts/UserContext'
 import LayerPopup from '@/app/_global/components/LayerPopup'
 import { Button } from '@/app/_global/components/Buttons'
+import useAlertDialog from '@/app/_global/hooks/useAlertDialog'
+import { redirect } from 'next/navigation'
 
 const ProfileContainer = () => {
   const { loggedMember } = useUser()
@@ -21,26 +23,25 @@ const ProfileContainer = () => {
     actions: { setLoggedMember },
   } = useContext(UserContext)
 
-  const [pwModalOpen, setPwModalOpen] = useState(true) // 페이지 접속 시 바로 모달 열림
-  const [pwAuthenticated, setPwAuthenticated] = useState(false) // 인증 성공 여부
+  const isSocialUser = !!loggedMember?.socialChannel
+
+  const [pwModalOpen, setPwModalOpen] = useState(!isSocialUser) // 페이지 접속 시 모달
+  const [pwAuthenticated, setPwAuthenticated] = useState(isSocialUser) // 인증 성공 여부
+
   const [password, setPassword] = useState('')
   const [pwError, setPwError] = useState('')
+  const alertDialog = useAlertDialog()
 
   useEffect(() => {
     // 회원 정보 수정이 완료 된 경우, 회원정보 업데이트
-    if (!errors.done) {
-      return
+    if (errors?.status === 'DONE') {
+      alertDialog.success('회원 정보가 수정되었습니다!')
+      setLoggedMember(errors)
+      redirect('/mypage')
     }
-
-    setLoggedMember(errors)
-    location.replace('/mypage')
-  }, [errors, setLoggedMember])
+  }, [errors, setLoggedMember, alertDialog])
 
   const onChange = useCallback((e) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
-  }, [])
-
-  const onDelete = useCallback((e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }, [])
 
@@ -76,7 +77,6 @@ const ProfileContainer = () => {
       )
 
       if (res.ok) {
-        // 로그인 성공 → 비밀번호 일치
         setPwAuthenticated(true)
         setPwModalOpen(false)
         setPwError('')
@@ -88,7 +88,7 @@ const ProfileContainer = () => {
       console.error(err)
       setPwError('서버 오류가 발생했습니다.')
     }
-  }, [password, form.email])
+  }, [password, form])
 
   const handleCloseModal = useCallback(() => {
     if (!pwAuthenticated) {
@@ -107,9 +107,9 @@ const ProfileContainer = () => {
           action={action}
           pending={pending}
           onChange={onChange}
-          onDelete={onDelete}
           fileUploadCallback={fileUploadCallback}
           fileDeleteCallback={fileDeleteCallback}
+          isSocialUser={isSocialUser}
         />
       )}
 
