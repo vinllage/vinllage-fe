@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import Image from 'next/image'
 import logo from '../assets/images/logo.png'
 import { Button } from '../components/Buttons'
-import { useRouter } from 'next/router'
 import useUser from '../hooks/useUser'
 import FileImages from '../components/FileImages'
 import NoProfileImage from '../assets/images/no_profile.png'
@@ -152,6 +151,12 @@ const StyledSubMenu = styled.div`
     gap: 20px;
   }
 
+  .submenu-inner a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
   .submenu-item {
     flex: 1;
     min-width: 150px;
@@ -165,7 +170,6 @@ const StyledSubMenu = styled.div`
 `
 
 const Header = () => {
-  const router = useRouter()
   const { isLogin, isAdmin, loggedMember } = useUser()
   const [openMenu, setOpenMenu] = useState<string | null>(null)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -174,16 +178,10 @@ const Header = () => {
   const onMenuOpen = useCallback((menu: string) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current)
     setOpenMenu(menu)
-    subMenuRef.current?.classList.add('open')
   }, [])
 
   const onMenuClose = useCallback(() => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current)
-
-    timeoutRef.current = setTimeout(() => {
-      subMenuRef.current?.classList.remove('open')
-      setOpenMenu(null)
-    }, 600) // ← 딜레이 시간 변경
+    timeoutRef.current = setTimeout(() => setOpenMenu(null), 200) // 지연 닫기
   }, [])
 
   return (
@@ -191,13 +189,7 @@ const Header = () => {
       <div className="menu-left">
         <div className="headerLogo">
           <Link href="/">
-            <Image
-              src={logo}
-              alt="logo"
-              className="headerLogo"
-              width={50}
-              height={50}
-            />
+            <Image src={logo} alt="logo" className="headerLogo" />
           </Link>
         </div>
         <span className="badge">
@@ -209,24 +201,16 @@ const Header = () => {
 
       <div className="menu-right">
         {/* 게시판 메뉴 */}
-        {['공지사항', '자유게시판', '환경 행사'].map((label, idx) => (
+        {['게시판', '환경 행사'].map((label, idx) => (
           <div
             className="menu-link"
             key={idx}
-            onMouseEnter={() => onMenuOpen('board')}
+            onMouseEnter={() =>
+              onMenuOpen(label === '게시판' ? 'board' : 'event')
+            }
             onMouseLeave={onMenuClose}
           >
-            <Link
-              href={
-                label === '공지사항'
-                  ? '/board/list/notice'
-                  : label === '자유게시판'
-                  ? '/board/list/freetalk'
-                  : '/event'
-              }
-            >
-              {label}
-            </Link>
+            <Link href={label === '게시판' ? '/board' : '/event'}>{label}</Link>
           </div>
         ))}
 
@@ -291,7 +275,52 @@ const Header = () => {
       </div>
 
       {/* 드롭다운 영역 */}
-      <StyledSubMenu ref={subMenuRef}>const router = useRouter()</StyledSubMenu>
+      <StyledSubMenu
+        ref={subMenuRef}
+        className={openMenu ? 'open' : ''}
+        onMouseEnter={() => {
+          if (timeoutRef.current) clearTimeout(timeoutRef.current) // 닫힘 예약 취소
+        }}
+        onMouseLeave={onMenuClose} // 드롭다운 벗어나면 닫힘
+      >
+        <div className="submenu-inner">
+          {openMenu === 'board' && (
+            <div>
+              <a href="board/list/notice">공지사항</a>
+            </div>
+          )}
+          {openMenu === 'board' && (
+            <div>
+              <a href="board/list/freetalk">자유게시판</a>
+            </div>
+          )}
+          {openMenu === 'event' && (
+            <div>
+              <a href="/event">환경행사보기</a>
+            </div>
+          )}
+          {openMenu === 'mypage' && (
+            <div>
+              <a href="/mypage">홈</a>
+            </div>
+          )}
+          {openMenu === 'mypage' && (
+            <div>
+              <a href="/mypage/profile">개인정보</a>
+            </div>
+          )}
+          {openMenu === 'mypage' && (
+            <div>
+              <a href="/mypage/recycle">분리수거 결과</a>
+            </div>
+          )}
+          {openMenu === 'guest' && (
+            <div>
+              <a href="/member/join">회원가입 하기</a>
+            </div>
+          )}
+        </div>
+      </StyledSubMenu>
     </StyledHeader>
   )
 }
