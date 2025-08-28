@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import Image from 'next/image'
 import logo from '../assets/images/logo.png'
 import { Button } from '../components/Buttons'
+import { useRouter } from 'next/router'
 import useUser from '../hooks/useUser'
 import FileImages from '../components/FileImages'
 import NoProfileImage from '../assets/images/no_profile.png'
@@ -164,6 +165,7 @@ const StyledSubMenu = styled.div`
 `
 
 const Header = () => {
+  const router = useRouter()
   const { isLogin, isAdmin, loggedMember } = useUser()
   const [openMenu, setOpenMenu] = useState<string | null>(null)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -176,8 +178,12 @@ const Header = () => {
   }, [])
 
   const onMenuClose = useCallback(() => {
-    subMenuRef.current?.classList.remove('open')
-    timeoutRef.current = setTimeout(() => setOpenMenu(null), 200)
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+
+    timeoutRef.current = setTimeout(() => {
+      subMenuRef.current?.classList.remove('open')
+      setOpenMenu(null)
+    }, 600) // ← 딜레이 시간 변경
   }, [])
 
   return (
@@ -279,15 +285,7 @@ const Header = () => {
       </div>
 
       {/* 드롭다운 영역 */}
-      <StyledSubMenu ref={subMenuRef}>
-        <div className="submenu-inner">
-          {openMenu === 'board' && <div>게시판 하위 메뉴</div>}
-          {openMenu === 'mypage' && <div>홈</div>}
-          {openMenu === 'mypage' && <div>개인 정보</div>}
-          {openMenu === 'mypage' && <div>분리수거 결과 보기</div>}
-          {openMenu === 'guest' && <div>회원가입 하기</div>}
-        </div>
-      </StyledSubMenu>
+      <StyledSubMenu ref={subMenuRef}>const router = useRouter()</StyledSubMenu>
     </StyledHeader>
   )
 }
