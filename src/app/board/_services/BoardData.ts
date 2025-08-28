@@ -1,4 +1,4 @@
-import type { BoardDataType } from '../_types/BoardType'
+// import type { BoardDataType } from '../_types/BoardType'
 import { v4 as uuid } from 'uuid'
 import { fetchSSR } from '@/app/_global/libs/utils'
 

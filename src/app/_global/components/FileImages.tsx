@@ -7,7 +7,7 @@ import LayerPopup from './LayerPopup'
 import useFetchCSR from '../hooks/useFetchCSR'
 import useConfirmDialog from '../hooks/useConfirmDialog'
 import color from '../styles/color'
-const { dark, white } = color
+const { white } = color
 
 const ImageItems = styled.ul`
   display: flex;
@@ -78,7 +78,7 @@ const ImageItem = ({
         },
       })
     },
-    [fetchCSR, callback],
+    [fetchCSR, callback, confirmDialog],
   )
 
   return (
