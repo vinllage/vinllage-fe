@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import React from 'react'
 import styled from 'styled-components'
 import { MdCheckBox, MdCheckBoxOutlineBlank } from 'react-icons/md'
 import { Input } from '@/app/_global/components/Forms'
