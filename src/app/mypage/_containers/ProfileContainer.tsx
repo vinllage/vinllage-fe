@@ -15,8 +15,11 @@ const ProfileContainer = () => {
     actions: { setLoggedMember },
   } = useContext(UserContext)
 
-  const [pwModalOpen, setPwModalOpen] = useState(true) // 페이지 접속 시 바로 모달 열림
-  const [pwAuthenticated, setPwAuthenticated] = useState(false) // 인증 성공 여부
+  const isSocialUser = !!loggedMember?.socialChannel
+
+  const [pwModalOpen, setPwModalOpen] = useState(!isSocialUser) // 페이지 접속 시 모달
+  const [pwAuthenticated, setPwAuthenticated] = useState(isSocialUser) // 인증 성공 여부
+
   const [password, setPassword] = useState('')
   const [pwError, setPwError] = useState('')
 
@@ -99,6 +102,7 @@ const ProfileContainer = () => {
           onChange={onChange}
           fileUploadCallback={fileUploadCallback}
           fileDeleteCallback={fileDeleteCallback}
+          isSocialUser={isSocialUser}
         />
       )}
 

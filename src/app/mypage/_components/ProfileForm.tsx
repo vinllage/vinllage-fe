@@ -44,7 +44,8 @@ const ProfileForm = ({
   pending, 
   onChange, 
   fileUploadCallback, 
-  fileDeleteCallback, 
+  fileDeleteCallback,
+  isSocialUser = false, 
 }) => {
     return (
       <StyledForm action={action} autoComplete="off">
@@ -76,7 +77,13 @@ const ProfileForm = ({
               name="password"
               value={form.password ?? ''}
               onChange={onChange}
+              disabled={isSocialUser}
             />
+            {isSocialUser && (
+              <p className="disabled-text">
+                소셜 로그인 회원은 비밀번호를 설정할 수 없습니다.
+              </p>
+            )}
             <MessageBox color="danger">
               {!errors?.done && errors?.password}
             </MessageBox>
@@ -90,7 +97,13 @@ const ProfileForm = ({
               name="confirmPassword"
               value={form.confirmPassword ?? ''}
               onChange={onChange}
+              disabled={isSocialUser}
             />
+            {isSocialUser && (
+              <p className="disabled-text">
+                소셜 로그인 회원은 비밀번호 확인이 필요하지 않습니다.
+              </p>
+            )}
             <MessageBox color="danger">
               {!errors?.done && errors?.confirmPassword}
             </MessageBox>
@@ -132,11 +145,7 @@ const ProfileForm = ({
           <SubmitButton type="submit" width={350} disabled={pending}>
             수정하기
           </SubmitButton>
-          <span
-            className="delete-link"
-          >
-            탈퇴하기
-          </span>
+          <span className="delete-link">탈퇴하기</span>
         </div>
       </StyledForm>
     )
