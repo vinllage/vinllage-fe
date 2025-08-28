@@ -151,6 +151,12 @@ const StyledSubMenu = styled.div`
     gap: 20px;
   }
 
+  .submenu-inner a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
   .submenu-item {
     flex: 1;
     min-width: 150px;
@@ -172,12 +178,10 @@ const Header = () => {
   const onMenuOpen = useCallback((menu: string) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current)
     setOpenMenu(menu)
-    subMenuRef.current?.classList.add('open')
   }, [])
 
   const onMenuClose = useCallback(() => {
-    subMenuRef.current?.classList.remove('open')
-    timeoutRef.current = setTimeout(() => setOpenMenu(null), 200)
+    timeoutRef.current = setTimeout(() => setOpenMenu(null), 200) // 지연 닫기
   }, [])
 
   return (
@@ -185,13 +189,7 @@ const Header = () => {
       <div className="menu-left">
         <div className="headerLogo">
           <Link href="/">
-            <Image
-              src={logo}
-              alt="logo"
-              className="headerLogo"
-              width={50}
-              height={50}
-            />
+            <Image src={logo} alt="logo" className="headerLogo" />
           </Link>
         </div>
         <span className="badge">
@@ -203,24 +201,16 @@ const Header = () => {
 
       <div className="menu-right">
         {/* 게시판 메뉴 */}
-        {['공지사항', '자유게시판', '환경 행사'].map((label, idx) => (
+        {['게시판', '환경 행사'].map((label, idx) => (
           <div
             className="menu-link"
             key={idx}
-            onMouseEnter={() => onMenuOpen('board')}
+            onMouseEnter={() =>
+              onMenuOpen(label === '게시판' ? 'board' : 'event')
+            }
             onMouseLeave={onMenuClose}
           >
-            <Link
-              href={
-                label === '공지사항'
-                  ? '/board/list/notice'
-                  : label === '자유게시판'
-                  ? '/board/list/freetalk'
-                  : '/event'
-              }
-            >
-              {label}
-            </Link>
+            <Link href={label === '게시판' ? '/board' : '/event'}>{label}</Link>
           </div>
         ))}
 
@@ -285,13 +275,50 @@ const Header = () => {
       </div>
 
       {/* 드롭다운 영역 */}
-      <StyledSubMenu ref={subMenuRef}>
+      <StyledSubMenu
+        ref={subMenuRef}
+        className={openMenu ? 'open' : ''}
+        onMouseEnter={() => {
+          if (timeoutRef.current) clearTimeout(timeoutRef.current) // 닫힘 예약 취소
+        }}
+        onMouseLeave={onMenuClose} // 드롭다운 벗어나면 닫힘
+      >
         <div className="submenu-inner">
-          {openMenu === 'board' && <div>게시판 하위 메뉴</div>}
-          {openMenu === 'mypage' && <div>홈</div>}
-          {openMenu === 'mypage' && <div>개인 정보</div>}
-          {openMenu === 'mypage' && <div>분리수거 결과 보기</div>}
-          {openMenu === 'guest' && <div>회원가입 하기</div>}
+          {openMenu === 'board' && (
+            <div>
+              <a href="board/list/notice">공지사항</a>
+            </div>
+          )}
+          {openMenu === 'board' && (
+            <div>
+              <a href="board/list/freetalk">자유게시판</a>
+            </div>
+          )}
+          {openMenu === 'event' && (
+            <div>
+              <a href="/event">환경행사보기</a>
+            </div>
+          )}
+          {openMenu === 'mypage' && (
+            <div>
+              <a href="/mypage">홈</a>
+            </div>
+          )}
+          {openMenu === 'mypage' && (
+            <div>
+              <a href="/mypage/profile">개인정보</a>
+            </div>
+          )}
+          {openMenu === 'mypage' && (
+            <div>
+              <a href="/mypage/recycle">분리수거 결과</a>
+            </div>
+          )}
+          {openMenu === 'guest' && (
+            <div>
+              <a href="/member/join">회원가입 하기</a>
+            </div>
+          )}
         </div>
       </StyledSubMenu>
     </StyledHeader>
