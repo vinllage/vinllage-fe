@@ -1,6 +1,7 @@
 import type { BoardConfigType } from '../_types/BoardType'
 import type CommonSearchType from '@/app/_global/types/CommonSearchType'
-import { fetchSSR, toQueryString } from '@/app/_global/libs/utils'
+import { fetchSSR } from '@/app/_global/libs/utils'
+import { toQueryString } from '@/app/_global/libs/commons'
 
 export const defaultData: BoardConfigType = {
   mode: 'register',
