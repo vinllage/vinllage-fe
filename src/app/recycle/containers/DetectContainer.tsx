@@ -29,6 +29,8 @@ const DetectContainer = () => {
 
     const data = await processDetectData(formData) // API 백엔드 반영
 
+    console.log('data', data)
+
     if ('gid' in data) {
       router.push(`/recycle/result?gid=${data.gid}`)
     } else {
