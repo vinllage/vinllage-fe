@@ -18,13 +18,13 @@ export default function RecycleStats() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const {fetchCSR, ready} = useFetchCSR()
+  const { fetchCSR, ready } = useFetchCSR()
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
       try {
-        if (!ready) return;
+        if (!ready) return
         fetchCSR(`/recycle/my-data`, {
           method: 'GET',
         })

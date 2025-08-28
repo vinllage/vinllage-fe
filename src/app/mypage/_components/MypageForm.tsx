@@ -29,10 +29,18 @@ const StyledProfileView = styled.div`
   }
 `
 
-const ProfileForm = ({ form, fileDeleteCallback }) => {
+type Props = {
+  form: {
+    email: string
+    name: string
+    mobile: string
+    profileImage?: any
+  }
+}
+
+const MypageForm = ({ form }: Props) => {
   return (
     <StyledProfileView>
-      {/* ✅ 프로필 사진 */}
       <dl>
         <dt>프로필 사진</dt>
         <dd>
@@ -41,24 +49,20 @@ const ProfileForm = ({ form, fileDeleteCallback }) => {
             width={250}
             height={250}
             viewOrgImage={true}
-            callback={fileDeleteCallback}
           />
         </dd>
       </dl>
 
-      {/* ✅ 이메일 */}
       <dl>
         <dt>이메일</dt>
         <dd>{form.email}</dd>
       </dl>
 
-      {/* ✅ 회원명 */}
       <dl>
         <dt>회원명</dt>
         <dd>{form.name}</dd>
       </dl>
 
-      {/* ✅ 휴대전화번호 */}
       <dl>
         <dt>휴대전화번호</dt>
         <dd>{form.mobile}</dd>
@@ -67,4 +71,4 @@ const ProfileForm = ({ form, fileDeleteCallback }) => {
   )
 }
 
-export default React.memo(ProfileForm)
+export default React.memo(MypageForm)

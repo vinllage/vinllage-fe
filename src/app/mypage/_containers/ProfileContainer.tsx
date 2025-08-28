@@ -43,10 +43,6 @@ const ProfileContainer = () => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }, [])
 
-  const onDelete = useCallback((e) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
-  }, [])
-
   const fileUploadCallback = useCallback((items) => {
     setForm((prev) => ({ ...prev, profileImage: items[0] }))
   }, [])
@@ -110,7 +106,6 @@ const ProfileContainer = () => {
           action={action}
           pending={pending}
           onChange={onChange}
-          onDelete={onDelete}
           fileUploadCallback={fileUploadCallback}
           fileDeleteCallback={fileDeleteCallback}
           isSocialUser={isSocialUser}
