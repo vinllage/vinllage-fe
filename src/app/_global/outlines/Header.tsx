@@ -126,6 +126,7 @@ const StyledSubMenu = styled.div`
   top: 100%;
   left: 0;
   width: 100%;
+
   min-height: 150px;
 
   background: rgba(0, 0, 0, 0.7);
@@ -284,40 +285,34 @@ const Header = () => {
         onMouseLeave={onMenuClose} // 드롭다운 벗어나면 닫힘
       >
         <div className="submenu-inner">
-          {openMenu === 'board' && (
-            <div>
-              <a href="board/list/notice">공지사항</a>
-            </div>
+          <div>
+            <Link href="board/list/notice">공지사항</Link>
+          </div>
+          <div>
+            <Link href="board/list/freetalk">자유게시판</Link>
+          </div>
+          <div>
+            <Link href="/event">환경행사보기</Link>
+          </div>
+          { isLogin && (
+            <>
+              <div>
+                <Link href="/mypage">홈</Link>
+              </div>
+              <div>
+                <Link href="/mypage/profile">개인정보</Link>
+              </div>
+              <div>
+                <Link href="/mypage/recycle">분리수거 결과</Link>
+              </div>
+            </>
           )}
-          {openMenu === 'board' && (
-            <div>
-              <a href="board/list/freetalk">자유게시판</a>
-            </div>
-          )}
-          {openMenu === 'event' && (
-            <div>
-              <a href="/event">환경행사보기</a>
-            </div>
-          )}
-          {openMenu === 'mypage' && (
-            <div>
-              <a href="/mypage">홈</a>
-            </div>
-          )}
-          {openMenu === 'mypage' && (
-            <div>
-              <a href="/mypage/profile">개인정보</a>
-            </div>
-          )}
-          {openMenu === 'mypage' && (
-            <div>
-              <a href="/mypage/recycle">분리수거 결과</a>
-            </div>
-          )}
-          {openMenu === 'guest' && (
-            <div>
-              <a href="/member/join">회원가입 하기</a>
-            </div>
+          { !isLogin && (
+            <>
+              <div>
+                <Link href="/member/join">회원가입 하기</Link>
+              </div>
+            </>
           )}
         </div>
       </StyledSubMenu>
