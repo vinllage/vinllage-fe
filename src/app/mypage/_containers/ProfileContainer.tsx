@@ -36,11 +36,11 @@ const ProfileContainer = () => {
     // 회원 정보 수정이 완료 된 경우, 회원정보 업데이트
     if (errors?.status === 'DONE') {
       alertDialog.success('회원 정보가 수정되었습니다!', () => {
-        window.location.href = '/mypage'
+        redirect('/mypage?reload=true')
       })
       setLoggedMember(errors)
     }
-  }, [errors, setLoggedMember, alertDialog])
+  }, [errors, setLoggedMember]) // alertDialog 넣으면 안 됨.
 
   const onChange = useCallback((e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
