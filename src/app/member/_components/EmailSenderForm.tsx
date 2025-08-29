@@ -1,31 +1,52 @@
 'use client'
 
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { Input } from '@/app/_global/components/Forms'
 import { SubmitButton } from '@/app/_global/components/Buttons'
 import MessageBox from '@/app/_global/components/MessageBox'
 import useAlertDialog from '@/app/_global/hooks/useAlertDialog'
+import { Button } from '@/app/_global/components/Buttons'
+import Image from 'next/image'
+import { ClipLoader } from 'react-spinners'
+import styled from 'styled-components'
+
+type VerifyInfo = {
+  verifyCode: (form: { email: string; code: string }) => void | Promise<void>
+  verState: 'idle' | 'loading' | 'success' | 'error'
+}
+
+type AutoSendOptions = {
+  isAutoSend: boolean
+  targetEmail: string
+}
 
 type EmailSenderFormProps = {
   mappingValue: '/member/find-pw' | '/auth/send-code'
-  verifyCode?: (form: { email: string; code: string }) => void | Promise<void>
-  loggedEmail?: string
+  verifyInfo?: VerifyInfo
+  autoSendOpt?: AutoSendOptions
 }
 
 const EmailSenderForm = ({
   mappingValue,
-  verifyCode,
-  loggedEmail,
+  verifyInfo,
+  autoSendOpt,
 }: EmailSenderFormProps) => {
+  const { verifyCode, verState } = verifyInfo ?? {}
+  const { isAutoSend, targetEmail } = autoSendOpt ?? {}
+
   const alertDialog = useAlertDialog()
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState(targetEmail ?? '')
   const [code, setCode] = useState('')
   const [error, setError] = useState<string | undefined>(undefined)
   const [loading, setLoading] = useState(false)
+  const [sendState, setSendState] = useState<'idle' | 'loading' | 'sent'>(
+    'idle',
+  )
+  const sentRef = useRef(false) // 메일 자동 전송 시, 1번만 보내기 위해 세팅
 
   const handleSubmit = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault()
+    async (e?: React.FormEvent) => {
+      if (e) e.preventDefault()
       setError(undefined)
 
       if (!email.trim()) {
@@ -37,12 +58,13 @@ const EmailSenderForm = ({
         setError('올바른 이메일 형식이 아닙니다.')
         return
       }
-      if (email != loggedEmail) {
+      if (email != targetEmail) {
         setError('등록된 이메일 정보와 일치하지 않습니다.')
         return
       }
 
       setLoading(true)
+      setSendState('loading')
 
       const bodyData =
         mappingValue == '/member/find-pw'
@@ -63,6 +85,7 @@ const EmailSenderForm = ({
       )
 
       setLoading(false)
+      setSendState('sent')
 
       if (res.ok) {
         mappingValue == '/member/find-pw'
@@ -75,30 +98,52 @@ const EmailSenderForm = ({
           : setError(data.message ?? '탈퇴 인증 번호 전송 요청에 실패했습니다.')
       }
     },
-    [email, alertDialog],
+    [email, alertDialog, targetEmail, mappingValue],
   )
+
+  useEffect(() => {
+    if (isAutoSend && !sentRef.current) {
+      handleSubmit()
+      sentRef.current = true
+    }
+  }, [isAutoSend]) // handleSubmit 넣으면 안 됨.
 
   return (
     <form onSubmit={handleSubmit}>
-      <Input
-        type="text"
-        name="email"
-        placeholder="이메일을 입력하세요."
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <MessageBox color="danger">{error ?? ''}</MessageBox>
+      {!isAutoSend && (
+        <>
+          <Input
+            type="text"
+            name="email"
+            placeholder="이메일을 입력하세요."
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <MessageBox color="danger">{error ?? ''}</MessageBox>
 
-      <SubmitButton type="submit" disabled={loading}>
-        {loading
-          ? '처리 중...'
-          : mappingValue === '/member/find-pw'
-          ? '임시 비밀번호 발급'
-          : '탈퇴 인증 번호 발급'}
-      </SubmitButton>
+          <SubmitButton type="submit" disabled={loading}>
+            {loading
+              ? '전송 중...'
+              : mappingValue === '/member/find-pw'
+              ? '임시 비밀번호 발급 받기'
+              : '탈퇴 인증 번호 발급 받기'}
+          </SubmitButton>
+        </>
+      )}
 
-      {/* 탈퇴 인증 시 코드 입력 칸 추가 */}
-      {mappingValue == '/auth/send-code' ? (
+      {sendState == 'loading' && (
+        <>
+          <ClipLoader
+            color={'#ff91edff'}
+            loading={loading}
+            size={150}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </>
+      )}
+
+      {isAutoSend && sendState != 'loading' && (
         <>
           <Input
             type="text"
@@ -109,12 +154,22 @@ const EmailSenderForm = ({
           />
           <MessageBox color="danger">{error ?? ''}</MessageBox>
 
-          <button type="button" onClick={() => verifyCode?.({ email, code })}>
-            확인
-          </button>
+          <Button
+            type="button"
+            disabled={verState === 'loading' || verState === 'success'}
+            onClick={() => verifyCode?.({ email, code })}
+          >
+            {verState === 'idle'
+              ? '확인'
+              : verState === 'loading'
+              ? '인증 중...'
+              : verState === 'success'
+              ? '인증됨'
+              : verState === 'error'
+              ? '다시 시도'
+              : ''}
+          </Button>
         </>
-      ) : (
-        <></>
       )}
     </form>
   )

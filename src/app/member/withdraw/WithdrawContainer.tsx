@@ -4,18 +4,15 @@ import React, { useState, useCallback } from 'react'
 import useAlertDialog from '@/app/_global/hooks/useAlertDialog'
 import EmailSenderForm from '../_components/EmailSenderForm'
 import useFetchCSR from '@/app/_global/hooks/useFetchCSR'
-import { useRouter } from 'next/navigation'
 
 const WithdrawContainer = ({ loggedEmail }) => {
   const alertDialog = useAlertDialog()
   const { fetchCSR, ready } = useFetchCSR()
   const [error, setError] = useState<string | null>(null)
-  const router = useRouter()
 
-  const [verified, setVerified] = useState(false)
-  const [sendState, setSendState] = useState<'idle' | 'loading' | 'sent'>(
-    'idle',
-  )
+  const [verState, setVerState] = useState<
+    'idle' | 'loading' | 'success' | 'error'
+  >('idle')
 
   // 이메일 코드 검증
   const verifyCode = useCallback(
@@ -32,8 +29,7 @@ const WithdrawContainer = ({ loggedEmail }) => {
         },
       )
       if (res.ok) {
-        alertDialog.success('이메일 인증 완료!')
-
+        setVerState('success')
         try {
           if (!ready) return
 
@@ -49,23 +45,30 @@ const WithdrawContainer = ({ loggedEmail }) => {
               },
             )
           } else {
-            setError(data.message ?? '탈퇴 처리에 실패했습니다.')
+            alertDialog.error(data.message ?? '탈퇴 처리에 실패했습니다.')
           }
         } catch (err: any) {
           setError(err.message)
+          setVerState('error')
         }
       } else {
         alertDialog.error('코드 인증 실패')
       }
     },
-    [alertDialog, ready],
+    [alertDialog, ready], // fetchCSR 넣으면 안 됨.
   )
 
   return (
     <EmailSenderForm
       mappingValue="/auth/send-code"
-      verifyCode={verifyCode}
-      loggedEmail={loggedEmail}
+      autoSendOpt={{
+        isAutoSend: true,
+        targetEmail: loggedEmail,
+      }}
+      verifyInfo={{
+        verifyCode: verifyCode,
+        verState: verState,
+      }}
     />
   )
 }
