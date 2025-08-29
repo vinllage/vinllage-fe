@@ -63,7 +63,9 @@ const StyledHeader = styled.header`
     display: flex;
     align-items: center;
     height: 50px;
-    padding: 0 10px;
+    min-width: 120px;  /* 모든 버튼 일정 폭 */
+    text-align: center;
+    justify-content: center; /* flex 중앙 정렬 */
     font-weight: 500;
     font-size: 14px;
     color: #333;
@@ -79,8 +81,8 @@ const StyledHeader = styled.header`
   .menu-right {
     display: flex;
     align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 15px; 
 
     .menu-link button,
     .mypage-btn button,
@@ -144,7 +146,7 @@ const StyledHeader = styled.header`
   }
 `
 
-const StyledSubMenu = styled.div`
+const StyledSubMenu = styled.div<{ isLogin: boolean }>`
   position: absolute;
   top: 100%;
   left: 0;
@@ -166,15 +168,14 @@ const StyledSubMenu = styled.div`
   }
 
   .submenu-inner {
-    max-width: 1150px;
-    margin: 0 auto;
-    padding: 20px;
+    position: relative
+    width: 100%
+    margin: 0;
+    padding: ${({ isLogin }) => (isLogin ? '20px 210px' : '20px 155px')};
 
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: flex-end; // 오른쪽 끝 정렬
-    text-align: right; // 글자 정렬
+    gap: 15px;
+    justify-content: flex-end;
   }
 
   .submenu-inner a {
@@ -182,16 +183,20 @@ const StyledSubMenu = styled.div`
     text-decoration: none;
     font-size: 14px;
   }
+ 
+  .submenu-group {
+    display: flex;
+    min-width: 120px;
+    flex-direction: column; /* 위아래로 정렬 */
+    gap: 20px; /* 항목간 상하 간격 */
+    text-align: center;
+  }
 
   .submenu-item {
     flex: 1;
     min-width: 150px;
     font-size: 14px;
     cursor: pointer;
-
-    &:hover {
-      text-decoration: underline;
-    }
   }
 `
 
@@ -303,6 +308,7 @@ const Header = () => {
 
       {/* 드롭다운 영역 */}
       <StyledSubMenu
+      isLogin={isLogin}
         ref={subMenuRef}
         className={openMenu ? 'open' : ''}
         onMouseEnter={() => {
@@ -311,34 +317,31 @@ const Header = () => {
         onMouseLeave={onMenuClose} // 드롭다운 벗어나면 닫힘
       >
         <div className="submenu-inner">
-          <div>
+          {/* 게시판 그룹 */}
+          <div className="submenu-group">
             <Link href="board/list/notice">공지사항</Link>
-          </div>
-          <div>
             <Link href="board/list/freetalk">자유게시판</Link>
           </div>
-          <div>
-            <Link href="/event">환경행사보기</Link>
+
+          {/* 환경 행사 그룹 */}
+          <div className="submenu-group">
+            <Link href="/event">환경행사 보기</Link>
           </div>
+
+          {/* 마이페이지 그룹 (로그인시) */}
           {isLogin && (
-            <>
-              <div>
-                <Link href="/mypage">홈</Link>
-              </div>
-              <div>
-                <Link href="/mypage/profile">개인정보</Link>
-              </div>
-              <div>
-                <Link href="/mypage/recycle">분리수거 결과</Link>
-              </div>
-            </>
+            <div className="submenu-group">
+              <Link href="/mypage">홈</Link>
+              <Link href="/mypage/profile">개인정보</Link>
+              <Link href="/mypage/recycle">분리수거 결과</Link>
+            </div>
           )}
+
+          {/* 게스트 그룹 (로그인 안했을 때) */}
           {!isLogin && (
-            <>
-              <div>
-                <Link href="/member/join">회원가입 하기</Link>
-              </div>
-            </>
+            <div className="submenu-group">
+              <Link href="/member/join">회원가입 하기</Link>
+            </div>
           )}
         </div>
       </StyledSubMenu>
