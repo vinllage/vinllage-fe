@@ -146,7 +146,7 @@ const StyledHeader = styled.header`
   }
 `
 
-const StyledSubMenu = styled.div<{ isLogin: boolean; isAdmin: boolean }>`
+const StyledSubMenu = styled.div<{ $isLogin: boolean; $isAdmin: boolean }>`
   position: absolute;
   top: 100%;
   left: 0;
@@ -171,8 +171,8 @@ const StyledSubMenu = styled.div<{ isLogin: boolean; isAdmin: boolean }>`
     position: relative;
     width: 100%;
     margin: 0;
-    padding: ${({ isLogin, isAdmin }) =>
-      isAdmin ? '20px 340px' : isLogin ? '20px 200px' : '20px 150px'};
+    padding: ${({ $isLogin, $isAdmin }) =>
+      $isAdmin ? '20px 340px' : $isLogin ? '20px 200px' : '20px 155px'};
 
     display: flex;
     gap: 15px;
@@ -309,8 +309,8 @@ const Header = () => {
 
       {/* 드롭다운 영역 */}
       <StyledSubMenu
-      isLogin={isLogin}
-      isAdmin={isAdmin}
+        $isLogin={isLogin}
+        $isAdmin={isAdmin}
         ref={subMenuRef}
         className={openMenu ? 'open' : ''}
         onMouseEnter={() => {
