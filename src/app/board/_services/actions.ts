@@ -69,3 +69,68 @@ const data = await res.json()
 
   redirect(redirectUrl)
 }
+
+/**
+ * 비회원 비밀번호 확인 처리
+ *
+ * @param errors
+ * @param formData
+ */
+export async function processPassword(errors: any, formData: FormData) {
+  errors = {}
+  const params = toPlainObj(formData)
+  let hasErrors: boolean = false
+  const { seq, mode, password } = params
+  if (
+    !seq ||
+    !mode ||
+    !['update', 'delete', 'comment_update', 'comment_delete'].includes(mode)
+  ) {
+    errors.global = '잘못된 접근입니다.'
+    hasErrors = true
+  }
+
+  if (!password?.trim()) {
+    errors.password = '비밀번호를 입력하세요.'
+    hasErrors = true
+  }
+
+  if (hasErrors) {
+    return errors
+  }
+
+  const requestUrl = mode.startsWith('comment_')
+    ? `/board/password/comment/${seq}`
+    : `/board/password/${seq}`
+
+  const res = await fetchSSR(requestUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ password }),  // ✅ password만 전송
+  })
+  console.log("res",res)
+
+  if (res.status !== 204) {
+    // 비회원 비밀번호 인증 실패
+    const data = await res.json()
+    return { password: data.messages }
+  }
+  console.log("피카츄")
+
+  let redirectUrl: string = '/board/'
+  switch (mode) {
+    case 'delete':
+      redirectUrl += `delete/${seq}`
+      break
+    case 'comment_delete':
+    case 'comment_update':
+      break
+    default:
+      redirectUrl += `update/${seq}`
+  }
+  console.log("redirectUrl",redirectUrl)
+
+  redirect(redirectUrl)
+}

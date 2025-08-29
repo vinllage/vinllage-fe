@@ -23,22 +23,31 @@ type FormType = {
   redirectUrl?: string
 }
 
-const { naverGreen } = color;
+const { naverGreen } = color
 
 const NaverButton = styled.a`
   display: flex;
   justify-content: center;
   align-items: flex-start; /* 이미지를 위로 붙임 */
   background-color: ${naverGreen}; /* 네이버 초록색 */
-  width: 400px; 
+  width: 400px;
   height: 60px;
   border-radius: 8px;
 `
 
 const kakaoApi = new KakaoApi()
 const naverApi = new NaverApi()
-const LoginContainer = ({ redirectUrl }: { redirectUrl?: string }) => {
-  const [errors, action, pending] = useActionState<any, any>(processLogin, {})
+const LoginContainer = ({
+  redirectUrl,
+  errors: initialErrors = {},
+}: {
+  redirectUrl?: string
+  errors?: any
+}) => {
+  const [errors, action, pending] = useActionState<any, any>(
+    processLogin,
+    initialErrors,
+  )
   const [form, setForm] = useState<FormType>({
     email: '',
     password: '',
@@ -78,7 +87,12 @@ const LoginContainer = ({ redirectUrl }: { redirectUrl?: string }) => {
         onChange={onChange}
       />
       <a href={kakaoLoginUrl}>
-        <Image src={kakaoLoginButton} alt="카카오 로그인" width={400} height={60} />
+        <Image
+          src={kakaoLoginButton}
+          alt="카카오 로그인"
+          width={400}
+          height={60}
+        />
       </a>
       <NaverButton href={naverLoginUrl}>
         <Image

@@ -10,15 +10,52 @@ import useUser from '@/app/_global/hooks/useUser'
 import Editor from '@/app/_global/components/Editor'
 import FileUpload from '@/app/_global/components/FileUpload'
 import FileItems from '@/app/_global/components/FileItems'
+import Loading from '@/app/_global/components/Loading'
 
-const StyledForm = styled.form``
+const StyledForm = styled.form`
+  dl {
+    display: flex;
+
+    dt {
+      width: 120px;
+      background: #f8f8f8;
+      padding: 10px 20px;
+    }
+    dd {
+      flex-grow: 1;
+      padding: 10px;
+    }
+
+    dt,
+    dd {
+      border-bottom: 1px solid #ccc;
+
+      svg {
+        font-size: 2rem;
+        vertical-align: middle;
+        margin-right: 10px;
+        cursor: pointer;
+      }
+    }
+    &:first-of-type {
+      dt,
+      dd {
+        border-top: 1px solid #ccc;
+      }
+    }
+
+    &:last-of-type {
+      margin-bottom: 30px;
+    }
+  }
+`
 
 const BoardForm = ({
   board,
   data,
   action,
   errors,
-  // pending,
+  pending,
   onChange,
   onToggle,
   editorCallback,
@@ -26,7 +63,7 @@ const BoardForm = ({
   fileDeleteCallback,
 }: BoardFormType) => {
   const { isAdmin } = useUser()
-  console.log('data', data)
+
   return (
     board && (
       <StyledForm action={action} autoComplete="off">
@@ -74,8 +111,9 @@ const BoardForm = ({
               <Input
                 type="password"
                 name="guestPw"
-                value={data.guestPw}
+                value=''
                 onChange={onChange}
+                suppressHydrationWarning={true}
               />
               <MessageBox color="danger">{errors?.guestPw}</MessageBox>
             </dd>
@@ -166,6 +204,7 @@ const BoardForm = ({
         )}
         <SubmitButton type="submit" width={280} disabled={pending}>
           {data.mode === 'update' ? '수정하기' : '작성하기'}
+          <Loading loading={pending} />
         </SubmitButton>
       </StyledForm>
     )

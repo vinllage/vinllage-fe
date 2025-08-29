@@ -6,6 +6,30 @@ import MessageBox from '@/app/_global/components/MessageBox'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 
 const StyledForm = styled.form``
+const LoginButton = styled(SubmitButton)`
+  width: 400px;
+  margin-bottom: 4px;
+  background-color: #ffffff;
+  color: #333333;
+  border: 2.4px solid #333333;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: #4caf50;
+    color: #4caf50;
+  }
+
+  &:disabled {
+    background-color: #e0e0e0;
+    color: #888;
+    cursor: not-allowed;
+  }
+`
 
 const LoginForm = ({ errors, action, pending, form, onChange }) => {
   const [showpassword, setShowPasword] = useState(false)
@@ -38,13 +62,16 @@ const LoginForm = ({ errors, action, pending, form, onChange }) => {
       </div>
       <MessageBox color="danger">{errors?.password}</MessageBox>
 
-      <a href="/member/find-password">비밀번호 찾기</a>
-
-      <SubmitButton type="submit" disabled={pending}>
-        로그인
-      </SubmitButton>
+      <a
+        href="/member/find-password"
+        style={{ display: 'block', margin: '10px 0' }}
+      >
+        비밀번호 찾기
+      </a>
 
       <MessageBox color="danger">{errors?.global}</MessageBox>
+
+      <LoginButton type="submit">로그인</LoginButton>
     </StyledForm>
   )
 }
