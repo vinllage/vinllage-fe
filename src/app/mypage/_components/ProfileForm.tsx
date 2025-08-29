@@ -1,12 +1,14 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { SubmitButton } from '@/app/_global/components/Buttons'
 import { Input } from '@/app/_global/components/Forms'
 import MessageBox from '@/app/_global/components/MessageBox'
 import FileUpload from '@/app/_global/components/FileUpload'
 import FileImages from '@/app/_global/components/FileImages'
+import { useRouter } from 'next/navigation'
+import LayerPopup from '@/app/_global/components/LayerPopup'
 
 const StyledForm = styled.form`
   display: flex;
@@ -47,6 +49,9 @@ const ProfileForm = ({
   fileDeleteCallback,
   isSocialUser = false,
 }) => {
+  const [open, setOpen] = useState(false)
+  const router = useRouter()
+
   return (
     <StyledForm action={action} autoComplete="off">
       <dl>
@@ -143,9 +148,59 @@ const ProfileForm = ({
         <SubmitButton type="submit" width={350} disabled={pending}>
           수정하기
         </SubmitButton>
-        <a href="/member/withdraw" className="delete-link">
+        <a
+          href="/member/withdraw"
+          className="delete-link"
+          onClick={(e) => {
+            e.preventDefault()
+            setOpen(true)
+          }}
+        >
           탈퇴하기
         </a>
+
+        <LayerPopup
+          isOpen={open}
+          onClose={() => setOpen(false)}
+          title="회원 탈퇴"
+          width={400}
+        >
+          <p style={{ textAlign: 'center', marginBottom: '20px' }}>
+            탈퇴 메일을 전송하시겠습니까?
+          </p>
+          <div
+            style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}
+          >
+            <button
+              style={{
+                padding: '8px 16px',
+                borderRadius: '8px',
+                background: '#d9534f',
+                color: '#fff',
+                border: 'none',
+                cursor: 'pointer',
+              }}
+              onClick={() => {
+                setOpen(false)
+                router.push('/member/withdraw')
+              }}
+            >
+              예
+            </button>
+            <button
+              style={{
+                padding: '8px 16px',
+                borderRadius: '8px',
+                background: '#ccc',
+                border: 'none',
+                cursor: 'pointer',
+              }}
+              onClick={() => setOpen(false)}
+            >
+              아니오
+            </button>
+          </div>
+        </LayerPopup>
       </div>
     </StyledForm>
   )

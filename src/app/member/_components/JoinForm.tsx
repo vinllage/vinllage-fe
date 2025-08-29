@@ -10,7 +10,6 @@ import color from '@/app/_global/styles/color'
 import { passwordStrenthLevel } from '@/app/_global/libs/commons'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 
-import { launchBus } from 'pm2'
 
 const StyledForm = styled.form`
   .message {
