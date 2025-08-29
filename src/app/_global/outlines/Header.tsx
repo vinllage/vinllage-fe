@@ -146,7 +146,7 @@ const StyledHeader = styled.header`
   }
 `
 
-const StyledSubMenu = styled.div<{ isLogin: boolean }>`
+const StyledSubMenu = styled.div`
   position: absolute;
   top: 100%;
   left: 0;
@@ -168,10 +168,10 @@ const StyledSubMenu = styled.div<{ isLogin: boolean }>`
   }
 
   .submenu-inner {
-    position: relative
-    width: 100%
+    position: relative;
+    width: 100%;
     margin: 0;
-    padding: ${({ isLogin }) => (isLogin ? '20px 210px' : '20px 155px')};
+    padding: 20px 160px;
 
     display: flex;
     gap: 15px;
@@ -308,7 +308,6 @@ const Header = () => {
 
       {/* 드롭다운 영역 */}
       <StyledSubMenu
-      isLogin={isLogin}
         ref={subMenuRef}
         className={openMenu ? 'open' : ''}
         onMouseEnter={() => {
