@@ -30,11 +30,11 @@ const LoginForm = ({ errors, action, pending, form, onChange }) => {
 
       <a href="/member/find-password">비밀번호 찾기</a>
 
+      <MessageBox color="danger">{errors?.global}</MessageBox>
+
       <SubmitButton type="submit" disabled={pending}>
         로그인
       </SubmitButton>
-
-      <MessageBox color="danger">{errors?.global}</MessageBox>
     </StyledForm>
   )
 }

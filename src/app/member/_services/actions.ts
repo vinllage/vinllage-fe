@@ -117,6 +117,7 @@ export async function processLogin(errors, formData: FormData) {
     email: formData.get('email')?.toString(),
     password: formData.get('password')?.toString(),
   }
+
   // 유효성 검사 S
   if (!params.email || !params.email.trim()) {
     errors.email = '이메일을 입력하세요.'
