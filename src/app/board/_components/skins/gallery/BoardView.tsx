@@ -50,11 +50,11 @@ const BoardView = ({ board, data }: BoardViewType) => {
         <FileItems items={data.attachFiles} />
         <div className="links">
           {board?.listable && <a href={'/board/list/' + board.bid}>글목록</a>}
-          {data.editable && (
-            <>
-              <a href={'/board/delete/' + data.seq}>글삭제</a>
-              <a href={'/board/update/' + data.seq}>글수정</a>
-            </>
+          {data.canDelete && (
+            <a href={'/board/delete/' + data.seq}>글삭제</a>
+          )}
+          {data.canDelete && (
+            <a href={'/board/update/' + data.seq}>글수정</a>
           )}
           {board?.writable && <a href={'/board/write/' + board.bid}>글쓰기</a>}
         </div>

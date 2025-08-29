@@ -133,24 +133,14 @@ const BoardView = ({ board, data }: BoardViewType) => {
         </Wrapper>
         <FileItems items={data.attachFiles} />
         <StyledLinks>
-          {board?.listable && (
-            <a href={'/board/list/' + board.bid} className="btn1">
-              글목록
+          {data.canEdit && (
+            <a href={'/board/delete/' + data.seq} className="btn2">
+              글삭제
             </a>
-          )}
-          {data.editable && (
-            <>
-              <a href={'/board/delete/' + data.seq} className="btn2">
-                글삭제
-              </a>
-              <a href={'/board/update/' + data.seq} className="btn3">
-                글수정
-              </a>
-            </>
-          )}
-          {board?.writable && (
-            <a href={'/board/write/' + board.bid} className="btn4">
-              글쓰기
+            )}
+          {data.canDelete && (
+            <a href={'/board/update/' + data.seq} className="btn3">
+              글수정
             </a>
           )}
         </StyledLinks>

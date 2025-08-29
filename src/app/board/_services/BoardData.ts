@@ -59,6 +59,7 @@ export async function getView(seq?: number): Promise<BoardDataType> {
   try{
     // 게시글 조회
     const res = await fetchSSR(`/board/view/${seq}`)
+    console.log("피카!!!!!!")
     if (res.status === 200) {
       data = await res.json()
       console.log("대이타",data,data.content)
