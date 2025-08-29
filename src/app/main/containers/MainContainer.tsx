@@ -3,6 +3,10 @@ import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import LayerPopup from '@/app/_global/components/LayerPopup'
 import ContentBox from '@/app/_global/components/ContentBox'
+import NoticeModal from '@/app/main/_components/NoticeModal'
+import type { BoardDataType } from '@/app/board/_types/BoardType'
+import useFetchCSR from '@/app/_global/hooks/useFetchCSR'
+
 import {
   PageWrapper,
   MainSection,
@@ -12,11 +16,12 @@ import {
 } from './MainContainerStyle'
 import { fetchRecycleTotalCount } from '../services/actions'
 
-export default function MainContainer() {
+export  default function MainContainer() {
   const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
   const [totalCount, setTotalCount] = useState(0)
-
+  const [items, setItems] = useState<Array<BoardDataType>>([])
+  const { fetchCSR, ready } = useFetchCSR()
   const onClick = useCallback(() => router.push('/recycle'), [router])
 
   useEffect(() => {
@@ -27,8 +32,20 @@ export default function MainContainer() {
       })
   }, [])
 
+  useEffect(() => {
+    if (!ready) return
+    fetchCSR('/board/list/notice?limit=5')
+      .then((res) => res.json())
+      .then((data) => setItems(data.items ?? []))
+      .catch((err) => {
+        //console.error('공지사항 불러오기 실패:', err)
+      })
+  }, [fetchCSR, ready])
+
+
   return (
     <PageWrapper>
+      <NoticeModal items={items} />
       <LayerPopup
         isOpen={isOpen}
         title="공지사항"

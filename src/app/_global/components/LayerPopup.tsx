@@ -40,6 +40,7 @@ const Wrapper = styled.div<{ width?: number; height?: number }>`
     font-size: 2.2rem;
     color: ${dark};
     cursor: pointer;
+    z-index:999;
   }
 `
 
