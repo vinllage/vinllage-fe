@@ -5,30 +5,30 @@
  *
  * @param password
  */
-export function passwordStrenthLevel(password?: string | number) {
-  let strenth: number = 0
+export function passwordStrengthLevel(password?: string | number) {
+  let strength: number = 0
   password = password ?? ''
   password = '' + password
   password = password.trim()
   if (password) {
     // 패스워드 자리수 - 8까지 1단계 증가, 16자리 이상 2단계 증가
-    if (password.length >= 8) strenth++
-    if (password.length >= 16) strenth++
+    if (password.length >= 8) strength++
+    if (password.length >= 16) strength++
 
     // 비밀번호에 알파벳 소문자 포함 +1
-    if (/[a-z]+/.test(password)) strenth++
+    if (/[a-z]+/.test(password)) strength++
 
     // 비밀번호에 알파벳 대문자가 포함 +1
-    if (/[A-Z]+/.test(password)) strenth++
+    if (/[A-Z]+/.test(password)) strength++
 
     // 비밀번호에 숫자가 포함된 경우 +1
-    if (/\d+/.test(password)) strenth++
+    if (/\d+/.test(password)) strength++
 
     // 비밀번호에 특수문자가 포함된 경우 +1
-    if (/[^0-9a-zA-Zㄱ-ㅎ가-힣]+/.test(password)) strenth++
+    if (/[^0-9a-zA-Zㄱ-ㅎ가-힣]+/.test(password)) strength++
   }
 
-  return strenth
+  return strength
 }
 
 /**
@@ -79,7 +79,7 @@ export function nl2br(str: string) {
   return str.replace(/\r/g, '').replace(/\n/g, '<br />')
 }
 
-export function toQueryString(search) {
+export async function toQueryString(search) {
   if (!search) return ''
 
   const qs: Array<string> = []
