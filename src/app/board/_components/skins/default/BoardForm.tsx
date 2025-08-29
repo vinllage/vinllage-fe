@@ -18,7 +18,7 @@ const BoardForm = ({
   data,
   action,
   errors,
-  // pending,
+  pending,
   onChange,
   onToggle,
   editorCallback,
