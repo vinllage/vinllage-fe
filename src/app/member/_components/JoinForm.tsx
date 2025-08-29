@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { MdCheckBox, MdCheckBoxOutlineBlank } from 'react-icons/md'
+import {
+  MdCheckBox,
+  MdCheckBoxOutlineBlank,
+  MdKeyboardArrowDown,
+  MdKeyboardArrowUp,
+} from 'react-icons/md'
 import { Input } from '@/app/_global/components/Forms'
 import { Button, SubmitButton } from '@/app/_global/components/Buttons'
 import MessageBox from '@/app/_global/components/MessageBox'
@@ -15,6 +20,25 @@ const StyledForm = styled.form`
     margin-bottom: 10px;
   }
 `
+const TermsAgree = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 14px;
+`
+
+const TermsBox = styled.div`
+  margin: 0 0 15px 0;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+  font-size: 14px;
+  line-height: 1.5;
+`
+
 const passowrdColor = (level1: number) => {
   if (level1 <= 2) return color.danger // 위험
   if (level1 <= 4) return color.warning // 경고
@@ -52,6 +76,7 @@ const JoinForm = ({
   const [passwordStrength, setPasswordStrength] = useState(0)
   const [showPassword, setShowPassword] = useState(false)
   const [showconfirmPassword, setShowConfirmPassword] = useState(false)
+  const [showTerms, setShowTerms] = useState(false) // 약관 토글
 
   // 비밀 번호 강도 레벨 에 맞게 하는 것
   useEffect(() => {
@@ -61,6 +86,9 @@ const JoinForm = ({
       setPasswordStrength(0)
     }
   }, [form.password])
+
+  // 약관동의 제목 클릭 시 토글
+  const handleTermsToggle = () => setShowTerms((prev) => !prev)
 
   return (
     <StyledForm action={action} autoComplete="off">
@@ -137,13 +165,13 @@ const JoinForm = ({
                 <li key={'password-strength-' + i}></li>
               ))}
             </PasswordStrength>
-            <Button
+            <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
               aria-label={showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
             >
               {showPassword ? <FaEye size={20} /> : <FaEyeSlash size={20} />}
-            </Button>
+            </button>
           </div>
           <MessageBox color="danger">{errors?.password}</MessageBox>
           <div>
@@ -204,15 +232,34 @@ const JoinForm = ({
         callback={fileUploadCallback}
       />
 
-      <h3>약관동의</h3>
-      <div>약관 동의 작성...</div>
-      <div className="terms-agree" onClick={onToggle}>
-        {form.termsAgree ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />} 회원가입
-        약관에 동의합니다.
-      </div>
+      <h3 style={{ cursor: 'pointer' }} onClick={handleTermsToggle}>
+        약관동의 {showTerms ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
+      </h3>
+
+      {showTerms && (
+        <TermsBox>
+          <strong>약관 동의 작성...</strong>
+          <p>
+            본 서비스 이용을 위해서는 회원가입 약관에 동의해야 합니다.
+            개인정보는 회원 관리 및 서비스 제공을 위해 사용됩니다.
+          </p>
+        </TermsBox>
+      )}
+
+      <TermsAgree onClick={onToggle}>
+        <span>
+          {form.termsAgree ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />}{' '}
+          회원가입 약관에 동의합니다.
+        </span>
+      </TermsAgree>
+
       <MessageBox color="danger">{errors?.termsAgree}</MessageBox>
 
-      <SubmitButton type="submit" disabled={pending}>
+      <SubmitButton
+        type="submit"
+        disabled={pending}
+        style={{ marginTop: '30px' }}
+      >
         가입하기
       </SubmitButton>
       <MessageBox color="danger">{errors?.global}</MessageBox>
