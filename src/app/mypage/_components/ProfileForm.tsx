@@ -54,6 +54,8 @@ const ProfileForm = ({
 
   return (
     <StyledForm action={action} autoComplete="off">
+      <Input type="hidden" name="gid" value={form.gid ?? ''} />
+
       <dl>
         <dt>이메일</dt>
         <dd>
@@ -158,50 +160,48 @@ const ProfileForm = ({
         >
           탈퇴하기
         </a>
-
-        <LayerPopup
-          isOpen={open}
-          onClose={() => setOpen(false)}
-          title="회원 탈퇴"
-          width={400}
-        >
-          <p style={{ textAlign: 'center', marginBottom: '20px' }}>
-            탈퇴 메일을 전송하시겠습니까?
-          </p>
-          <div
-            style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}
-          >
-            <button
-              style={{
-                padding: '8px 16px',
-                borderRadius: '8px',
-                background: '#d9534f',
-                color: '#fff',
-                border: 'none',
-                cursor: 'pointer',
-              }}
-              onClick={() => {
-                setOpen(false)
-                router.push('/member/withdraw')
-              }}
-            >
-              예
-            </button>
-            <button
-              style={{
-                padding: '8px 16px',
-                borderRadius: '8px',
-                background: '#ccc',
-                border: 'none',
-                cursor: 'pointer',
-              }}
-              onClick={() => setOpen(false)}
-            >
-              아니오
-            </button>
-          </div>
-        </LayerPopup>
       </div>
+
+      <LayerPopup
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        title="회원 탈퇴"
+        width={400}
+      >
+        <p style={{ textAlign: 'center', marginBottom: '20px' }}>
+          탈퇴 메일을 전송하시겠습니까?
+        </p>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+          <button
+            style={{
+              padding: '8px 16px',
+              borderRadius: '8px',
+              background: '#d9534f',
+              color: '#fff',
+              border: 'none',
+              cursor: 'pointer',
+            }}
+            onClick={() => {
+              setOpen(false)
+              router.push('/member/withdraw')
+            }}
+          >
+            예
+          </button>
+          <button
+            style={{
+              padding: '8px 16px',
+              borderRadius: '8px',
+              background: '#ccc',
+              border: 'none',
+              cursor: 'pointer',
+            }}
+            onClick={() => setOpen(false)}
+          >
+            아니오
+          </button>
+        </div>
+      </LayerPopup>
     </StyledForm>
   )
 }

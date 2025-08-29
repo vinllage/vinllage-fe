@@ -23,7 +23,7 @@ const ProfileContainer = () => {
     actions: { setLoggedMember },
   } = useContext(UserContext)
 
-  const isSocialUser = !!loggedMember?.socialChannel
+  const isSocialUser = loggedMember?.socialChannel
 
   const [pwModalOpen, setPwModalOpen] = useState(!isSocialUser) // 페이지 접속 시 모달
   const [pwAuthenticated, setPwAuthenticated] = useState(isSocialUser) // 인증 성공 여부
@@ -35,9 +35,10 @@ const ProfileContainer = () => {
   useEffect(() => {
     // 회원 정보 수정이 완료 된 경우, 회원정보 업데이트
     if (errors?.status === 'DONE') {
-      alertDialog.success('회원 정보가 수정되었습니다!')
+      alertDialog.success('회원 정보가 수정되었습니다!', () => {
+        window.location.href = '/mypage'
+      })
       setLoggedMember(errors)
-      redirect('/mypage')
     }
   }, [errors, setLoggedMember, alertDialog])
 
