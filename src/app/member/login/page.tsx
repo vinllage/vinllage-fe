@@ -17,7 +17,7 @@ export default async function LoginPage({ searchParams }) {
   }
 
   return (
-    <ContentBox width={900}>
+    <ContentBox width={800}>
       <MainTitle border="true">로그인</MainTitle>
       <LoginContainer errors={errors} redirectUrl={searchParams?.redirectUrl} />
     </ContentBox>

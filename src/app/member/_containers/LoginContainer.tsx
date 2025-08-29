@@ -25,6 +25,14 @@ type FormType = {
 
 const { naverGreen } = color
 
+const ButtonGroup = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+`
+
 const NaverButton = styled.a`
   display: flex;
   justify-content: center;
@@ -86,22 +94,24 @@ const LoginContainer = ({
         form={form}
         onChange={onChange}
       />
-      <a href={kakaoLoginUrl}>
-        <Image
-          src={kakaoLoginButton}
-          alt="카카오 로그인"
-          width={400}
-          height={60}
-        />
-      </a>
-      <NaverButton href={naverLoginUrl}>
-        <Image
-          src={naverLoginButton}
-          alt="네이버 로그인"
-          width={400}
-          height={60}
-        />
-      </NaverButton>
+      <ButtonGroup>
+        <a href={kakaoLoginUrl}>
+          <Image
+            src={kakaoLoginButton}
+            alt="카카오 로그인"
+            width={400}
+            height={60}
+          />
+        </a>
+        <NaverButton href={naverLoginUrl}>
+          <Image
+            src={naverLoginButton}
+            alt="네이버 로그인"
+            width={400}
+            height={60}
+          />
+        </NaverButton>
+      </ButtonGroup>
     </>
   )
 }

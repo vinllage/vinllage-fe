@@ -5,10 +5,23 @@ import { SubmitButton } from '@/app/_global/components/Buttons'
 import MessageBox from '@/app/_global/components/MessageBox'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 
-const StyledForm = styled.form``
+const StyledForm = styled.form`
+  h4 {
+    font-size: 16px;
+    font-weight: 400;
+    margin: 80px 0 20px;
+    padding-top: 15px;
+
+    border-top: 1px solid #ddd;
+    color: #777;
+    text-align: center;
+  }
+`
 const LoginButton = styled(SubmitButton)`
-  width: 400px;
-  margin-bottom: 4px;
+  width: 800px;
+  margin: 10px auto;
+  display: block;
+  //margin-bottom: 4px;
   background-color: #ffffff;
   color: #333333;
   border: 2.4px solid #333333;
@@ -55,7 +68,7 @@ const LoginForm = ({ errors, action, pending, form, onChange }) => {
         <button
           type="button"
           onClick={() => setShowPasword((prve) => !prve)}
-          aria-label={showpassword ? '비밀 버호 숨기기' : '비밀 번호 보기 '}
+          aria-label={showpassword ? '비밀 번호 숨기기' : '비밀 번호 보기 '}
         >
           {showpassword ? <FaEye size={20} /> : <FaEyeSlash size={20} />}
         </button>
@@ -72,6 +85,7 @@ const LoginForm = ({ errors, action, pending, form, onChange }) => {
       <MessageBox color="danger">{errors?.global}</MessageBox>
 
       <LoginButton type="submit">로그인</LoginButton>
+      <h4>간편 로그인</h4>
     </StyledForm>
   )
 }
