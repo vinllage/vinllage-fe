@@ -25,7 +25,8 @@ const StyledHeader = styled.header`
     width: auto;
     max-width: none;
 
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(288, 255, 255, 0.5);
+    //backdrop-filter: blur(2px);
     border-radius: 12px;
     z-index: 1000;
   }
@@ -63,7 +64,7 @@ const StyledHeader = styled.header`
     display: flex;
     align-items: center;
     height: 50px;
-    min-width: 120px;  /* 모든 버튼 일정 폭 */
+    min-width: 120px; /* 모든 버튼 일정 폭 */
     text-align: center;
     justify-content: center; /* flex 중앙 정렬 */
     font-weight: 500;
@@ -82,7 +83,7 @@ const StyledHeader = styled.header`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 15px; 
+    gap: 15px;
 
     .menu-link button,
     .mypage-btn button,

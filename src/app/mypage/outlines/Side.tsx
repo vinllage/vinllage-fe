@@ -10,25 +10,38 @@ import Link from 'next/link'
 const { dark, white } = color
 const { big } = fontsize
 
+
 const MyPageSide = styled.aside`
-  position: sticky; /* 스크롤 따라오기 */
-  top: 200px; /* 화면 상단에서 100px 떨어진 지점에 고정 */
-  align-self: flex-start;
-  width: 200px;
-  background: #ccc;
-  border-radius: 8px;
-  overflow: hidden;
-  background: #ccc;
-  
+  width: 240px;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  padding: 20px;
+  font-size: ${big};
+  font-weight: 600;
+
+  h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid ${dark};
+  }
+
   a {
     display: block;
-    height: 55px;
-    line-height: 54px;
-    border-bottom: 1px solid ${dark};
-    font-size: ${big};
-    padding: 0 25px;
+    font-size: 16px;
+    padding: 10px 15px;
     font-weight: 500;
+    color: ${dark};
+    border-radius: 4px;
+    text-decoration: none;
+
+    &:hover {
+      background: #f5f5f5;
+    }
   }
+
   a.on {
     background: ${dark};
     color: ${white};
