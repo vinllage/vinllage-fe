@@ -146,7 +146,7 @@ const StyledHeader = styled.header`
   }
 `
 
-const StyledSubMenu = styled.div`
+const StyledSubMenu = styled.div<{ $isLogin: boolean; $isAdmin: boolean }>`
   position: absolute;
   top: 100%;
   left: 0;
@@ -171,7 +171,8 @@ const StyledSubMenu = styled.div`
     position: relative;
     width: 100%;
     margin: 0;
-    padding: 20px 160px;
+    padding: ${({ $isLogin, $isAdmin }) =>
+      $isAdmin ? '20px 340px' : $isLogin ? '20px 200px' : '20px 155px'};
 
     display: flex;
     gap: 15px;
@@ -183,7 +184,7 @@ const StyledSubMenu = styled.div`
     text-decoration: none;
     font-size: 14px;
   }
- 
+
   .submenu-group {
     display: flex;
     min-width: 120px;
@@ -308,6 +309,8 @@ const Header = () => {
 
       {/* 드롭다운 영역 */}
       <StyledSubMenu
+        $isLogin={isLogin}
+        $isAdmin={isAdmin}
         ref={subMenuRef}
         className={openMenu ? 'open' : ''}
         onMouseEnter={() => {
@@ -318,8 +321,8 @@ const Header = () => {
         <div className="submenu-inner">
           {/* 게시판 그룹 */}
           <div className="submenu-group">
-            <Link href="board/list/notice">공지사항</Link>
-            <Link href="board/list/freetalk">자유게시판</Link>
+            <Link href="/board/list/notice">공지사항</Link>
+            <Link href="/board/list/freetalk">자유게시판</Link>
           </div>
 
           {/* 환경 행사 그룹 */}
