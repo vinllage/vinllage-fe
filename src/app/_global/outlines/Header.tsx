@@ -321,8 +321,8 @@ const Header = () => {
         <div className="submenu-inner">
           {/* 게시판 그룹 */}
           <div className="submenu-group">
-            <Link href="board/list/notice">공지사항</Link>
-            <Link href="board/list/freetalk">자유게시판</Link>
+            <Link href="/board/list/notice">공지사항</Link>
+            <Link href="/board/list/freetalk">자유게시판</Link>
           </div>
 
           {/* 환경 행사 그룹 */}
