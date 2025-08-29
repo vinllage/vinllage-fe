@@ -9,7 +9,6 @@ const StyledFooter = styled.footer`
   color: ${dark};
   text-align: center;
   padding: 40px 20px;
-  border-top: 1px solid ${dark};
   font-size: 14px;
 
   margin-top: auto;
