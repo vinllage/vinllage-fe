@@ -6,14 +6,12 @@ import { Button } from '@/app/_global/components/Buttons'
 export const PageWrapper = styled.div`
   width: 100%;
   min-height: 100vh;
-  background-image: url(${bgImg.src});
+  background: url(${bgImg.src}) no-repeat center center fixed;
   background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+
   display: flex;
   justify-content: center;
-  align-items: center;
+  padding: 300px 20px; /* 본문 확보 + 좌우 여백 */
 `
 
 export const MainSection = styled.div`

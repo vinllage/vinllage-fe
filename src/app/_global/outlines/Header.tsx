@@ -1,6 +1,7 @@
 'use client'
 import NoProfileImage from '../assets/images/no_profile.png'
 import React, { useState, useRef, useCallback } from 'react'
+import { usePathname } from 'next/navigation'
 import FileImages from '../components/FileImages'
 import { Button } from '../components/Buttons'
 import logo from '../assets/images/logo.png'
@@ -9,12 +10,25 @@ import styled from 'styled-components'
 import Link from 'next/link'
 import Image from 'next/image'
 import color from '../styles/color'
+import classNames from 'classnames'
 const { light } = color
 
 const StyledHeader = styled.header`
   position: relative;
   background: ${light};
-  border-bottom: 1px solid #ddd;
+  &.main-header {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+
+    width: auto;
+    max-width: none;
+
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    z-index: 1000;
+  }
 
   display: flex;
   align-items: center;
@@ -186,6 +200,7 @@ const Header = () => {
   const [openMenu, setOpenMenu] = useState<string | null>(null)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const subMenuRef = useRef<HTMLDivElement | null>(null)
+  const pathname = usePathname()
 
   const onMenuOpen = useCallback((menu: string) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current)
@@ -197,7 +212,7 @@ const Header = () => {
   }, [])
 
   return (
-    <StyledHeader>
+    <StyledHeader className={classNames({ 'main-header': pathname === '/' })}>
       <div className="menu-left">
         <div className="headerLogo">
           <Link href="/">
@@ -305,7 +320,7 @@ const Header = () => {
           <div>
             <Link href="/event">환경행사보기</Link>
           </div>
-          { isLogin && (
+          {isLogin && (
             <>
               <div>
                 <Link href="/mypage">홈</Link>
@@ -318,7 +333,7 @@ const Header = () => {
               </div>
             </>
           )}
-          { !isLogin && (
+          {!isLogin && (
             <>
               <div>
                 <Link href="/member/join">회원가입 하기</Link>
