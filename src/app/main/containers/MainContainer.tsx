@@ -2,7 +2,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import LayerPopup from '@/app/_global/components/LayerPopup'
-import { fetchRecycleCount } from '../services/actions'
 import ContentBox from '@/app/_global/components/ContentBox'
 import {
   PageWrapper,
@@ -11,6 +10,7 @@ import {
   SubText,
   StyledButton,
 } from './MainContainerStyle'
+import { fetchRecycleTotalCount } from '../services/actions'
 
 export default function MainContainer() {
   const router = useRouter()
@@ -20,7 +20,11 @@ export default function MainContainer() {
   const onClick = useCallback(() => router.push('/recycle'), [router])
 
   useEffect(() => {
-    fetchRecycleCount().then(setTotalCount)
+    fetchRecycleTotalCount()
+      .then(setTotalCount)
+      .catch((err) => {
+        console.error('분리수거 카운트 조회 실패:', err)
+      })
   }, [])
 
   return (

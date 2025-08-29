@@ -11,7 +11,15 @@ const { dark, white } = color
 const { big } = fontsize
 
 const MyPageSide = styled.aside`
+  position: sticky; /* 스크롤 따라오기 */
+  top: 200px; /* 화면 상단에서 100px 떨어진 지점에 고정 */
+  align-self: flex-start;
+  width: 200px;
   background: #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #ccc;
+  
   a {
     display: block;
     height: 55px;

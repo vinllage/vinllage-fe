@@ -1,47 +1,42 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { MdCheckBox, MdCheckBoxOutlineBlank } from 'react-icons/md'
 import { Input } from '@/app/_global/components/Forms'
-import { SubmitButton } from '@/app/_global/components/Buttons'
+import { Button, SubmitButton } from '@/app/_global/components/Buttons'
 import MessageBox from '@/app/_global/components/MessageBox'
 import FileUpload from '@/app/_global/components/FileUpload'
 import FileImages from '@/app/_global/components/FileImages'
 import color from '@/app/_global/styles/color'
+import { passwordStrenthLevel } from '@/app/_global/libs/commons'
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
+
+import { launchBus } from 'pm2'
 
 const StyledForm = styled.form`
   .message {
     margin-bottom: 10px;
   }
 `
+const passowrdColor = (level1: number) => {
+  if (level1 <= 2) return color.danger // 위험
+  if (level1 <= 4) return color.warning // 경고
+  if (level1 <= 6) return color.primary // 중요한
+  return color.success
+}
 
-const PasswordStrenth = styled.ul`
+// 비밀 번호 강도에 맞는 색상 지정
+const PasswordStrenth = styled.ul<{ level: number }>`
   display: flex;
-  background: #f8f8f8;
+  background: #ddd;
   height: 15px;
-  width: 100%;
+  width: 50%;
   li {
-    width: calc(100% / 6);
-    &:nth-of-type(1) {
-      background: ${color.danger};
-    }
-    &:nth-of-type(2) {
-      background: ${color.warning};
-    }
-    &:nth-of-type(3) {
-      background: ${color.secondary};
-    }
-    &:nth-of-type(4) {
-      background: ${color.info};
-    }
-    &:nth-of-type(5) {
-      background: ${color.success};
-    }
-    &:nth-of-type(6) {
-      background: ${color.primary};
-    }
+    width: calc(100% / 6 - 2px);
+    margin-right: 2px;
+    transition: background 0.3s;
+    background: ${({ level }) => passowrdColor(level)};
   }
 `
-
 const JoinForm = ({
   errors,
   action,
@@ -56,6 +51,19 @@ const JoinForm = ({
   verified,
   sendState,
 }) => {
+  const [passwordStrenth, setPasswordStrenth] = useState(0)
+  const [showPassword, setShowPassword] = useState(false)
+  const [showconfirmPassword, setShowConfirmPassword] = useState(false)
+
+  // 비밀 번호 강도 레벨 에 맞게 하는 것
+  useEffect(() => {
+    if (form.password) {
+      setPasswordStrenth(passwordStrenthLevel(form.password))
+    } else {
+      setPasswordStrenth(0)
+    }
+  }, [form.password])
+
   return (
     <StyledForm action={action} autoComplete="off">
       <input type="hidden" name="gid" value={form.gid} />
@@ -117,26 +125,52 @@ const JoinForm = ({
 
       {(!form?.socialChannel || !form?.socialToken) && (
         <>
-          <Input
-            type="password"
-            name="password"
-            placeholder="비밀번호를 입력하세요."
-            value={form.password}
-            onChange={onChange}
-          />
-          <PasswordStrenth>
-            {Array.from({ length: form.passwordStrenth }).map((_, i) => (
-              <li key={'password-strenth-' + i}></li>
-            ))}
-          </PasswordStrenth>
+          <div>
+            <Input
+              type={showPassword ? 'text' : 'password'}
+              name="password"
+              placeholder="비밀번호를 입력하세요."
+              value={form.password}
+              onChange={onChange}
+              maxLength={16}
+            />
+            <PasswordStrenth level={passwordStrenth}>
+              {Array.from({ length: passwordStrenth }).map((_, i) => (
+                <li key={'password-strenth-' + i}></li>
+              ))}
+            </PasswordStrenth>
+            <Button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              aria-label={showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
+            >
+              {showPassword ? <FaEye size={20} /> : <FaEyeSlash size={20} />}
+            </Button>
+          </div>
           <MessageBox color="danger">{errors?.password}</MessageBox>
-          <Input
-            type="password"
-            name="confirmPassword"
-            placeholder="비밀번호를 확인하세요."
-            value={form.confirmPassword}
-            onChange={onChange}
-          />
+          <div>
+            <Input
+              type={showconfirmPassword ? 'text' : 'password'}
+              name="confirmPassword"
+              placeholder="비밀번호를 확인하세요."
+              value={form.confirmPassword}
+              onChange={onChange}
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword((prev) => !prev)}
+              aria-label={
+                showPassword ? '비빌 번호 숨기기 ' : '비밀 번호 보기 '
+              }
+            >
+              {showconfirmPassword ? (
+                <FaEye size={20} />
+              ) : (
+                <FaEyeSlash size={20} />
+              )}
+            </button>
+          </div>
+
           <MessageBox color="danger">{errors?.confirmPassword}</MessageBox>
         </>
       )}
