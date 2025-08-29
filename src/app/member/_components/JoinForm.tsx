@@ -7,9 +7,8 @@ import MessageBox from '@/app/_global/components/MessageBox'
 import FileUpload from '@/app/_global/components/FileUpload'
 import FileImages from '@/app/_global/components/FileImages'
 import color from '@/app/_global/styles/color'
-import { passwordStrenthLevel } from '@/app/_global/libs/commons'
+import { passwordStrengthLevel } from '@/app/_global/libs/commons'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
-
 
 const StyledForm = styled.form`
   .message {
@@ -24,7 +23,7 @@ const passowrdColor = (level1: number) => {
 }
 
 // 비밀 번호 강도에 맞는 색상 지정
-const PasswordStrenth = styled.ul<{ level: number }>`
+const PasswordStrength = styled.ul<{ level: number }>`
   display: flex;
   background: #ddd;
   height: 15px;
@@ -50,16 +49,16 @@ const JoinForm = ({
   verified,
   sendState,
 }) => {
-  const [passwordStrenth, setPasswordStrenth] = useState(0)
+  const [passwordStrength, setPasswordStrength] = useState(0)
   const [showPassword, setShowPassword] = useState(false)
   const [showconfirmPassword, setShowConfirmPassword] = useState(false)
 
   // 비밀 번호 강도 레벨 에 맞게 하는 것
   useEffect(() => {
     if (form.password) {
-      setPasswordStrenth(passwordStrenthLevel(form.password))
+      setPasswordStrength(passwordStrengthLevel(form.password))
     } else {
-      setPasswordStrenth(0)
+      setPasswordStrength(0)
     }
   }, [form.password])
 
@@ -133,11 +132,11 @@ const JoinForm = ({
               onChange={onChange}
               maxLength={16}
             />
-            <PasswordStrenth level={passwordStrenth}>
-              {Array.from({ length: passwordStrenth }).map((_, i) => (
-                <li key={'password-strenth-' + i}></li>
+            <PasswordStrength level={passwordStrength}>
+              {Array.from({ length: passwordStrength }).map((_, i) => (
+                <li key={'password-strength-' + i}></li>
               ))}
-            </PasswordStrenth>
+            </PasswordStrength>
             <Button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}

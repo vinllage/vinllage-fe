@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import { processJoin } from '../_services/actions'
 import JoinForm from '../_components/JoinForm'
 import useAlertDialog from '@/app/_global/hooks/useAlertDialog'
-import { passwordStrenthLevel } from '@/app/_global/libs/commons'
+import { passwordStrengthLevel } from '@/app/_global/libs/commons'
 
 type FormType = {
   gid: string
@@ -20,7 +20,7 @@ type FormType = {
   profileImage?: any
   code?: string
   sendState?: string
-  passwordStrenth?: number
+  passwordStrength?: number
 }
 
 const JoinContainer = () => {
@@ -52,7 +52,7 @@ const JoinContainer = () => {
     setForm((prev) => {
       const data = { ...prev, [e.target.name]: e.target.value }
       if (e.target.name === 'password') {
-        data.passwordStrenth = passwordStrenthLevel(e.target.value)
+        data.passwordStrength = passwordStrengthLevel(e.target.value)
       }
       return data
     })
