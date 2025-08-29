@@ -6,14 +6,12 @@ import { Button } from '@/app/_global/components/Buttons'
 export const PageWrapper = styled.div`
   width: 100%;
   min-height: 100vh;
-  background-image: url(${bgImg.src});
+  background: url(${bgImg.src}) no-repeat center center fixed;
   background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+
   display: flex;
   justify-content: center;
-  align-items: center;
+  padding: 300px 20px; /* 본문 확보 + 좌우 여백 */
 `
 
 export const MainSection = styled.div`
@@ -41,10 +39,18 @@ export const SubText = styled.div`
 `
 
 export const StyledButton = styled(Button)`
-  font-size: 24px;
-  border-radius: 12px;
-  width: 200px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  background-color:rgba(255,255,255,0.7);
+  font-size: 26px;
+  border-radius: 16px;
+  width: 240px;
+  height: 60px;
+  padding: 0;
+  font-weight: 500;
   color: #000;
+  background-color: rgba(255, 255, 255, 0.7);
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+  }
 `

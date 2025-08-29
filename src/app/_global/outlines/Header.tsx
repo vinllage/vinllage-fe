@@ -1,18 +1,34 @@
 'use client'
-import React, { useState, useRef, useCallback } from 'react'
-import Link from 'next/link'
-import styled from 'styled-components'
-import Image from 'next/image'
-import logo from '../assets/images/logo.png'
-import { Button } from '../components/Buttons'
-import useUser from '../hooks/useUser'
-import FileImages from '../components/FileImages'
 import NoProfileImage from '../assets/images/no_profile.png'
+import React, { useState, useRef, useCallback } from 'react'
+import { usePathname } from 'next/navigation'
+import FileImages from '../components/FileImages'
+import { Button } from '../components/Buttons'
+import logo from '../assets/images/logo.png'
+import useUser from '../hooks/useUser'
+import styled from 'styled-components'
+import Link from 'next/link'
+import Image from 'next/image'
+import color from '../styles/color'
+import classNames from 'classnames'
+const { light } = color
 
 const StyledHeader = styled.header`
   position: relative;
-  background: #fff;
-  border-bottom: 1px solid #ddd;
+  background: ${light};
+  &.main-header {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+
+    width: auto;
+    max-width: none;
+
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    z-index: 1000;
+  }
 
   display: flex;
   align-items: center;
@@ -47,7 +63,9 @@ const StyledHeader = styled.header`
     display: flex;
     align-items: center;
     height: 50px;
-    padding: 0 10px;
+    min-width: 120px;  /* 모든 버튼 일정 폭 */
+    text-align: center;
+    justify-content: center; /* flex 중앙 정렬 */
     font-weight: 500;
     font-size: 14px;
     color: #333;
@@ -55,7 +73,7 @@ const StyledHeader = styled.header`
     white-space: nowrap;
 
     &:hover {
-      color: #0070f3;
+      color: #74895f;
     }
   }
 
@@ -63,8 +81,8 @@ const StyledHeader = styled.header`
   .menu-right {
     display: flex;
     align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 15px; 
 
     .menu-link button,
     .mypage-btn button,
@@ -75,12 +93,19 @@ const StyledHeader = styled.header`
       justify-content: center;
       height: 36px;
       font-size: 13px;
-      background-color: #f0f0f0;
-      color: #333;
+      background-color: #96bc48;
+      color: #fff;
       border-radius: 18px;
       padding: 0 12px;
       gap: 6px;
       white-space: nowrap;
+    }
+
+    .menu-link button:hover,
+    .mypage-btn button:hover,
+    .logout-btn button:hover,
+    .admin-btn button:hover {
+      background-color: #87aa41;
     }
 
     .profile-image {
@@ -143,13 +168,14 @@ const StyledSubMenu = styled.div`
   }
 
   .submenu-inner {
-    max-width: 1150px;
-    margin: 0 auto;
-    padding: 20px;
+    position: relative;
+    width: 100%;
+    margin: 0;
+    padding: 20px 160px;
 
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+    gap: 15px;
+    justify-content: flex-end;
   }
 
   .submenu-inner a {
@@ -157,16 +183,20 @@ const StyledSubMenu = styled.div`
     text-decoration: none;
     font-size: 14px;
   }
+ 
+  .submenu-group {
+    display: flex;
+    min-width: 120px;
+    flex-direction: column; /* 위아래로 정렬 */
+    gap: 20px; /* 항목간 상하 간격 */
+    text-align: center;
+  }
 
   .submenu-item {
     flex: 1;
     min-width: 150px;
     font-size: 14px;
     cursor: pointer;
-
-    &:hover {
-      text-decoration: underline;
-    }
   }
 `
 
@@ -175,6 +205,7 @@ const Header = () => {
   const [openMenu, setOpenMenu] = useState<string | null>(null)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const subMenuRef = useRef<HTMLDivElement | null>(null)
+  const pathname = usePathname()
 
   const onMenuOpen = useCallback((menu: string) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current)
@@ -186,7 +217,7 @@ const Header = () => {
   }, [])
 
   return (
-    <StyledHeader>
+    <StyledHeader className={classNames({ 'main-header': pathname === '/' })}>
       <div className="menu-left">
         <div className="headerLogo">
           <Link href="/">
@@ -285,34 +316,31 @@ const Header = () => {
         onMouseLeave={onMenuClose} // 드롭다운 벗어나면 닫힘
       >
         <div className="submenu-inner">
-          <div>
+          {/* 게시판 그룹 */}
+          <div className="submenu-group">
             <Link href="board/list/notice">공지사항</Link>
-          </div>
-          <div>
             <Link href="board/list/freetalk">자유게시판</Link>
           </div>
-          <div>
-            <Link href="/event">환경행사보기</Link>
+
+          {/* 환경 행사 그룹 */}
+          <div className="submenu-group">
+            <Link href="/event">환경행사 보기</Link>
           </div>
-          { isLogin && (
-            <>
-              <div>
-                <Link href="/mypage">홈</Link>
-              </div>
-              <div>
-                <Link href="/mypage/profile">개인정보</Link>
-              </div>
-              <div>
-                <Link href="/mypage/recycle">분리수거 결과</Link>
-              </div>
-            </>
+
+          {/* 마이페이지 그룹 (로그인시) */}
+          {isLogin && (
+            <div className="submenu-group">
+              <Link href="/mypage">홈</Link>
+              <Link href="/mypage/profile">개인정보</Link>
+              <Link href="/mypage/recycle">분리수거 결과</Link>
+            </div>
           )}
-          { !isLogin && (
-            <>
-              <div>
-                <Link href="/member/join">회원가입 하기</Link>
-              </div>
-            </>
+
+          {/* 게스트 그룹 (로그인 안했을 때) */}
+          {!isLogin && (
+            <div className="submenu-group">
+              <Link href="/member/join">회원가입 하기</Link>
+            </div>
           )}
         </div>
       </StyledSubMenu>
