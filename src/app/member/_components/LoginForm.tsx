@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Input } from '@/app/_global/components/Forms'
 import { SubmitButton } from '@/app/_global/components/Buttons'
 import MessageBox from '@/app/_global/components/MessageBox'
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
 
 const StyledForm = styled.form``
 
 const LoginForm = ({ errors, action, pending, form, onChange }) => {
+  const [showpassword, setShowPasword] = useState(false)
   return (
     <StyledForm action={action} autoComplete="off">
       <input type="hidden" name="redirectUrl" value={form.redirectUrl ?? ''} />
@@ -20,12 +22,19 @@ const LoginForm = ({ errors, action, pending, form, onChange }) => {
       <MessageBox color="danger">{errors?.email}</MessageBox>
 
       <Input
-        type="password"
+        type={showpassword ? 'text' : 'password'}
         name="password"
         placeholder="비밀번호를 입력하세요."
         value={form.password}
         onChange={onChange}
       />
+      <button
+        type="button"
+        onClick={() => setShowPasword((prve) => !prve)}
+        aria-label={showpassword ? '비밀 버호 숨기기' : '비밀 번호 보기 '}
+      >
+        {showpassword ? <FaEye size={20} /> : <FaEyeSlash size={20} />}
+      </button>
       <MessageBox color="danger">{errors?.password}</MessageBox>
 
       <a href="/member/find-password">비밀번호 찾기</a>
