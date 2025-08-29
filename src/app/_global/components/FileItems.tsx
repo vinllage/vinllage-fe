@@ -1,3 +1,4 @@
+
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import { FiDownload } from 'react-icons/fi'
@@ -20,21 +21,21 @@ const StyledItems = styled.ul`
     background: ${light};
     font-size: ${small};
     display: flex;
-  }
 
-  a {
-    flex-grow: 1;
-    svg {
-      margin-left: 10px;
+    a {
+      flex-grow: 1;
+      svg {
+        margin-left: 10px;
+      }
     }
-  }
 
-  .icon-remove {
-    cursor: pointer;
-  }
+    .icon-remove {
+      cursor: pointer;
+    }
 
-  svg {
-    vertical-align: middle;
+    svg {
+      vertical-align: middle;
+    }
   }
 
   li + li {
@@ -72,13 +73,15 @@ const FileItems = ({ items, callback }: FileType) => {
       {items.map(({ seq, fileName, fileDownloadUrl }) => (
         <li key={'file-' + seq}>
           <a href={fileDownloadUrl}>
-            {fileName}
+            #{fileName}
             <FiDownload className="icon-download" />
           </a>
-          <FaRegWindowClose
-            className="icon-remove"
-            onClick={() => onRemove(seq)}
-          />
+          {callback && (
+            <FaRegWindowClose
+              className="icon-remove"
+              onClick={() => onRemove(seq)}
+            />
+          )}
         </li>
       ))}
     </StyledItems>
