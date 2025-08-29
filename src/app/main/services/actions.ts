@@ -2,9 +2,9 @@
 
 import { cookies } from 'next/headers'
 
-export const fetchRecycleCount = async (): Promise<number> => {
+export const fetchRecycleTotalCount = async (): Promise<number> => {
   try {
-    const apiUrl = `${process.env.API_URL}/recycle/my-data`
+    const apiUrl = `${process.env.API_URL}/recycle/total-count`
 
     // 쿠키에서 JWT 토큰 추출
     const cookieStore = await cookies()
@@ -20,8 +20,8 @@ export const fetchRecycleCount = async (): Promise<number> => {
 
     if (!res.ok) throw new Error('데이터 조회 실패')
 
-    const data = await res.json() // { items, pagination }
-    return data.items?.length || 0
+    const data = await res.json()
+    return data
   } catch (err) {
     console.error(err)
     return 0
