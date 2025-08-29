@@ -20,21 +20,22 @@ const LoginForm = ({ errors, action, pending, form, onChange }) => {
         onChange={onChange}
       />
       <MessageBox color="danger">{errors?.email}</MessageBox>
-
-      <Input
-        type={showpassword ? 'text' : 'password'}
-        name="password"
-        placeholder="비밀번호를 입력하세요."
-        value={form.password}
-        onChange={onChange}
-      />
-      <button
-        type="button"
-        onClick={() => setShowPasword((prve) => !prve)}
-        aria-label={showpassword ? '비밀 버호 숨기기' : '비밀 번호 보기 '}
-      >
-        {showpassword ? <FaEye size={20} /> : <FaEyeSlash size={20} />}
-      </button>
+      <div>
+        <Input
+          type={showpassword ? 'text' : 'password'}
+          name="password"
+          placeholder="비밀번호를 입력하세요."
+          value={form.password}
+          onChange={onChange}
+        />
+        <button
+          type="button"
+          onClick={() => setShowPasword((prve) => !prve)}
+          aria-label={showpassword ? '비밀 버호 숨기기' : '비밀 번호 보기 '}
+        >
+          {showpassword ? <FaEye size={20} /> : <FaEyeSlash size={20} />}
+        </button>
+      </div>
       <MessageBox color="danger">{errors?.password}</MessageBox>
 
       <a href="/member/find-password">비밀번호 찾기</a>

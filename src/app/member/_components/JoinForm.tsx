@@ -148,24 +148,28 @@ const JoinForm = ({
             </Button>
           </div>
           <MessageBox color="danger">{errors?.password}</MessageBox>
-          <Input
-            type={showconfirmPassword ? 'text' : 'password'}
-            name="confirmPassword"
-            placeholder="비밀번호를 확인하세요."
-            value={form.confirmPassword}
-            onChange={onChange}
-          />
-          <button
-            type="button"
-            onClick={() => setShowConfirmPassword((prev) => !prev)}
-            aria-label={showPassword ? '비빌 번호 숨기기 ' : '비밀 번호 보기 '}
-          >
-            {showconfirmPassword ? (
-              <FaEye size={20} />
-            ) : (
-              <FaEyeSlash size={20} />
-            )}
-          </button>
+          <div>
+            <Input
+              type={showconfirmPassword ? 'text' : 'password'}
+              name="confirmPassword"
+              placeholder="비밀번호를 확인하세요."
+              value={form.confirmPassword}
+              onChange={onChange}
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword((prev) => !prev)}
+              aria-label={
+                showPassword ? '비빌 번호 숨기기 ' : '비밀 번호 보기 '
+              }
+            >
+              {showconfirmPassword ? (
+                <FaEye size={20} />
+              ) : (
+                <FaEyeSlash size={20} />
+              )}
+            </button>
+          </div>
 
           <MessageBox color="danger">{errors?.confirmPassword}</MessageBox>
         </>
