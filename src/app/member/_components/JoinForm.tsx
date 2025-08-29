@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { MdCheckBox, MdCheckBoxOutlineBlank } from 'react-icons/md'
 import { Input } from '@/app/_global/components/Forms'
-import { SubmitButton } from '@/app/_global/components/Buttons'
+import { Button, SubmitButton } from '@/app/_global/components/Buttons'
 import MessageBox from '@/app/_global/components/MessageBox'
 import FileUpload from '@/app/_global/components/FileUpload'
 import FileImages from '@/app/_global/components/FileImages'
 import color from '@/app/_global/styles/color'
 import { passwordStrenthLevel } from '@/app/_global/libs/commons'
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
 
 const StyledForm = styled.form`
   .message {
@@ -49,6 +50,9 @@ const JoinForm = ({
   sendState,
 }) => {
   const [passwordStrenth, setPasswordStrenth] = useState(0)
+  const [showPassword, setShowPassword] = useState(false)
+  const [showconfirmPassword, setShowConfirmPassword] = useState(false)
+
   // 비밀 번호 강도 레벨 에 맞게 하는 것
   useEffect(() => {
     if (form.password) {
@@ -119,27 +123,51 @@ const JoinForm = ({
 
       {(!form?.socialChannel || !form?.socialToken) && (
         <>
-          <Input
-            type="password"
-            name="password"
-            placeholder="비밀번호를 입력하세요."
-            value={form.password}
-            onChange={onChange}
-            maxLength={16}
-          />
-          <PasswordStrenth level={passwordStrenth}>
-            {Array.from({ length: passwordStrenth }).map((_, i) => (
-              <li key={'password-strenth-' + i}></li>
-            ))}
-          </PasswordStrenth>
+          <div>
+            <Input
+              type={showPassword ? 'text' : 'password'}
+              name="password"
+              placeholder="비밀번호를 입력하세요."
+              value={form.password}
+              onChange={onChange}
+              maxLength={16}
+            />
+            <PasswordStrenth level={passwordStrenth}>
+              {Array.from({ length: passwordStrenth }).map((_, i) => (
+                <li key={'password-strenth-' + i}></li>
+              ))}
+            </PasswordStrenth>
+            <Button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              aria-label={showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
+            >
+              {showPassword ? <FaEye size={20} /> : <FaEyeSlash size={20} />}
+            </Button>
+          </div>
           <MessageBox color="danger">{errors?.password}</MessageBox>
-          <Input
-            type="password"
-            name="confirmPassword"
-            placeholder="비밀번호를 확인하세요."
-            value={form.confirmPassword}
-            onChange={onChange}
-          />
+          <div>
+            <Input
+              type={showconfirmPassword ? 'text' : 'password'}
+              name="confirmPassword"
+              placeholder="비밀번호를 확인하세요."
+              value={form.confirmPassword}
+              onChange={onChange}
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword((prev) => !prev)}
+              aria-label={
+                showPassword ? '비빌 번호 숨기기 ' : '비밀 번호 보기 '
+              }
+            >
+              {showconfirmPassword ? (
+                <FaEye size={20} />
+              ) : (
+                <FaEyeSlash size={20} />
+              )}
+            </button>
+          </div>
 
           <MessageBox color="danger">{errors?.confirmPassword}</MessageBox>
         </>
