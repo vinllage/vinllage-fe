@@ -8,25 +8,21 @@ import FileUpload from '@/app/_global/components/FileUpload'
 import FileImages from '@/app/_global/components/FileImages'
 import color from '@/app/_global/styles/color'
 import { passwordStrenthLevel } from '@/app/_global/libs/commons'
-import { FaEye } from 'react-icons/fa'
-
-
-import { launchBus } from 'pm2'
 
 const StyledForm = styled.form`
   .message {
     margin-bottom: 10px;
   }
 `
-const passowrdColor= (level1: number)=>{
-  if(level1 <= 2) return color.danger // 위험
-  if(level1 <=4) return color.warning // 경고 
-  if(level1 <=6) return color.primary// 중요한 
+const passowrdColor = (level1: number) => {
+  if (level1 <= 2) return color.danger // 위험
+  if (level1 <= 4) return color.warning // 경고
+  if (level1 <= 6) return color.primary // 중요한
   return color.success
 }
 
 // 비밀 번호 강도에 맞는 색상 지정
-const PasswordStrenth = styled.ul<{level: number}>`
+const PasswordStrenth = styled.ul<{ level: number }>`
   display: flex;
   background: #ddd;
   height: 15px;
@@ -35,9 +31,8 @@ const PasswordStrenth = styled.ul<{level: number}>`
     width: calc(100% / 6 - 2px);
     margin-right: 2px;
     transition: background 0.3s;
-    background: ${({level})=> passowrdColor(level)};
+    background: ${({ level }) => passowrdColor(level)};
   }
-
 `
 const JoinForm = ({
   errors,
