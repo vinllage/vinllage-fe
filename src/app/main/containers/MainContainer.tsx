@@ -6,6 +6,7 @@ import ContentBox from '@/app/_global/components/ContentBox'
 import NoticeModal from '@/app/main/_components/NoticeModal'
 import type { BoardDataType } from '@/app/board/_types/BoardType'
 import useFetchCSR from '@/app/_global/hooks/useFetchCSR'
+import { FaRecycle } from "react-icons/fa";
 
 import {
   PageWrapper,
@@ -62,6 +63,9 @@ export  default function MainContainer() {
             onClick={onClick}
           >
             분리수거 하기
+            <div style={{ marginTop: '15px', display: 'flex', justifyContent: 'center' }}>
+            <FaRecycle size={48} color="#28a745" />
+          </div>
           </StyledButton>
         </MainSection>
       </ContentBox>
