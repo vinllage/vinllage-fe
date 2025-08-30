@@ -42,15 +42,16 @@ export const StyledButton = styled(Button)`
   font-size: 26px;
   border-radius: 16px;
   width: 240px;
-  height: 60px;
+  height: 130px;
   padding: 0;
-  font-weight: 500;
-  color: #000;
+  font-weight: bold;
+  color: #666666;
   background-color: rgba(255, 255, 255, 0.7);
   transition: transform 0.2s, box-shadow 0.2s;
 
   &:hover {
     transform: translateY(-3px);
+    background-color: rgba(255, 255, 255);
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
   }
 `

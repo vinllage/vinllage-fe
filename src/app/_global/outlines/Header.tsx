@@ -16,6 +16,8 @@ const { light } = color
 const StyledHeader = styled.header`
   position: relative;
   background: ${light};
+
+  /* ---- main-header S ---- */
   &.main-header {
     position: fixed;
     top: 20px;
@@ -25,11 +27,34 @@ const StyledHeader = styled.header`
     width: auto;
     max-width: none;
 
-    background: rgba(288, 255, 255, 0.5);
-    //backdrop-filter: blur(2px);
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
     border-radius: 12px;
     z-index: 1000;
+    
+    .menu-right .menu-link button,
+    .menu-right .mypage-btn button,
+    .menu-right .logout-btn button,
+    .menu-right .admin-btn button {
+      color: #fff;
+      background-color: transparent;
+    }
+
+    .menu-left .badge {
+      color: #fff;
+    }
+
+    .menu-link a {
+      color: #fff;
+      &:hover {
+        background-color: #87aa41;
+        border-radius: 18px;
+        height: 36px;
+        color: #fff;
+      }
+    }
   }
+  /* ---- main-header E ---- */
 
   display: flex;
   align-items: center;
@@ -46,7 +71,7 @@ const StyledHeader = styled.header`
     flex-wrap: wrap;
 
     .headerLogo {
-      width: 120px;
+      width: 100px;
       height: auto;
       display: block;
     }
@@ -64,9 +89,9 @@ const StyledHeader = styled.header`
     display: flex;
     align-items: center;
     height: 50px;
-    min-width: 120px; /* 모든 버튼 일정 폭 */
+    min-width: 120px;
     text-align: center;
-    justify-content: center; /* flex 중앙 정렬 */
+    justify-content: center;
     font-weight: 500;
     font-size: 14px;
     color: #333;
@@ -189,8 +214,8 @@ const StyledSubMenu = styled.div<{ $isLogin: boolean; $isAdmin: boolean }>`
   .submenu-group {
     display: flex;
     min-width: 120px;
-    flex-direction: column; /* 위아래로 정렬 */
-    gap: 20px; /* 항목간 상하 간격 */
+    flex-direction: column;
+    gap: 20px;
     text-align: center;
   }
 
