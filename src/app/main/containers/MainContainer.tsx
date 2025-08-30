@@ -63,11 +63,6 @@ export  default function MainContainer() {
           >
             분리수거 하기
           </StyledButton>
-          <StyledButton
-            onClick={() => setIsOpen(true)}
-          >
-            공지사항 열기
-          </StyledButton>
         </MainSection>
       </ContentBox>
     </PageWrapper>

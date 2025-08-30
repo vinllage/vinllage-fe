@@ -42,7 +42,7 @@ export const StyledButton = styled(Button)`
   font-size: 26px;
   border-radius: 16px;
   width: 240px;
-  height: 60px;
+  height: 100px;
   padding: 0;
   font-weight: 500;
   color: #000;
@@ -51,6 +51,7 @@ export const StyledButton = styled(Button)`
 
   &:hover {
     transform: translateY(-3px);
+    background-color: rgba(200, 200, 200, 0.7);
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
   }
 `
