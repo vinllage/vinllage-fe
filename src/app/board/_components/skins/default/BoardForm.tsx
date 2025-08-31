@@ -62,7 +62,7 @@ const BoardForm = ({
   fileUploadCallback,
   fileDeleteCallback,
 }: BoardFormType) => {
-  const { isAdmin } = useUser()
+  const { isAdmin , isLogin } = useUser()
 
   return (
     board && (
@@ -104,14 +104,14 @@ const BoardForm = ({
             </dd>
           </dl>
         )}
-        {data.guest && (
+        { !isLogin && (
           <dl>
             <dt>비밀번호</dt>
             <dd>
               <Input
                 type="password"
                 name="guestPw"
-                value=''
+                value={data.guestPw}
                 onChange={onChange}
                 suppressHydrationWarning={true}
               />

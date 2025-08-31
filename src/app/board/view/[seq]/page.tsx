@@ -4,6 +4,10 @@ import { getView, getList } from '../../_services/BoardData'
 import ViewContainer from '../../_containers/ViewContainer'
 import ListContainer from '../../_containers/ListContainer'
 import type { BoardDataType, BoardSearchType } from '../../_types/BoardType'
+import CommentContainer from '../../_containers/CommentContainer'
+import { getList as getComments } from '../../_services/comment'
+
+
 export default async function ViewPage({
   params,
   searchParams,
@@ -26,10 +30,15 @@ export default async function ViewPage({
     items = _data.items ?? []
     pagination = _data.pagination
   }
+
+
+  const comments = await getComments(seq)
+
   return (
     <ContentBox>
       {board?.name && <MainTitle border="true">{board.name}</MainTitle>}
       <ViewContainer board={board} data={data} />
+      <CommentContainer board={board} data={data} items={comments} />
       {board?.listable && board?.showViewList && (
         <ListContainer
           board={board}

@@ -19,6 +19,7 @@ export async function get(seq?: number): Promise<BoardDataType> {
     guestPw: '',
     subject: '',
     content: '',
+    commentable: true,
     notice: false,
     secret: false,
     guest: false,

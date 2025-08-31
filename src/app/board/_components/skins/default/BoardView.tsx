@@ -133,13 +133,20 @@ const BoardView = ({ board, data }: BoardViewType) => {
         </Wrapper>
         <FileItems items={data.attachFiles} />
         <StyledLinks>
-          {data.canEdit && (
-            <a href={'/board/delete/' + data.seq} className="btn2">
+          {data.canDelete && (
+            <a 
+              href={data.needAuth ? `/board/check/${data.seq}?mode=delete` : `/board/delete/${data.seq}`}
+              className="btn2"
+            >
               글삭제
             </a>
-            )}
-          {data.canDelete && (
-            <a href={'/board/update/' + data.seq} className="btn3">
+          )}
+
+          {data.canEdit && (
+            <a 
+              href={data.needAuth ? `/board/check/${data.seq}?mode=update` : `/board/update/${data.seq}`}
+              className="btn3"
+            >
               글수정
             </a>
           )}

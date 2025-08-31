@@ -64,6 +64,7 @@ export type BoardDataType = {
   canEdit?: boolean
   canDelete?: boolean
   needAuth?: boolean
+  commentable: boolean
   mine?: boolean
   viewCount?: number
   ip?: string
