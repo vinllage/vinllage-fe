@@ -62,6 +62,7 @@ const StyledHeader = styled.header`
   flex-wrap: wrap;
   height: auto;
   padding: 10px 20px;
+  min-width: 820px;
 
   /* 왼쪽: 로고 + 환영 메시지 */
   .menu-left {
