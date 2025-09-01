@@ -51,20 +51,18 @@ export default function DetectedItems({ items }) {
     items.length > 0 && (
       <StyledItems>
         {items.map(({ category1, category2, dataUrl }, i) => (
-          <>
-            <StyledItem
-              category={category1}
-              key={category2 + '-' + i}
-              style={{
-                backgroundImage: `url(${dataUrl})`,
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center center',
-                backgroundSize: 'contain',
-              }}
-            >
-              <div className="category content-font">{category2}</div>
-            </StyledItem>
-          </>
+          <StyledItem
+            category={category1}
+            key={category2 + '-' + i}
+            style={{
+              backgroundImage: `url(${dataUrl})`,
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center center',
+              backgroundSize: 'contain',
+            }}
+          >
+            <div className="category content-font">{category2}</div>
+          </StyledItem>
         ))}
       </StyledItems>
     )

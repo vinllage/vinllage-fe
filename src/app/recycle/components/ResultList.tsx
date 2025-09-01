@@ -89,7 +89,7 @@ export function ResultComponents({
           </Images>
           <Categories>
             {img.category && (
-              <CategoryItem onClick={() => onSelect(img.categoryKey)}>
+              <CategoryItem className='content-font' onClick={() => onSelect(img.categoryKey)}>
                 {img.category}
               </CategoryItem>
             )}
