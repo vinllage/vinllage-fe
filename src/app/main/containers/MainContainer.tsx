@@ -8,7 +8,6 @@ import NoticeModal from '@/app/main/_components/NoticeModal'
 import type { BoardDataType } from '@/app/board/_types/BoardType'
 import useFetchCSR from '@/app/_global/hooks/useFetchCSR'
 import styled from 'styled-components'
-import { FaRecycle } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 
 import {
@@ -145,6 +144,7 @@ export default function MainContainer() {
 
   // 공지사항 글 최대 5개 가져오기
   useEffect(() => {
+    if (!ready) return
     fetchCSR('/board/list/notice?limit=5')
       .then(async (res) => {
         if (res.ok) {
@@ -156,7 +156,7 @@ export default function MainContainer() {
         console.error(err)
         setItems([])
       })
-  }, [])
+  }, [ready])
 
   return (
     <PageWrapper>
@@ -208,18 +208,7 @@ export default function MainContainer() {
             <SubText>촬영만으로 간편하게, 환경을 지켜보세요</SubText>
             <Counter>누적 분리수거 {totalCount}회</Counter>
 
-            <StyledButton onClick={onClick}>
-              분리수거 하기
-              <div
-                style={{
-                  marginTop: '15px',
-                  display: 'flex',
-                  justifyContent: 'center',
-                }}
-              >
-                <FaRecycle size={48} color="#28a745" />
-              </div>
-            </StyledButton>
+            <StyledButton onClick={onClick}>Do Recycle!</StyledButton>
           </motion.div>
         </MainSection>
       </ContentBox>
