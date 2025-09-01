@@ -40,7 +40,7 @@ const Wrapper = styled.div<{ width?: number; height?: number }>`
     font-size: 2.2rem;
     color: ${dark};
     cursor: pointer;
-    z-index:999;
+    z-index: 999;
   }
 `
 
@@ -67,7 +67,7 @@ const LayerPopup = ({
 }: LayerPopupType) => {
   return (
     isOpen && (
-      <Modal isOpen={isOpen} style={customStyles}>
+      <Modal isOpen={isOpen} style={customStyles} ariaHideApp={false}>
         <Wrapper width={width} height={height}>
           <FaRegWindowClose className="close" onClick={onClose} />
           {title && <h2>{title}</h2>}
