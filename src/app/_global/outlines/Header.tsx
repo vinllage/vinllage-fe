@@ -72,7 +72,7 @@ const StyledHeader = styled.header`
     flex-wrap: wrap;
 
     .headerLogo {
-      width: 100px;
+      width: 60px;
       height: auto;
       display: block;
     }
