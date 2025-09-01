@@ -20,6 +20,7 @@ import {
 } from './MainContainerStyle'
 import { fetchRecycleTotalCount } from '../services/actions'
 import BaseRotatingText from '@/app/_global/components/BaseRotatingText'
+import useAlertDialog from '@/app/_global/hooks/useAlertDialog'
 
 const TextWrapper = styled.div`
   display: inline-flex;
@@ -102,6 +103,7 @@ export default function MainContainer() {
   const [items, setItems] = useState<Array<BoardDataType>>([])
   const { fetchCSR, ready } = useFetchCSR()
   const onClick = useCallback(() => router.push('/recycle'), [router])
+  const alertDialog = useAlertDialog()
 
   const texts = [
     'Waste',
@@ -133,18 +135,18 @@ export default function MainContainer() {
   useEffect(() => {
     if (!ready) return
 
-    let ignore = false
     fetchCSR('/board/list/notice?limit=5')
-      .then((res) => res.json())
-      .then((data) => {
-        if (!ignore) setItems(data.items ?? [])
+      .then(async (res) => {
+        if (res.ok) {
+          return res.json()
+        }
       })
-      .catch((err) => console.error('공지사항 조회 실패:', err))
-
-    return () => {
-      ignore = true
-    }
-  }, [ready])
+      .then((data) => setItems(data.items ?? []))
+      .catch((err) => {
+        console.error(err)
+        setItems([])
+      })
+  }, [])
 
   return (
     <PageWrapper>
