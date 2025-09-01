@@ -52,7 +52,7 @@ const ArrowButton = styled(Button)`
 
 const ButtonWrapper = styled.div`
   width: 100%;
-  max-width: 870px;
+  max-width: 838px;
   display: flex;
   justify-content: flex-end; /* 오른쪽 정렬 */
   margin-top: 12px;
