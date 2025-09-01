@@ -8,7 +8,6 @@ import NoticeModal from '@/app/main/_components/NoticeModal'
 import type { BoardDataType } from '@/app/board/_types/BoardType'
 import useFetchCSR from '@/app/_global/hooks/useFetchCSR'
 import styled from 'styled-components'
-import { FaRecycle } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 
 import {
@@ -18,32 +17,30 @@ import {
   SubText,
   StyledButton,
 } from './MainContainerStyle'
-import { fetchRecycleTotalCount } from '../services/actions'
 import BaseRotatingText from '@/app/_global/components/BaseRotatingText'
-import useAlertDialog from '@/app/_global/hooks/useAlertDialog'
 
 const TextWrapper = styled.div`
   display: inline-flex;
   align-items: center;
 
-  font-size: 13rem;
-  font-weight: bold;
-
   margin-bottom: 400px;
+  font-size: 13rem;
 
   .fixed-text {
     margin-right: 30px;
+    color: #fff;
   }
 `
 
 const RotatingTextWrapper = styled.div`
   display: inline-block;
-  padding: 6px 12px;
+  padding: 6px 5px 6px 20px;
   border-radius: 12px;
-  background-color: #000;
+  background-color: rgba(248, 238, 199, 0.7);
   overflow: hidden;
   transition: width 0.4s ease;
   white-space: nowrap;
+  font-weight: bold;
 `
 
 const HiddenMeasure = styled.span`
@@ -51,11 +48,12 @@ const HiddenMeasure = styled.span`
   visibility: hidden;
   white-space: nowrap;
 
-  padding: 6px 12px;
+  padding: 6px 5px 6px 20px;
+  font-weight: bold;
 `
 
 const RotatingText = styled(BaseRotatingText)`
-  color: #fff;
+  color: rgba(201, 123, 78, 1);
 
   .text-rotate {
     display: flex;
@@ -100,10 +98,10 @@ export default function MainContainer() {
   const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
   const [totalCount, setTotalCount] = useState(0)
+  const [currCount, setCurrCount] = useState(0)
   const [items, setItems] = useState<Array<BoardDataType>>([])
   const { fetchCSR, ready } = useFetchCSR()
   const onClick = useCallback(() => router.push('/recycle'), [router])
-  const alertDialog = useAlertDialog()
 
   const texts = [
     'Waste',
@@ -122,19 +120,61 @@ export default function MainContainer() {
   // 현재 텍스트가 바뀔 때마다 실제 width 측정
   useEffect(() => {
     if (measureRef.current) {
-      setCalculatedWidth(measureRef.current.getBoundingClientRect().width + 30)
+      setCalculatedWidth(measureRef.current.getBoundingClientRect().width + 40)
     }
   }, [currentIndex, texts])
 
-  useEffect(() => {
-    fetchRecycleTotalCount()
-      .then(setTotalCount)
-      .catch((err) => console.error('분리수거 카운트 조회 실패:', err))
-  }, [])
-
+  // 분리수거 횟수 가져오기
   useEffect(() => {
     if (!ready) return
+    fetchCSR('/recycle/total-count')
+      .then(async (res) => {
+        if (res.ok) {
+          console.log('res', res)
+          return res.json()
+        }
+      })
+      .then((data) => {
+        console.log('data', data)
+        setTotalCount(data ?? 0)
+      })
+      .catch((err) => {
+        console.error(err)
+        setTotalCount(0)
+      })
+  }, [ready])
 
+  // 점차 올라가는 분리수거 횟수 애니메이션
+  const numberAnim = () => {
+    if (totalCount === 0) {
+      setCurrCount(0)
+      return
+    }
+
+    const duration = 2000 // 애니메이션 시간 (2초)
+    const frameTime = 16 // 약 60fps
+    const totalFrames = Math.round(duration / frameTime)
+    const step = totalCount / totalFrames
+
+    let currentFrame = 0
+    let currentValue = 0
+
+    const interval = setInterval(() => {
+      currentFrame++
+      currentValue = Math.round(step * currentFrame)
+
+      if (currentFrame >= totalFrames) {
+        currentValue = totalCount
+        clearInterval(interval)
+      }
+
+      setCurrCount(currentValue)
+    }, frameTime)
+  }
+
+  // 공지사항 글 최대 5개 가져오기
+  useEffect(() => {
+    if (!ready) return
     fetchCSR('/board/list/notice?limit=5')
       .then(async (res) => {
         if (res.ok) {
@@ -146,7 +186,7 @@ export default function MainContainer() {
         console.error(err)
         setItems([])
       })
-  }, [])
+  }, [ready])
 
   return (
     <PageWrapper>
@@ -162,17 +202,15 @@ export default function MainContainer() {
       <ContentBox width={720}>
         <MainSection>
           <TextWrapper>
-            <div className="fixed-text dm-serif-display-regular-italic">
-              Save
-            </div>
+            <div className="fixed-text box-font">Save</div>
             <RotatingTextWrapper
-              className="caveat"
+              className="box-font"
               style={{ width: calculatedWidth }}
             >
               <RotatingText
                 texts={texts}
                 onNext={(i: number) => setCurrentIndex(i)} // 현재 index 추적
-                mainClassName="caveat"
+                mainClassName="box-font"
                 staggerFrom="last"
                 initial={{ y: '100%' }}
                 animate={{ y: 0 }}
@@ -184,7 +222,7 @@ export default function MainContainer() {
               />
             </RotatingTextWrapper>
 
-            <HiddenMeasure className="caveat" ref={measureRef}>
+            <HiddenMeasure className="box-font" ref={measureRef}>
               {texts[currentIndex]}
             </HiddenMeasure>
           </TextWrapper>
@@ -194,22 +232,12 @@ export default function MainContainer() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: false, amount: 0.3 }}
+            onViewportEnter={numberAnim}
           >
             <SubText>촬영만으로 간편하게, 환경을 지켜보세요</SubText>
-            <Counter>누적 분리수거 {totalCount}회</Counter>
+            <Counter>누적 분리수거 {currCount}회</Counter>
 
-            <StyledButton onClick={onClick}>
-              분리수거 하기
-              <div
-                style={{
-                  marginTop: '15px',
-                  display: 'flex',
-                  justifyContent: 'center',
-                }}
-              >
-                <FaRecycle size={48} color="#28a745" />
-              </div>
-            </StyledButton>
+            <StyledButton onClick={onClick}>Do Recycle!</StyledButton>
           </motion.div>
         </MainSection>
       </ContentBox>
