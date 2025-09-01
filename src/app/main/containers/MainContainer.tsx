@@ -132,18 +132,10 @@ export default function MainContainer() {
 
   useEffect(() => {
     if (!ready) return
-
-    let ignore = false
     fetchCSR('/board/list/notice?limit=5')
       .then((res) => res.json())
-      .then((data) => {
-        if (!ignore) setItems(data.items ?? [])
-      })
-      .catch((err) => console.error('공지사항 조회 실패:', err))
-
-    return () => {
-      ignore = true
-    }
+      .then((data) => setItems(data.items ?? []))
+      .catch(() => {})
   }, [ready])
 
   return (
