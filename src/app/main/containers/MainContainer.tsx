@@ -8,7 +8,6 @@ import NoticeModal from '@/app/main/_components/NoticeModal'
 import type { BoardDataType } from '@/app/board/_types/BoardType'
 import useFetchCSR from '@/app/_global/hooks/useFetchCSR'
 import styled from 'styled-components'
-import { FaRecycle } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 
 import {
@@ -198,17 +197,8 @@ export default function MainContainer() {
             <Counter>누적 분리수거 {totalCount}회</Counter>
 
             <StyledButton onClick={onClick}>
-              분리수거 하기
-              <div
-                style={{
-                  marginTop: '15px',
-                  display: 'flex',
-                  justifyContent: 'center',
-                }}
-              >
-                <FaRecycle size={48} color="#28a745" />
-              </div>
-            </StyledButton>
+              Do Recycle!
+              </StyledButton>
           </motion.div>
         </MainSection>
       </ContentBox>
