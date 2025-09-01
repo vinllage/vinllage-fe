@@ -170,7 +170,6 @@ export async function processComment(errors: any, formData: FormData) {
     },
     body: JSON.stringify(params),
   })
-  console.log('알로라 라이츄', res)
 
   if (res.status === 204) {
     // 성공 - 본문 없음
@@ -182,5 +181,16 @@ export async function processComment(errors: any, formData: FormData) {
   if (res.status >= 400) {
     const data = await res.json()
     return data.messages
+  }
+}
+
+export async function processDelete(seq, bid) {
+  // 삭제 로직
+  const deleteRes = await fetchSSR(`/board/delete/${seq}`, {
+    method: 'DELETE',
+  })
+
+  if (deleteRes.status === 200) {
+    redirect(`/board/list/${bid}`)
   }
 }
