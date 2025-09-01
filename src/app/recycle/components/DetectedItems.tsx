@@ -10,7 +10,7 @@ const StyledItem = styled.li<{ category?: string }>`
       border-color: ${color[category] ?? '#000'};
       .category {
         background: ${color[category] ?? '#000'};
-        color: ${category == '비닐' ? '#000' : '#fff'};
+        color: ${category === 'vinyl' ? '#000' : '#fff'};
       }
     `}
 `
@@ -36,6 +36,7 @@ const StyledItems = styled.ul`
       height: 25px;
       line-height: 25px;
       width: 100%;
+      font-size: 17px;
     }
   }
 
@@ -50,18 +51,20 @@ export default function DetectedItems({ items }) {
     items.length > 0 && (
       <StyledItems>
         {items.map(({ category1, category2, dataUrl }, i) => (
-          <StyledItem
-            category={category1}
-            key={category2 + '-' + i}
-            style={{
-              backgroundImage: `url(${dataUrl})`,
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'center center',
-              backgroundSize: 'contain',
-            }}
-          >
-            <div className="category">{category2}</div>
-          </StyledItem>
+          <>
+            <StyledItem
+              category={category1}
+              key={category2 + '-' + i}
+              style={{
+                backgroundImage: `url(${dataUrl})`,
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center center',
+                backgroundSize: 'contain',
+              }}
+            >
+              <div className="category content-font">{category2}</div>
+            </StyledItem>
+          </>
         ))}
       </StyledItems>
     )
