@@ -22,15 +22,6 @@ export default async function ViewPage({
 
   const search = await searchParams
 
-  let items: Array<BoardDataType> = [],
-    pagination: any = null
-
-  if (board?.showViewList) {
-    const _data = await getList(board.bid, search)
-    items = _data.items ?? []
-    pagination = _data.pagination
-  }
-
 
   const comments = await getComments(seq)
 
@@ -39,14 +30,6 @@ export default async function ViewPage({
       {board?.name && <MainTitle border="true">{board.name}</MainTitle>}
       <ViewContainer board={board} data={data} />
       <CommentContainer board={board} data={data} items={comments} />
-      {board?.listable && board?.showViewList && (
-        <ListContainer
-          board={board}
-          items={items}
-          pagination={pagination}
-          search={search}
-        />
-      )}
     </ContentBox>
   )
 }

@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import styled from 'styled-components'
-import { MdCheckBox, MdCheckBoxOutlineBlank } from 'react-icons/md'
+import { MdCheckBox, MdCheckBoxOutlineBlank, MdOutlineImage } from 'react-icons/md'
 import type { BoardFormType } from '@/app/board/_types/BoardType'
 import MessageBox from '@/app/_global/components/MessageBox'
 import { Input, Select, Textarea } from '@/app/_global/components/Forms'
@@ -93,17 +93,6 @@ const BoardForm = ({
             <MessageBox color="danger">{errors?.poster}</MessageBox>
           </dd>
         </dl>
-        {isAdmin && (
-          <dl>
-            <dt>공지글</dt>
-            <dd>
-              <span onClick={() => onToggle('notice', !data.notice)}>
-                {data.notice ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />}
-                공지글로 게시하기
-              </span>
-            </dd>
-          </dl>
-        )}
         { !isLogin && (
           <dl>
             <dt>비밀번호</dt>
@@ -168,6 +157,8 @@ const BoardForm = ({
                       location="editor"
                       imageOnly={true}
                       callback={fileUploadCallback}
+                      title="이미지 추가"
+                      icon={<MdOutlineImage />}
                     />
                     <FileItems
                       items={data.editorImages}
@@ -194,6 +185,7 @@ const BoardForm = ({
                 gid={data.gid}
                 location="attach"
                 callback={fileUploadCallback}
+                title="파일 추가"
               />
               <FileItems
                 items={data.attachFiles}

@@ -57,15 +57,7 @@ export async function processUpdate(errors: any, formData: FormData) {
   })
   console.log(res)
 
-const data = await res.json()
-  let redirectUrl = `/board/list/${board.bid}`
-  if ([200, 201].includes(res.status)) {
-    // 게시글 등록, 수정 성공
-    const { afterWritingRedirect } = board
-    redirectUrl = afterWritingRedirect ? `/board/view/${data.seq}` : redirectUrl
-  } else {
-    return data.messages
-  }
+  const redirectUrl = `/board/list/${board.bid}`
 
   redirect(redirectUrl)
 }
@@ -122,20 +114,19 @@ export async function processPassword(errors: any, formData: FormData) {
     // 바로 삭제 처리
     try {
       const deleteRes = await fetchSSR(`/board/delete/${seq}`, {
-        method: 'DELETE'
+      method: 'DELETE',
       })
-      console.log("불켜미",deleteRes)
-      
-      if (deleteRes.status === 200) {
-        const result = await deleteRes.json()
-        redirect(`/board/list/${result.bid}`) // 삭제 후 해당 게시판 목록으로
-      } else {
-        return { global: '삭제에 실패했습니다.' }
-      }
+
+    const responseText = await deleteRes.text()
+    const result = responseText ? JSON.parse(responseText) : {}
     } catch (error) {
+      console.error("삭제 에러:", error)
       return { global: '삭제 중 오류가 발생했습니다.' }
+      throw error
     }
-  } else if (mode.startsWith('comment_')) {
+    
+    redirect(`/board/list/${bid}`)
+  }  else if (mode.startsWith('comment_')) {
     // 댓글 관련 처리
     redirect(`/board/view/${seq}`)
   }

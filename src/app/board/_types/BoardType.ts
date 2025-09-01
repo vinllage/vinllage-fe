@@ -18,8 +18,6 @@ export type BoardConfigType = {
   imageUpload: boolean
   attachFile: boolean
   comment: boolean
-  afterWritingRedirect: boolean
-  showViewList: boolean
   listAuthority: AuthorityType
   viewAuthority: AuthorityType
   writeAuthority: AuthorityType

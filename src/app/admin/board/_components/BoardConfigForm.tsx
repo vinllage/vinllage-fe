@@ -233,60 +233,6 @@ const BoardConfigForm = ({
               </span>
             </td>
           </tr>
-          <tr>
-            <th>글작성 후 이동</th>
-            <td>
-              <span
-                className="radio"
-                onClick={() => onKeyValue('afterWritingRedirect', true)}
-              >
-                {form.afterWritingRedirect ? (
-                  <MdOutlineRadioButtonChecked />
-                ) : (
-                  <MdOutlineRadioButtonUnchecked />
-                )}
-                글보기
-              </span>
-              <span
-                className="radio"
-                onClick={() => onKeyValue('afterWritingRedirect', false)}
-              >
-                {!form.afterWritingRedirect ? (
-                  <MdOutlineRadioButtonChecked />
-                ) : (
-                  <MdOutlineRadioButtonUnchecked />
-                )}
-                글목록
-              </span>
-            </td>
-          </tr>
-          <tr>
-            <th>글보기 하단 목록</th>
-            <td>
-              <span
-                className="radio"
-                onClick={() => onKeyValue('showViewList', true)}
-              >
-                {form.showViewList ? (
-                  <MdOutlineRadioButtonChecked />
-                ) : (
-                  <MdOutlineRadioButtonUnchecked />
-                )}
-                노출
-              </span>
-              <span
-                className="radio"
-                onClick={() => onKeyValue('showViewList', false)}
-              >
-                {!form.showViewList ? (
-                  <MdOutlineRadioButtonChecked />
-                ) : (
-                  <MdOutlineRadioButtonUnchecked />
-                )}
-                미노출
-              </span>
-            </td>
-          </tr>
         </tbody>
       </TableCols>
       <h2>분류 설정</h2>

@@ -10,7 +10,6 @@ import { toDate } from '@/app/_global/libs/commons'
  */
 export async function getList(seq: number) {
   const res = await fetchSSR(`/comment/comments/${seq}`)
-  console.log("피카츄 진화 라이츄",res)
   if (res.status === 200) {
     const data = await res.json()  // ListData 객체
     const items = data.items || []  // 실제 배열 추출
