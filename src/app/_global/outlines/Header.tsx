@@ -270,7 +270,7 @@ const Header = () => {
             }
             onMouseLeave={onMenuClose}
           >
-            <Link href={label === '게시판' ? '/board' : '/event'}>{label}</Link>
+            <Link href={label === '게시판' ? '/board/list/freetalk' : '/event'}>{label}</Link>
           </div>
         ))}
 
@@ -287,13 +287,13 @@ const Header = () => {
               </Link>
             </div>
             <a href="/member/api/logout" className="logout-btn">
-              <Button type="button" color="secondary">
+              <Button type="button">
                 로그아웃
               </Button>
             </a>
             {isAdmin && (
-              <a href="/admin" className="admin-btn">
-                <Button type="button" color="info">
+              <a href="/admin/board" className="admin-btn">
+                <Button type="button">
                   사이트 관리
                 </Button>
               </a>

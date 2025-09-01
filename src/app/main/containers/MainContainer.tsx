@@ -134,7 +134,6 @@ export default function MainContainer() {
 
   useEffect(() => {
     if (!ready) return
-
     fetchCSR('/board/list/notice?limit=5')
       .then(async (res) => {
         if (res.ok) {
