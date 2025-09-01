@@ -17,9 +17,7 @@ import {
   SubText,
   StyledButton,
 } from './MainContainerStyle'
-import { fetchRecycleTotalCount } from '../services/actions'
 import BaseRotatingText from '@/app/_global/components/BaseRotatingText'
-import useAlertDialog from '@/app/_global/hooks/useAlertDialog'
 
 const TextWrapper = styled.div`
   display: inline-flex;
@@ -32,6 +30,7 @@ const TextWrapper = styled.div`
 
   .fixed-text {
     margin-right: 30px;
+    color: #fff;
   }
 `
 
@@ -39,7 +38,7 @@ const RotatingTextWrapper = styled.div`
   display: inline-block;
   padding: 6px 12px;
   border-radius: 12px;
-  background-color: #000;
+  background-color: rgba(248, 238, 199, 0.7);
   overflow: hidden;
   transition: width 0.4s ease;
   white-space: nowrap;
@@ -54,7 +53,7 @@ const HiddenMeasure = styled.span`
 `
 
 const RotatingText = styled(BaseRotatingText)`
-  color: #fff;
+  color: rgba(201, 123, 78, 1);
 
   .text-rotate {
     display: flex;
@@ -99,10 +98,10 @@ export default function MainContainer() {
   const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
   const [totalCount, setTotalCount] = useState(0)
+  const [currCount, setCurrCount] = useState(0)
   const [items, setItems] = useState<Array<BoardDataType>>([])
   const { fetchCSR, ready } = useFetchCSR()
   const onClick = useCallback(() => router.push('/recycle'), [router])
-  const alertDialog = useAlertDialog()
 
   const texts = [
     'Waste',
@@ -125,12 +124,55 @@ export default function MainContainer() {
     }
   }, [currentIndex, texts])
 
+  // 분리수거 횟수 가져오기
   useEffect(() => {
-    fetchRecycleTotalCount()
-      .then(setTotalCount)
-      .catch((err) => console.error('분리수거 카운트 조회 실패:', err))
-  }, [])
+    if (!ready) return
+    fetchCSR('/recycle/total-count')
+      .then(async (res) => {
+        if (res.ok) {
+          console.log('res', res)
+          return res.json()
+        }
+      })
+      .then((data) => {
+        console.log('data', data)
+        setTotalCount(data ?? 0)
+      })
+      .catch((err) => {
+        console.error(err)
+        setTotalCount(0)
+      })
+  }, [ready])
 
+  // 점차 올라가는 분리수거 횟수 애니메이션
+  const numberAnim = () => {
+    if (totalCount === 0) {
+      setCurrCount(0)
+      return
+    }
+
+    const duration = 2000 // 애니메이션 시간 (2초)
+    const frameTime = 16 // 약 60fps
+    const totalFrames = Math.round(duration / frameTime)
+    const step = totalCount / totalFrames
+
+    let currentFrame = 0
+    let currentValue = 0
+
+    const interval = setInterval(() => {
+      currentFrame++
+      currentValue = Math.round(step * currentFrame)
+
+      if (currentFrame >= totalFrames) {
+        currentValue = totalCount
+        clearInterval(interval)
+      }
+
+      setCurrCount(currentValue)
+    }, frameTime)
+  }
+
+  // 공지사항 글 최대 5개 가져오기
   useEffect(() => {
     if (!ready) return
     fetchCSR('/board/list/notice?limit=5')
@@ -144,7 +186,7 @@ export default function MainContainer() {
         console.error(err)
         setItems([])
       })
-  }, [])
+  }, [ready])
 
   return (
     <PageWrapper>
@@ -192,13 +234,12 @@ export default function MainContainer() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: false, amount: 0.3 }}
+            onViewportEnter={numberAnim}
           >
             <SubText>촬영만으로 간편하게, 환경을 지켜보세요</SubText>
-            <Counter>누적 분리수거 {totalCount}회</Counter>
+            <Counter>누적 분리수거 {currCount}회</Counter>
 
-            <StyledButton onClick={onClick}>
-              Do Recycle!
-              </StyledButton>
+            <StyledButton onClick={onClick}>Do Recycle!</StyledButton>
           </motion.div>
         </MainSection>
       </ContentBox>
