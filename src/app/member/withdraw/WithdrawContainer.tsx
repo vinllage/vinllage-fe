@@ -4,6 +4,7 @@ import React, { useState, useCallback } from 'react'
 import useAlertDialog from '@/app/_global/hooks/useAlertDialog'
 import EmailSenderForm from '../_components/EmailSenderForm'
 import useFetchCSR from '@/app/_global/hooks/useFetchCSR'
+import { redirect } from 'next/navigation'
 
 const WithdrawContainer = ({ loggedEmail }) => {
   const alertDialog = useAlertDialog()
