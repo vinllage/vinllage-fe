@@ -130,13 +130,21 @@ export default function MainContainer() {
       .catch((err) => console.error('분리수거 카운트 조회 실패:', err))
   }, [])
 
-  // useEffect(() => {
-  //   if (!ready) return
-  //   fetchCSR('/board/list/notice?limit=5')
-  //     .then((res) => res.json())
-  //     .then((data) => setItems(data.items ?? []))
-  //     .catch(() => {})
-  // }, [fetchCSR, ready])
+  useEffect(() => {
+    if (!ready) return
+
+    let ignore = false
+    fetchCSR('/board/list/notice?limit=5')
+      .then((res) => res.json())
+      .then((data) => {
+        if (!ignore) setItems(data.items ?? [])
+      })
+      .catch((err) => console.error('공지사항 조회 실패:', err))
+
+    return () => {
+      ignore = true
+    }
+  }, [ready])
 
   return (
     <PageWrapper>
