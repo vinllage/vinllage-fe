@@ -18,9 +18,7 @@ import {
   SubText,
   StyledButton,
 } from './MainContainerStyle'
-import { fetchRecycleTotalCount } from '../services/actions'
 import BaseRotatingText from '@/app/_global/components/BaseRotatingText'
-import useAlertDialog from '@/app/_global/hooks/useAlertDialog'
 
 const TextWrapper = styled.div`
   display: inline-flex;
@@ -103,7 +101,6 @@ export default function MainContainer() {
   const [items, setItems] = useState<Array<BoardDataType>>([])
   const { fetchCSR, ready } = useFetchCSR()
   const onClick = useCallback(() => router.push('/recycle'), [router])
-  const alertDialog = useAlertDialog()
 
   const texts = [
     'Waste',
@@ -126,15 +123,28 @@ export default function MainContainer() {
     }
   }, [currentIndex, texts])
 
-  useEffect(() => {
-    fetchRecycleTotalCount()
-      .then(setTotalCount)
-      .catch((err) => console.error('분리수거 카운트 조회 실패:', err))
-  }, [])
-
+  // 분리수거 횟수 가져오기
   useEffect(() => {
     if (!ready) return
+    fetchCSR('/recycle/total-count')
+      .then(async (res) => {
+        if (res.ok) {
+          console.log('res', res)
+          return res.json()
+        }
+      })
+      .then((data) => {
+        console.log('data', data)
+        setTotalCount(data ?? 0)
+      })
+      .catch((err) => {
+        console.error(err)
+        setTotalCount(0)
+      })
+  }, [ready])
 
+  // 공지사항 글 최대 5개 가져오기
+  useEffect(() => {
     fetchCSR('/board/list/notice?limit=5')
       .then(async (res) => {
         if (res.ok) {

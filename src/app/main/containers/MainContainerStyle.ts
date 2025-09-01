@@ -35,7 +35,7 @@ export const Counter = styled.div`
 export const SubText = styled.div`
   font-size: 32px;
   color: rgba(255, 255, 255, 0.85);
-  text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
 `
 
 export const StyledButton = styled(Button)`
