@@ -8,7 +8,6 @@ import NoticeModal from '@/app/main/_components/NoticeModal'
 import type { BoardDataType } from '@/app/board/_types/BoardType'
 import useFetchCSR from '@/app/_global/hooks/useFetchCSR'
 import styled from 'styled-components'
-import { FaRecycle } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 
 import {
@@ -134,14 +133,6 @@ export default function MainContainer() {
 
   useEffect(() => {
     if (!ready) return
-<<<<<<< HEAD
-    fetchCSR('/board/list/notice?limit=5')
-      .then((res) => res.json())
-      .then((data) => setItems(data.items ?? []))
-      .catch(() => {})
-  }, [ready])
-=======
-
     fetchCSR('/board/list/notice?limit=5')
       .then(async (res) => {
         if (res.ok) {
@@ -154,7 +145,6 @@ export default function MainContainer() {
         setItems([])
       })
   }, [])
->>>>>>> acc88fc213eb061c202f1a545421f186a6b3d6a0
 
   return (
     <PageWrapper>
@@ -207,17 +197,8 @@ export default function MainContainer() {
             <Counter>누적 분리수거 {totalCount}회</Counter>
 
             <StyledButton onClick={onClick}>
-              분리수거 하기
-              <div
-                style={{
-                  marginTop: '15px',
-                  display: 'flex',
-                  justifyContent: 'center',
-                }}
-              >
-                <FaRecycle size={48} color="#28a745" />
-              </div>
-            </StyledButton>
+              Do Recycle!
+              </StyledButton>
           </motion.div>
         </MainSection>
       </ContentBox>

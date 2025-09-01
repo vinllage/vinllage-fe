@@ -27,11 +27,11 @@ const StyledHeader = styled.header`
     width: auto;
     max-width: none;
 
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(150, 188, 72, 0.8);
     color: #fff;
     border-radius: 12px;
     z-index: 1000;
-    
+
     .menu-right .menu-link button,
     .menu-right .mypage-btn button,
     .menu-right .logout-btn button,
@@ -47,7 +47,7 @@ const StyledHeader = styled.header`
     .menu-link a {
       color: #fff;
       &:hover {
-        background-color: #87aa41;
+        background-color: #7da53c;
         border-radius: 18px;
         height: 36px;
         color: #fff;
