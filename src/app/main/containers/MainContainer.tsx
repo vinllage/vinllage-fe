@@ -30,6 +30,7 @@ const TextWrapper = styled.div`
 
   .fixed-text {
     margin-right: 30px;
+    color: #fff;
   }
 `
 
@@ -37,7 +38,7 @@ const RotatingTextWrapper = styled.div`
   display: inline-block;
   padding: 6px 12px;
   border-radius: 12px;
-  background-color: #000;
+  background-color: rgba(248, 238, 199, 0.7);
   overflow: hidden;
   transition: width 0.4s ease;
   white-space: nowrap;
@@ -52,7 +53,7 @@ const HiddenMeasure = styled.span`
 `
 
 const RotatingText = styled(BaseRotatingText)`
-  color: #fff;
+  color: rgba(201, 123, 78, 1);
 
   .text-rotate {
     display: flex;
