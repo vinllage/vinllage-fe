@@ -1,6 +1,6 @@
 'use client'
 import styled from 'styled-components'
-import bgImg from '@/app/_global/assets/images/main.jpg'
+import bgImg from '@/app/_global/assets/images/main5.png'
 import { Button } from '@/app/_global/components/Buttons'
 
 export const PageWrapper = styled.div`

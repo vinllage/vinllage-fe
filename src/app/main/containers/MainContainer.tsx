@@ -197,7 +197,6 @@ export default function MainContainer() {
                   justifyContent: 'center',
                 }}
               >
-                <FaRecycle size={48} color="#28a745" />
               </div>
             </StyledButton>
           </motion.div>
