@@ -31,7 +31,7 @@ const Side = () => {
     <StyledAside>
       <Link
         href="/admin/board"
-        className={classNames({ on: urlPath === 'admin/board' })}
+        className={classNames({ on: urlPath === '/admin/board' })}
       >
         게시판 관리
       </Link>
