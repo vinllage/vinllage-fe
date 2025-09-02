@@ -1,5 +1,3 @@
-'use client'
-
 import WithdrawComponent from '../_components/WithdrawComponent'
 
 export default function WithdrawContainer({
@@ -7,10 +5,5 @@ export default function WithdrawContainer({
 }: {
   loggedEmail: string
 }) {
-  return (
-    <>
-      <h1>회원 탈퇴하기</h1>
-      <WithdrawComponent loggedEmail={loggedEmail} />
-    </>
-  )
+  return <WithdrawComponent loggedEmail={loggedEmail} />
 }
