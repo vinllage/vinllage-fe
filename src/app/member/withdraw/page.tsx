@@ -1,5 +1,5 @@
 import { getLoggedMember } from './../_services/actions'
-import WithdrawContainer from './containers/WithdrawContainer'
+import WithdrawContainer from './_containers/WithdrawContainer'
 
 export default async function WithdrawPage() {
   const loggedMember = await getLoggedMember()
