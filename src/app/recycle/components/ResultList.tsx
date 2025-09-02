@@ -32,17 +32,17 @@ const Categories = styled.div`
   font-size: ${normal};
 `
 
-const CategoryItem = styled.button`
+const CategoryItem = styled.button<{ disable?: boolean }>`
   padding: 4px 8px;
   border-radius: 6px;
   font-size: ${extra};
   font-weight: 500;
   background: none;
   border: none;
-  cursor: pointer;
-  color: ${dark}; 
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+  color: ${({ disabled }) => (disabled ? '#aaa' : dark)};
   &:hover {
-    color: ${info};
+    color: ${({ disabled }) => (disabled ? '#aaa' : info)};
   }
 `
 
@@ -82,20 +82,24 @@ export function ResultComponents({
 
   return (
     <ResultList>
-      {items.map((img) => (
+      {items.map((img) => {
+        const disabled = img.category === "sticker" || img.category === "기타"
+        return (
         <ResultItem key={img.key}>
           <Images>
             <ImageItem src={img.url} alt={img.name} />
           </Images>
           <Categories>
             {img.category && (
-              <CategoryItem onClick={() => onSelect(img.categoryKey)}>
-                {img.category}
+              <CategoryItem 
+                disabled={disabled}
+                onClick={() => !disabled && onSelect(img.categoryKey)}
+              >
               </CategoryItem>
             )}
           </Categories>
         </ResultItem>
-      ))}
+      )})}
     </ResultList>
   )
 }
