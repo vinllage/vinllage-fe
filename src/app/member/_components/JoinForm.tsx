@@ -114,7 +114,7 @@ const TermsBox = styled.div`
 const passowrdColor = (level1: number) => {
   if (level1 <= 2) return color.danger // 위험
   if (level1 <= 4) return color.warning // 경고
-  if (level1 <= 6) return color.primary // 중요한
+  if (level1 <= 6) return color.success // 중요한
   return color.success
 }
 
@@ -230,7 +230,8 @@ const JoinForm = ({
               placeholder="비밀번호를 입력하세요."
               value={form.password}
               onChange={onChange}
-              maxLength={16}
+              minLength={8}
+              maxLength={25}
             />
             <PasswordStrength level={passwordStrength}>
               {Array.from({ length: passwordStrength }).map((_, i) => (
@@ -278,6 +279,7 @@ const JoinForm = ({
         placeholder="회원이름을 입력하세요."
         value={form.name}
         onChange={onChange}
+        maxLength={15}
       />
       <MessageBox color="danger">{errors?.name}</MessageBox>
 
@@ -293,11 +295,11 @@ const JoinForm = ({
       <h3>프로필 이미지</h3>
 
       <div className="profile-images">
-      <FileImages
-        items={form.profileImage}
-        callback={fileDeleteCallback}
-        viewOrgImage={true}
-      />
+        <FileImages
+          items={form.profileImage}
+          callback={fileDeleteCallback}
+          viewOrgImage={true}
+        />
       </div>
       <FileUpload
         gid={form.gid}

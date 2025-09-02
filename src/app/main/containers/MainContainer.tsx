@@ -23,10 +23,8 @@ const TextWrapper = styled.div`
   display: inline-flex;
   align-items: center;
 
-  font-size: 13rem;
-  font-weight: bold;
-
   margin-bottom: 400px;
+  font-size: 13rem;
 
   .fixed-text {
     margin-right: 30px;
@@ -36,12 +34,13 @@ const TextWrapper = styled.div`
 
 const RotatingTextWrapper = styled.div`
   display: inline-block;
-  padding: 6px 12px;
+  padding: 6px 5px 6px 20px;
   border-radius: 12px;
   background-color: rgba(248, 238, 199, 0.7);
   overflow: hidden;
   transition: width 0.4s ease;
   white-space: nowrap;
+  font-weight: bold;
 `
 
 const HiddenMeasure = styled.span`
@@ -49,7 +48,8 @@ const HiddenMeasure = styled.span`
   visibility: hidden;
   white-space: nowrap;
 
-  padding: 6px 12px;
+  padding: 6px 5px 6px 20px;
+  font-weight: bold;
 `
 
 const RotatingText = styled(BaseRotatingText)`
@@ -120,7 +120,7 @@ export default function MainContainer() {
   // 현재 텍스트가 바뀔 때마다 실제 width 측정
   useEffect(() => {
     if (measureRef.current) {
-      setCalculatedWidth(measureRef.current.getBoundingClientRect().width + 30)
+      setCalculatedWidth(measureRef.current.getBoundingClientRect().width + 40)
     }
   }, [currentIndex, texts])
 
@@ -202,17 +202,15 @@ export default function MainContainer() {
       <ContentBox width={720}>
         <MainSection>
           <TextWrapper>
-            <div className="fixed-text dm-serif-display-regular-italic">
-              Save
-            </div>
+            <div className="fixed-text box-font">Save</div>
             <RotatingTextWrapper
-              className="caveat"
+              className="box-font"
               style={{ width: calculatedWidth }}
             >
               <RotatingText
                 texts={texts}
                 onNext={(i: number) => setCurrentIndex(i)} // 현재 index 추적
-                mainClassName="caveat"
+                mainClassName="box-font"
                 staggerFrom="last"
                 initial={{ y: '100%' }}
                 animate={{ y: 0 }}
@@ -224,7 +222,7 @@ export default function MainContainer() {
               />
             </RotatingTextWrapper>
 
-            <HiddenMeasure className="caveat" ref={measureRef}>
+            <HiddenMeasure className="box-font" ref={measureRef}>
               {texts[currentIndex]}
             </HiddenMeasure>
           </TextWrapper>
