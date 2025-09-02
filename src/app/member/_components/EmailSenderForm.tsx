@@ -9,6 +9,7 @@ import { Button } from '@/app/_global/components/Buttons'
 import Image from 'next/image'
 import { ClipLoader } from 'react-spinners'
 import styled from 'styled-components'
+import { EmailCategory } from '../constants/EmailCategory'
 
 type VerifyInfo = {
   verifyCode: (form: { email: string; code: string }) => void | Promise<void>
@@ -21,13 +22,13 @@ type AutoSendOptions = {
 }
 
 type EmailSenderFormProps = {
-  mappingValue: '/member/find-pw' | '/auth/send-code'
+  category: EmailCategory
   verifyInfo?: VerifyInfo
   autoSendOpt?: AutoSendOptions
 }
 
 const EmailSenderForm = ({
-  mappingValue,
+  category,
   verifyInfo,
   autoSendOpt,
 }: EmailSenderFormProps) => {
@@ -44,35 +45,60 @@ const EmailSenderForm = ({
   )
   const sentRef = useRef(false) // 메일 자동 전송 시, 1번만 보내기 위해 세팅
 
+  console.log(category)
+
+  const mappingValue =
+    category === EmailCategory.FIND_PASSWORD
+      ? '/member/find-pw'
+      : '/auth/send-code'
+
   const handleSubmit = useCallback(
     async (e?: React.FormEvent) => {
       if (e) e.preventDefault()
       setError(undefined)
 
-      if (!email.trim()) {
-        setError('이메일을 입력하세요.')
-        return
+      // 이메일 입력 칸이 있을 때만 검증
+      if (!isAutoSend) {
+        if (!email.trim()) {
+          setError('이메일을 입력하세요.')
+          return
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        if (!emailRegex.test(email)) {
+          setError('올바른 이메일 형식이 아닙니다.')
+          return
+        }
       }
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-      if (!emailRegex.test(email)) {
-        setError('올바른 이메일 형식이 아닙니다.')
-        return
-      }
-      if (email != targetEmail) {
-        setError('등록된 이메일 정보와 일치하지 않습니다.')
-        return
+
+      // 로그인 상태에서 접근 가능한 기능일 때만 검증
+      if (targetEmail && category !== EmailCategory.FIND_PASSWORD) {
+        if (email != targetEmail) {
+          setError('등록된 이메일 정보와 일치하지 않습니다.')
+          return
+        }
       }
 
       setLoading(true)
       setSendState('loading')
 
       const bodyData =
-        mappingValue == '/member/find-pw'
-          ? JSON.stringify({ email })
-          : JSON.stringify({
+        category === EmailCategory.FIND_PASSWORD
+          ? JSON.stringify({
+              email,
+              type: 'PASSWORD_FINDING',
+            })
+          : category === EmailCategory.WITHDRAW
+          ? JSON.stringify({
               email,
               type: 'WITHDRAWAL_VERIFICATION',
             })
+          : category === EmailCategory.RECOVER_ACCOUNT
+          ? JSON.stringify({
+              email,
+              type: 'ACCOUNT_RECOVERY',
+            })
+          : ''
 
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}${mappingValue}`,
@@ -88,14 +114,14 @@ const EmailSenderForm = ({
       setSendState('sent')
 
       if (res.ok) {
-        mappingValue == '/member/find-pw'
+        category === EmailCategory.FIND_PASSWORD
           ? alertDialog.success('임시 비밀번호가 이메일로 발송되었습니다.')
-          : alertDialog.success('탈퇴 인증 번호가 이메일로 발송되었습니다.')
+          : alertDialog.success('계정 인증 번호가 이메일로 발송되었습니다.')
       } else {
         const data = await res.json()
-        mappingValue == '/member/find-pw'
+        category === EmailCategory.FIND_PASSWORD
           ? setError(data.message ?? '비밀번호 찾기 요청에 실패했습니다.')
-          : setError(data.message ?? '탈퇴 인증 번호 전송 요청에 실패했습니다.')
+          : setError(data.message ?? '계정 인증 번호 전송 요청에 실패했습니다.')
       }
     },
     [email, alertDialog, targetEmail, mappingValue],
@@ -126,7 +152,7 @@ const EmailSenderForm = ({
               ? '전송 중...'
               : mappingValue === '/member/find-pw'
               ? '임시 비밀번호 발급 받기'
-              : '탈퇴 인증 번호 발급 받기'}
+              : '계정 인증 번호 발급 받기'}
           </SubmitButton>
         </>
       )}
@@ -143,7 +169,7 @@ const EmailSenderForm = ({
         </>
       )}
 
-      {isAutoSend && sendState != 'loading' && (
+      {category !== EmailCategory.FIND_PASSWORD && sendState != 'loading' && (
         <>
           <Input
             type="text"
