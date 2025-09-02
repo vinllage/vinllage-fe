@@ -56,7 +56,7 @@ export async function processUpdate(errors: any, formData: FormData) {
     },
     body: JSON.stringify(params),
   })
-  console.log(res)
+  console.log("res", res, await res.text())
 
   const redirectUrl = `/board/list/${board.bid}`
 
