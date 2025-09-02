@@ -6,7 +6,6 @@ import type { BoardViewType } from '@/app/board/_types/BoardType'
 import { nl2br } from '@/app/_global/libs/commons'
 import FileItems from '@/app/_global/components/FileItems'
 import color from '@/app/_global/styles/color'
-import { processDelete }  from '../../../_services/actions'
 import fontsize from '../../../../_global/styles/fontsize'
 
 const { danger, info, white } = color
