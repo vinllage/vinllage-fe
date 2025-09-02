@@ -72,11 +72,13 @@ const ListContainer = ({ items, pagination, search }: PropType) => {
               if (!res.ok || !result.success) {
                 throw new Error(result.message || `삭제 실패: ${board.bid}`)
               }
+
+              if (res.ok) {
+                alertDialog.success('선택한 게시판이 삭제되었습니다.')
+              }
             }),
           )
 
-          alertDialog({ text: '선택한 게시판이 삭제되었습니다.' })
-          // ✅ 삭제 후 목록에서 제거
           setItems((prev) =>
             prev?.filter((item) => !checked.some((c) => c.bid === item.bid)),
           )
