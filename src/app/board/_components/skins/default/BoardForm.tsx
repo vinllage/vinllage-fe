@@ -86,7 +86,7 @@ const BoardForm = ({
             <Input
               type="text"
               name="poster"
-              value={data.poster}
+              value={data?.poster ?? ''}
               onChange={onChange}
             />
             <MessageBox color="danger">{errors?.poster}</MessageBox>
@@ -99,7 +99,7 @@ const BoardForm = ({
               <Input
                 type="password"
                 name="guestPw"
-                value={data.guestPw}
+                value={data?.guestPw ?? ''}
                 onChange={onChange}
                 suppressHydrationWarning={true}
               />
@@ -127,7 +127,7 @@ const BoardForm = ({
             <Input
               type="text"
               name="subject"
-              value={data.subject}
+              value={data?.subject ?? ''}
               onChange={onChange}
             />
             <MessageBox color="danger">{errors?.subject}</MessageBox>
@@ -141,10 +141,10 @@ const BoardForm = ({
                 <input
                   type="hidden"
                   name="content"
-                  defaultValue={data.content}
+                  defaultValue={data?.content ?? ''}
                 />
                 <Editor
-                  data={data.content}
+                  data={data?.content ?? ''}
                   height={350}
                   callback={editorCallback}
                   onChange={onChange}
@@ -169,7 +169,7 @@ const BoardForm = ({
             ) : (
               <Textarea
                 name="content"
-                value={data.content}
+                value={data?.content ?? ''}
                 onChange={onChange}
               />
             )}
