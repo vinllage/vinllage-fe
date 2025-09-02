@@ -112,6 +112,13 @@ const TermsBox = styled.div`
   line-height: 1.5;
 `
 
+const PasswordWrapper = styled.div`
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  width: 100%;
+`
+
 const passwordColor = (level1: number) => {
   if (level1 <= 2) return color.danger // 위험
   if (level1 <= 4) return color.warning // 경고
@@ -119,11 +126,19 @@ const passwordColor = (level1: number) => {
   return color.success
 }
 
+const getPasswordMessage = (level: number) => {
+  if (level === 0) return ''
+  if (level <= 2) return '위험'
+  if (level <= 4) return '보통'
+  return '안전'
+}
+
 // 비밀번호 강도에 따라 색상 지정
 const PasswordStrength = styled.ul<{ level: number }>`
   display: flex;
   height: 15px;
   width: 50%;
+  margin-top: 3px;
   margin-bottom: 10px;
 
   li {
@@ -253,14 +268,21 @@ const JoinForm = ({
               {showPassword ? <FaEye size={20} /> : <FaEyeSlash size={20} />}
             </button>
           </div>
-          <PasswordStrength level={passwordStrength}>
-            {Array.from({ length: 6 }).map((_, i) => (
-              <li
-                key={'password-strength-' + i}
-                className={i < passwordStrength ? 'active' : ''}
-              />
-            ))}
-          </PasswordStrength>
+          <PasswordWrapper>
+            <span
+              style={{ fontSize: '14px', color: passwordColor(passwordStrength) }}
+            >
+              {getPasswordMessage(passwordStrength)}
+            </span>
+            <PasswordStrength level={passwordStrength}>
+              {Array.from({ length: 6 }).map((_, i) => (
+                <li
+                  key={'password-strength-' + i}
+                  className={i < passwordStrength ? 'active' : ''}
+                />
+              ))}
+            </PasswordStrength>
+          </PasswordWrapper>
           <MessageBox color="danger">{errors?.password}</MessageBox>
           <div className="password-wrapper">
             <Input

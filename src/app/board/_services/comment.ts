@@ -10,14 +10,15 @@ import { toDate } from '@/app/_global/libs/commons'
  */
 export async function getList(seq: number) {
   const res = await fetchSSR(`/comment/comments/${seq}`)
-  if (res.status === 200) {
+ try {
     const data = await res.json()  // ListData 객체
     const items = data.items || []  // 실제 배열 추출
     items.forEach((item) => processData(item))
     
     return items
+  } catch(error) {
+    return []
   }
-  return []
 }
 
 /**
@@ -31,6 +32,20 @@ export async function deleteComment(seq: number) {
 
   if (res.status === 200) {
     return await res.json()
+  }
+}
+
+export async function getComment(seq: number) {
+  const res = await fetchSSR(`/comment/comment/${seq}`, {
+    method: 'GET'
+  })
+
+  let item : CommentDataType
+
+  if (res.status === 200) {
+    item = await res.json()
+    console.log("dfasf",item)
+    return item
   }
 }
 
