@@ -15,7 +15,7 @@ const { light } = color
 
 const StyledHeader = styled.header`
   position: relative;
-  background: ${light};
+  background: #fefcf8;
 
   /* ---- main-header S ---- */
   &.main-header {
@@ -181,8 +181,9 @@ const StyledSubMenu = styled.div<{ $isLogin: boolean; $isAdmin: boolean }>`
 
   min-height: 150px;
 
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(255, 248, 204, 0.84);
   color: #fff;
+  border-radius: 12px;
 
   transition: opacity 0.3s ease-in-out;
   pointer-events: none;
@@ -207,7 +208,7 @@ const StyledSubMenu = styled.div<{ $isLogin: boolean; $isAdmin: boolean }>`
   }
 
   .submenu-inner a {
-    color: #fff;
+    color: #333333;
     text-decoration: none;
     font-size: 14px;
   }
@@ -235,6 +236,10 @@ const Header = () => {
   const subMenuRef = useRef<HTMLDivElement | null>(null)
   const pathname = usePathname()
 
+  const validPaths = ['/board', '/event', '/mypage', '/recycle', '/member']
+  const isMainOrError =
+    pathname === '/' || !validPaths.some((path) => pathname.startsWith(path))
+
   const onMenuOpen = useCallback((menu: string) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current)
     setOpenMenu(menu)
@@ -245,7 +250,11 @@ const Header = () => {
   }, [])
 
   return (
-    <StyledHeader className={classNames({ 'main-header': pathname === '/' })}>
+    <StyledHeader
+      className={classNames({
+        'main-header': isMainOrError,
+      })}
+    >
       <div className="menu-left">
         <div className="headerLogo">
           <Link href="/">
