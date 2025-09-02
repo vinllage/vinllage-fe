@@ -56,6 +56,7 @@ const StyledForm = styled.form`
     display: flex;
     align-items: center;
     gap: 10px;
+    margin-bottom: 10px;
 
     input {
       flex: 1;
@@ -111,26 +112,37 @@ const TermsBox = styled.div`
   line-height: 1.5;
 `
 
-const passowrdColor = (level1: number) => {
+const passwordColor = (level1: number) => {
   if (level1 <= 2) return color.danger // 위험
   if (level1 <= 4) return color.warning // 경고
   if (level1 <= 6) return color.success // 중요한
   return color.success
 }
 
-// 비밀 번호 강도에 맞는 색상 지정
+// 비밀번호 강도에 따라 색상 지정
 const PasswordStrength = styled.ul<{ level: number }>`
   display: flex;
-  background: #ddd;
   height: 15px;
   width: 50%;
+  margin-bottom: 10px;
+
   li {
     width: calc(100% / 6 - 2px);
     margin-right: 2px;
     transition: background 0.3s;
-    background: ${({ level }) => passowrdColor(level)};
+    background: #ccc;
+    border-radius: 10px;
+
+    &.active {
+      background: ${({ level }) => passwordColor(level)};
+    }
+  }
+
+  li:last-child {
+    margin-right: 0;
   }
 `
+
 const JoinForm = ({
   errors,
   action,
@@ -150,7 +162,7 @@ const JoinForm = ({
   const [showconfirmPassword, setShowConfirmPassword] = useState(false)
   const [showTerms, setShowTerms] = useState(false) // 약관 토글
 
-  // 비밀 번호 강도 레벨 에 맞게 하는 것
+  // 비밀벊노 복잡성 레벨에 맞게 비밀번호 strength 지정
   useEffect(() => {
     if (form.password) {
       setPasswordStrength(passwordStrengthLevel(form.password))
@@ -233,11 +245,6 @@ const JoinForm = ({
               minLength={8}
               maxLength={25}
             />
-            <PasswordStrength level={passwordStrength}>
-              {Array.from({ length: passwordStrength }).map((_, i) => (
-                <li key={'password-strength-' + i}></li>
-              ))}
-            </PasswordStrength>
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
@@ -246,6 +253,14 @@ const JoinForm = ({
               {showPassword ? <FaEye size={20} /> : <FaEyeSlash size={20} />}
             </button>
           </div>
+          <PasswordStrength level={passwordStrength}>
+            {Array.from({ length: 6 }).map((_, i) => (
+              <li
+                key={'password-strength-' + i}
+                className={i < passwordStrength ? 'active' : ''}
+              />
+            ))}
+          </PasswordStrength>
           <MessageBox color="danger">{errors?.password}</MessageBox>
           <div className="password-wrapper">
             <Input
