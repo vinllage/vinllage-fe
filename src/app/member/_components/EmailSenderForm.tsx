@@ -152,98 +152,100 @@ const EmailSenderForm = ({
 
   return (
     <FormWrapper>
-      <ContentBox width={640} onSubmit={handleSubmit}>
-        {/* 제목 설정 */}
-        {category === EmailCategory.FIND_PASSWORD ? (
-          <MainTitle className="form-inner" border="true">
-            비밀번호 찾기
-          </MainTitle>
-        ) : category === EmailCategory.WITHDRAW ? (
-          <MainTitle className="form-inner" border="true">
-            회원 탈퇴하기
-          </MainTitle>
-        ) : category === EmailCategory.RECOVER_ACCOUNT ? (
-          <MainTitle className="form-inner" border="true">
-            계정 복구하기
-          </MainTitle>
-        ) : (
-          ''
-        )}
+      <ContentBox width={640}>
+        <form onSubmit={handleSubmit}>
+          {/* 제목 설정 */}
+          {category === EmailCategory.FIND_PASSWORD ? (
+            <MainTitle className="form-inner" border="true">
+              비밀번호 찾기
+            </MainTitle>
+          ) : category === EmailCategory.WITHDRAW ? (
+            <MainTitle className="form-inner" border="true">
+              회원 탈퇴하기
+            </MainTitle>
+          ) : category === EmailCategory.RECOVER_ACCOUNT ? (
+            <MainTitle className="form-inner" border="true">
+              계정 복구하기
+            </MainTitle>
+          ) : (
+            ''
+          )}
 
-        {!isAutoSend && (
-          <>
-            <Input
-              className="form-inner"
-              type="text"
-              name="email"
-              placeholder="이메일을 입력하세요."
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <MessageBox color="danger">{error ?? ''}</MessageBox>
-
-            <div className="button-wrapper">
-              <Button
-                width={200}
+          {!isAutoSend && (
+            <>
+              <Input
                 className="form-inner"
-                type="submit"
-                disabled={loading}
-              >
-                {loading
-                  ? '전송 중...'
-                  : mappingValue === '/member/find-pw'
-                  ? '임시 비밀번호 발급'
-                  : '인증 번호 발급'}
-              </Button>
+                type="text"
+                name="email"
+                placeholder="이메일을 입력하세요."
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <MessageBox color="danger">{error ?? ''}</MessageBox>
+
+              <div className="button-wrapper">
+                <Button
+                  width={200}
+                  className="form-inner"
+                  type="submit"
+                  disabled={loading}
+                >
+                  {loading
+                    ? '전송 중...'
+                    : mappingValue === '/member/find-pw'
+                    ? '임시 비밀번호 발급'
+                    : '인증 번호 발급'}
+                </Button>
+              </div>
+            </>
+          )}
+
+          {sendState == 'loading' && (
+            <div className="loading-wrapper">
+              <ClipLoader
+                color={'rgba(150, 188, 72, 0.8)'}
+                loading={loading}
+                size={100}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+              />
             </div>
-          </>
-        )}
+          )}
 
-        {sendState == 'loading' && (
-          <div className="loading-wrapper">
-            <ClipLoader
-              color={'rgba(150, 188, 72, 0.8)'}
-              loading={loading}
-              size={100}
-              aria-label="Loading Spinner"
-              data-testid="loader"
-              
-            />
-          </div>
-        )}
+          {category !== EmailCategory.FIND_PASSWORD &&
+            sendState != 'loading' && (
+              <>
+                <Input
+                  className="form-inner"
+                  type="text"
+                  name="code"
+                  placeholder="코드를 입력하세요"
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                />
+                <MessageBox color="danger">{error ?? ''}</MessageBox>
 
-        {category !== EmailCategory.FIND_PASSWORD && sendState != 'loading' && (
-          <>
-            <Input
-              className="form-inner"
-              type="text"
-              name="code"
-              placeholder="코드를 입력하세요"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-            />
-            <MessageBox color="danger">{error ?? ''}</MessageBox>
-
-            <div className="button-wrapper">
-              <Button
-                className="form-inner"
-                type="button"
-                disabled={verState === 'loading' || verState === 'success'}
-                onClick={() => verifyCode?.({ email, code })}
-              >
-                {verState === 'idle'
-                  ? '확인'
-                  : verState === 'loading'
-                  ? '인증 중...'
-                  : verState === 'success'
-                  ? '인증됨'
-                  : verState === 'error'
-                  ? '다시 시도'
-                  : ''}
-              </Button>
-            </div>
-          </>
-        )}
+                <div className="button-wrapper">
+                  <Button
+                    className="form-inner"
+                    type="button"
+                    disabled={verState === 'loading' || verState === 'success'}
+                    onClick={() => verifyCode?.({ email, code })}
+                  >
+                    {verState === 'idle'
+                      ? '확인'
+                      : verState === 'loading'
+                      ? '인증 중...'
+                      : verState === 'success'
+                      ? '인증됨'
+                      : verState === 'error'
+                      ? '다시 시도'
+                      : ''}
+                  </Button>
+                </div>
+              </>
+            )}
+        </form>
       </ContentBox>
     </FormWrapper>
   )
