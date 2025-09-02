@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback } from 'react'
 import useAlertDialog from '@/app/_global/hooks/useAlertDialog'
-import EmailSenderForm from '../_components/EmailSenderForm'
+import EmailSenderForm from '../../_components/EmailSenderForm'
 import useFetchCSR from '@/app/_global/hooks/useFetchCSR'
 
 const WithdrawContainer = ({ loggedEmail }) => {
