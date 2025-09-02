@@ -94,7 +94,7 @@ const StyledLinks = styled.div`
   }
 `
 
-const BoardView = ({ board, data }: BoardViewType) => {
+const BoardView = ({ data }: BoardViewType) => {
   return (
     data && (
       <>
@@ -114,7 +114,6 @@ const BoardView = ({ board, data }: BoardViewType) => {
               <span>IP: {data.ip}</span>
             </div>
             <div className="right">
-              <span>조회수: {data?.viewCount?.toLocaleString()}</span>
               {data.createdAt && (
                 <span>
                   작성일시: {format(data.createdAt, 'yyyy.MM.dd HH:mm')}

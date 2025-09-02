@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import styled from 'styled-components'
-import { MdCheckBox, MdCheckBoxOutlineBlank, MdOutlineImage } from 'react-icons/md'
+import { MdOutlineImage } from 'react-icons/md'
 import type { BoardFormType } from '@/app/board/_types/BoardType'
 import MessageBox from '@/app/_global/components/MessageBox'
 import { Input, Select, Textarea } from '@/app/_global/components/Forms'
@@ -57,12 +57,11 @@ const BoardForm = ({
   errors,
   pending,
   onChange,
-  onToggle,
   editorCallback,
   fileUploadCallback,
   fileDeleteCallback,
 }: BoardFormType) => {
-  const { isAdmin , isLogin } = useUser()
+  const { isLogin } = useUser()
 
   return (
     board && (

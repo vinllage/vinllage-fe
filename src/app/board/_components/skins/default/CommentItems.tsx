@@ -7,6 +7,7 @@ import { format } from 'date-fns'
 import { nl2br } from '@/app/_global/libs/commons'
 import useConfirmDialog from '@/app/_global/hooks/useConfirmDialog'
 import color from '@/app/_global/styles/color'
+import { deleteComment } from '@/app/board/_services/comment'
 const { danger, primary, white } = color
 const StyledItems = styled.ul`
   margin-bottom: 30px;
@@ -59,7 +60,7 @@ const StyledItems = styled.ul`
 `
 
 const CommentItem = ({ item }: { item: CommentDataType }) => {
-  const { seq, commenter, member, content, createdAt, editable } = item
+  const { seq, commenter, member, content, createdAt } = item
   const confirmDialog = useConfirmDialog()
   const router = useRouter()
 
@@ -69,7 +70,7 @@ const CommentItem = ({ item }: { item: CommentDataType }) => {
       confirmDialog({
         text: '정말 삭제하겠습니까?',
         confirmCallback: () => {
-          router.push(`/board/comment/delete/${seq}`)
+          deleteComment(seq)
         },
       })
     },
@@ -91,13 +92,10 @@ const CommentItem = ({ item }: { item: CommentDataType }) => {
         className="content"
         dangerouslySetInnerHTML={{ __html: nl2br(content) }}
       />
-      {editable && (
+      {item.canDelete && (
         <div className="links">
           <a className="btn1" onClick={onDelete}>
             삭제
-          </a>
-          <a className="btn2" href={'/board/comment/' + seq}>
-            수정
           </a>
         </div>
       )}
