@@ -35,6 +35,20 @@ export async function deleteComment(seq: number) {
   }
 }
 
+export async function getComment(seq: number) {
+  const res = await fetchSSR(`/comment/comment/${seq}`, {
+    method: 'GET'
+  })
+
+  let item : CommentDataType
+
+  if (res.status === 200) {
+    item = await res.json()
+    console.log("dfasf",item)
+    return item
+  }
+}
+
 /**
  * 데이터 변환 처리
  *

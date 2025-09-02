@@ -1,7 +1,7 @@
 'use client'
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import type { CommentDataType } from '@/app/board/_types/CommentType'
 import { format } from 'date-fns'
 import { nl2br } from '@/app/_global/libs/commons'
@@ -62,19 +62,22 @@ const StyledItems = styled.ul`
 const CommentItem = ({ item }: { item: CommentDataType }) => {
   const { seq, commenter, member, content, createdAt } = item
   const confirmDialog = useConfirmDialog()
-  const router = useRouter()
 
   const onDelete = useCallback(
-    (e) => {
+    (needAuth) => (e) => {
       e.preventDefault()
       confirmDialog({
         text: '정말 삭제하겠습니까?',
         confirmCallback: () => {
-          deleteComment(seq)
+          if (needAuth) {
+            redirect(`/board/check/${seq}?mode=comment_delete`)
+          } else {
+            deleteComment(seq)
+          }
         },
       })
     },
-    [confirmDialog, router, seq],
+    [confirmDialog, seq],
   )
 
   return (
@@ -94,7 +97,7 @@ const CommentItem = ({ item }: { item: CommentDataType }) => {
       />
       {item.canDelete && (
         <div className="links">
-          <a className="btn1" onClick={onDelete}>
+          <a className="btn1" onClick={onDelete(item.needAuth)}>
             삭제
           </a>
         </div>

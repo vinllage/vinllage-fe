@@ -25,4 +25,5 @@ export type CommentDataType = {
   modifiedAt?: Date
   deletedAt?: Date
   canDelete: boolean
+  needAuth: boolean
 }
