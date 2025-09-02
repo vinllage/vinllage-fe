@@ -10,6 +10,15 @@ import Image from 'next/image'
 import { ClipLoader } from 'react-spinners'
 import styled from 'styled-components'
 
+const FormWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  min-height: calc(100vh - 200px);
+  background: #fafafa;
+`
+
 type VerifyInfo = {
   verifyCode: (form: { email: string; code: string }) => void | Promise<void>
   verState: 'idle' | 'loading' | 'success' | 'error'
@@ -109,7 +118,7 @@ const EmailSenderForm = ({
   }, [isAutoSend]) // handleSubmit 넣으면 안 됨.
 
   return (
-    <form onSubmit={handleSubmit}>
+    <FormWrapper onSubmit={handleSubmit}>
       {!isAutoSend && (
         <>
           <Input
@@ -171,7 +180,7 @@ const EmailSenderForm = ({
           </Button>
         </>
       )}
-    </form>
+    </FormWrapper>
   )
 }
 
