@@ -91,10 +91,12 @@ const CommentItem = ({ item }: { item: CommentDataType }) => {
           <div className="right">{format(createdAt, 'yyyy.MM.dd HH:mm')}</div>
         )}
       </div>
-      <div
-        className="content"
-        dangerouslySetInnerHTML={{ __html: nl2br(content) }}
-      />
+      {content && (
+        <div
+          className="content"
+          dangerouslySetInnerHTML={{ __html: nl2br(content) }}
+        />
+      )}
       {item.canDelete && (
         <div className="links">
           <a className="btn1" onClick={onDelete(item.needAuth)}>
