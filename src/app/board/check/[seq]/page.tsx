@@ -14,7 +14,7 @@ export default async function CheckPage({
   return (
     <ContentBox>
       <MainTitle border="true">{data?.subject}</MainTitle>
-      <PasswordContainer seq={data?.seq} bid={data?.bid} />
+      <PasswordContainer seq={seq} bid={data?.bid} />
     </ContentBox>
   )
 }
