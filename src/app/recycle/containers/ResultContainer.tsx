@@ -125,8 +125,6 @@ export default function ResultContainer() {
       images = JSON.parse(item.imageUrl || '[]')
     } catch {}
 
-    console.log(images)
-
     return images.map((img, idx) => ({
       key: `${item.seq}-${idx}`,
       category: categories[idx]?.category2 ?? '',

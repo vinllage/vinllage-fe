@@ -92,7 +92,7 @@ const BoardForm = ({
             <MessageBox color="danger">{errors?.poster}</MessageBox>
           </dd>
         </dl>
-        { !isLogin && (
+        {!isLogin && (
           <dl>
             <dt>비밀번호</dt>
             <dd>
@@ -111,7 +111,11 @@ const BoardForm = ({
           <dl>
             <dt>분류</dt>
             <dd>
-              <Select name="category" value={data.category} onChange={onChange}>
+              <Select
+                name="category"
+                value={data.category ?? ''}
+                onChange={onChange}
+              >
                 {board.categories.map((c) => (
                   <option value={c} key={'category-' + c}>
                     {c}

@@ -30,7 +30,6 @@ export async function getBoardConfig(bid?: string): Promise<BoardConfigType> {
     if (res.status === 200) {
       const _data = await res.json()
       _data.mode = 'update'
-      console.log("체",_data)
       return _data
     }
   }
@@ -50,7 +49,6 @@ export async function getBoardList(searchParams: CommonSearchType): Promise<{
   'use server'
   const qs = await toQueryString(searchParams)
   const res = await fetchSSR(`/admin/board/list${qs}`)
-  console.log(res)
   if (res.status === 200) {
     return await res.json()
   }

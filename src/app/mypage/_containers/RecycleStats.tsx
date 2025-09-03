@@ -62,8 +62,6 @@ export default function RecycleStats() {
         parsed = JSON.parse(parsed)
       }
 
-      console.log('parsed', parsed)
-
       if (Array.isArray(parsed)) {
         parsed.forEach((obj) => {
           Object.values(obj).forEach((val) => {
