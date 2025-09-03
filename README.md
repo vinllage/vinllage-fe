@@ -83,12 +83,12 @@ npm run dev
 ---
 
 ## 📷 스크린샷
-![회원가입](/images/joinPage.png)
-![로그인](/images/loginPage.png)
-![메인페이지](/images/mainModal.png)
-![메인페이지](/images/mainPage1.png)
-![메인페이지](/images/mainPage2.png)
-![마이페이지](/images/myPageHome1.png)
-![마이페이지](/images/myPageHome2.png)
-![마이페이지](/images/profilePage.png)
-![마이페이지](/images/recyclePage.png)
+![회원가입](src/app/_global/assets/images/joinPage.png)
+![로그인](src/app/_global/assets/images/loginPage.png)
+![메인페이지](src/app/_global/assets/images/mainModal.png)
+![메인페이지](src/app/_global/assets/images/mainPage1.png)
+![메인페이지](src/app/_global/assets/images/mainPage2.png)
+![마이페이지](src/app/_global/assets/images/myPageHome1.png)
+![마이페이지](src/app/_global/assets/images/myPageHome2.png)
+![마이페이지](src/app/_global/assets/images/profilePage.png)
+![마이페이지](src/app/_global/assets/images/recyclePage.png)
