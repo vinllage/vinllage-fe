@@ -126,11 +126,9 @@ export default function MainContainer() {
 
   // 분리수거 횟수 가져오기
   useEffect(() => {
-    if (!ready) return
     fetchCSR('/recycle/total-count')
       .then(async (res) => {
         if (res.ok) {
-          console.log('res', res)
           return res.json()
         }
       })
@@ -142,7 +140,7 @@ export default function MainContainer() {
         console.error(err)
         setTotalCount(0)
       })
-  }, [ready])
+  }, [])
 
   // 점차 올라가는 분리수거 횟수 애니메이션
   const numberAnim = () => {
@@ -174,19 +172,14 @@ export default function MainContainer() {
 
   // 공지사항 글 최대 5개 가져오기
   useEffect(() => {
-    if (!ready) return
-    fetchCSR('/board/list/notice?limit=5')
-      .then(async (res) => {
-        if (res.ok) {
-          return res.json()
-        }
-      })
-      .then((data) => setItems(data.items ?? []))
-      .catch((err) => {
-        console.error(err)
-        setItems([])
-      })
-  }, [ready])
+    fetchCSR('/board/list/notice?limit=5').then(async (res) => {
+      const body = await res.text()
+      if (res.ok && body) {
+        setItems(JSON.parse(body))
+      }
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <PageWrapper>

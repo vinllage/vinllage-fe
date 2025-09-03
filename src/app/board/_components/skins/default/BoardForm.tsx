@@ -111,7 +111,7 @@ const BoardForm = ({
           <dl>
             <dt>분류</dt>
             <dd>
-              <Select name="category" value={data.category} onChange={onChange}>
+              <Select name="category" value={data.category ?? ""} onChange={onChange}>
                 {board.categories.map((c) => (
                   <option value={c} key={'category-' + c}>
                     {c}
