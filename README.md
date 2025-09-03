@@ -204,26 +204,22 @@ yarn dev
 ![마이페이지](src/app/_global/assets/images/documents/lsm/recyclePage.png)
 
 ### 환경보호 페이지
+- 관리자 - 행사 관리 페이지
+![크롤러관리자](src/app/_global/assets/images/crawler_admin.png)
+![크롤러관리자](src/app/_global/assets/images/crawler_admin2.png)
+![크롤러관리자](src/app/_global/assets/images/crawler_admin3.png)
 
 - 회원(비회원) - 행사 정보 페이지
-
-- 관리자 - 행사 관리 페이지
+![이벤트](src/app/_global/assets/images/crawler_user1.png)
+![이벤트](src/app/_global/assets/images/crawler_user2.png)
+![이벤트](src/app/_global/assets/images/crawler_user3.png)
+![이벤트](src/app/_global/assets/images/crawler_user4.png)
 
 ### 게시판
 
 - 회원(비회원) - 공지사항, 자유게시판
 
 - 관리자 - 게시판 관리 페이지
-
-![크롤러관리자](src/app/_global/assets/images/crawler_admin.png)
-![크롤러관리자](src/app/_global/assets/images/crawler_admin.png)
-![크롤러관리자](src/app/_global/assets/images/crawler_admin.png)
-![이벤트](src/app/_global/assets/images/crawler_user1.png)
-![이벤트](src/app/_global/assets/images/crawler_user2.png)
-![이벤트](src/app/_global/assets/images/crawler_user3.png)
-![이벤트](src/app/_global/assets/images/crawler_user4.png)
-
-게시판
 <img width="1920" height="903" alt="게시판" src="https://github.com/user-attachments/assets/2bf044f8-1fd8-451e-8a0b-4be329450b30" />
 <img width="1892" height="742" alt="게시판2" src="https://github.com/user-attachments/assets/471f1b8f-74cc-4515-846d-155539bde407" />
 <img width="1189" height="839" alt="게시판3" src="https://github.com/user-attachments/assets/e83856ad-949c-41ee-a676-e8e5ed3a2d0a" />
