@@ -1,4 +1,4 @@
-# 🎨 Frontend
+# 🎨 Vinllage - Frontend
 
 > 사용자 인터페이스와 화면 렌더링을 담당하는 영역
 
@@ -17,43 +17,50 @@
 
 - 회원가입 / 로그인
 
-  - 설명
+- **이메일 인증**: 비밀번호 찾기, 회원 탈퇴, 계정 복구
 
 - 정보 수정
+
 - 탈퇴
 
 ### 분리수거
 
-- 쓰레기 감지 및 카테고리 분류
+- 쓰레기 감지 및 카테고리 분류: 실시간 카메라 감지로 직관적인 분리수거 안내
+
+- 회원 - 감지 결과 저장 & 마이페이지 통계 제공
+
+- 비회원 - 최초 이용 후 30일 내 3회 체험 가능
 
 ### 게시판
 
-- 게시판 & 댓글
+- 게시판 & 댓글: 게시판을 통한 정보 공유 & 소통 (회원/비회원 가능)
 
 ### 행사
-- `/admin/crawler`: 크롤러 설정과 스케줄러를 제어하는 관리자 페이지
-  #### 주요 기능
-   - **설정 관리**: 대상 URL, 키워드, CSS 선택자를 폼으로 입력하고 저장합니다.
-   - **실시간 테스트**: 입력된 설정으로 `/crawler/test`에 요청하여 결과를 다이얼로그로 확인합니다.
-   - **스케줄러 토글**: `/crawler/scheduler` 엔드포인트에 활성/비활성 이벤트를 전송하여 크롤링 작업을 제어합니다.
 
-   ##### 이벤트 흐름
-   1. **입력 이벤트** (`onChange`)
+- `/admin/crawler`: 크롤러 설정과 스케줄러를 제어하는 관리자 페이지
+
+  #### 주요 기능
+
+  - **설정 관리**: 대상 URL, 키워드, CSS 선택자를 폼으로 입력하고 저장합니다.
+  - **실시간 테스트**: 입력된 설정으로 `/crawler/test`에 요청하여 결과를 다이얼로그로 확인합니다.
+  - **스케줄러 토글**: `/crawler/scheduler` 엔드포인트에 활성/비활성 이벤트를 전송하여 크롤링 작업을 제어합니다.
+
+  ##### 이벤트 흐름
+
+  1.  **입력 이벤트** (`onChange`)
       - 폼 필드를 수정하면 내부 상태가 갱신되고 즉시 검증 오류가 해제됩니다.
-   2. **저장 이벤트** (`save`)
+  2.  **저장 이벤트** (`save`)
       - 검증 후 `/crawler/configs`로 POST 요청을 전송하고, 성공 시 알림 이벤트가 발생합니다.
-   3. **테스트 이벤트** (`onTest`)
+  3.  **테스트 이벤트** (`onTest`)
       - "테스트" 버튼 클릭 시 비동기 요청을 보내고 응답을 다이얼로그에 표시합니다.
-   4. **스케줄러 이벤트** (`toggleScheduler`)
+  4.  **스케줄러 이벤트** (`toggleScheduler`)
       - 버튼 클릭으로 스케줄러의 활성화 상태를 전환합니다.
-        
+
 - `/event`: 환경 행사를 열람하는 공개 페이지
   #### 주요 기능
-   - **행사 목록**: 서버에서 환경 행사 데이터를 페치하여 리스트로 출력합니다.
-   - **검색 & 페이지네이션**: 키워드와 날짜로 필터링하며 페이지 이동이 가능합니다.
-   - **상세 보기**: `/event/[hash]` 경로에서 행사 세부 내용을 제공합니다.
-
-
+  - **행사 목록**: 서버에서 환경 행사 데이터를 페치하여 리스트로 출력합니다.
+  - **검색 & 페이지네이션**: 키워드와 날짜로 필터링하며 페이지 이동이 가능합니다.
+  - **상세 보기**: `/event/[hash]` 경로에서 행사 세부 내용을 제공합니다.
 
 ### 마이페이지
 
@@ -72,12 +79,11 @@
 
 ---
 
-## ⚙️ 실행 방법
+## ⚙️ 개발 모드 실행 (로컬)
 
 ```bash
-cd frontend
-npm install
-npm run dev
+yarn install
+yarn dev
 ```
 
 ---
@@ -88,9 +94,9 @@ npm run dev
 | ------ | ---- | -------------------------------------------------- |
 | 오다은 | 팀장 | 분리수거 감지 페이지(웹캠), 백엔드/프론트엔드 총괄 |
 | 이소민 | 팀장 | 마이페이지, 디자인 총괄, BE 배포                   |
-| 김송미 | 팀원 | 행사 페이지 (웹크롤링)                             |
+| 김송미 | 팀원 | 행사 페이지 (웹크롤링 - 관리자, 회원)              |
 | 송근호 | 팀원 | 로그인/회원가입                                    |
-| 안슬기 | 팀원 | 게시판                                             |
+| 안슬기 | 팀원 | 게시판 (관리자, 회원)                              |
 | 오경석 | 팀원 | 분리수거 결과 페이지, FE 배포                      |
 
 ---
@@ -104,13 +110,65 @@ npm run dev
 ---
 
 ## 📷 스크린샷
-![회원가입](src/app/_global/assets/images/joinPage.png)
-![로그인](src/app/_global/assets/images/loginPage.png)
-![메인페이지](src/app/_global/assets/images/mainModal.png)
-![메인페이지](src/app/_global/assets/images/mainPage1.png)
-![메인페이지](src/app/_global/assets/images/mainPage2.png)
-![마이페이지](src/app/_global/assets/images/mypageHome1.png)
-![마이페이지](src/app/_global/assets/images/mypageHome2.png)
-![마이페이지](src/app/_global/assets/images/profilePage1.png)
-![마이페이지](src/app/_global/assets/images/profilePage2.png)
-![마이페이지](src/app/_global/assets/images/recyclePage.png)
+
+### 메인 페이지
+
+- 공지 모달창
+
+![메인페이지](src/app/_global/assets/images/documents/ksm/mainModal.png)
+
+- 메인 페이지
+
+![메인페이지](src/app/_global/assets/images/documents/ode/메인.gif)
+
+![메인페이지](src/app/_global/assets/images/documents/ode/메인2.gif)
+
+### 회원
+
+- 회원가입
+
+![회원가입](src/app/_global/assets/images/documents/sgh/joinPage.png)
+
+- 로그인
+
+![로그인](src/app/_global/assets/images/documents/sgh/loginPage.png)
+
+### 분리수거
+
+- 분리수거 감지 페이지
+
+![감지페이지](src/app/_global/assets/images/documents/ode/감지1.png)
+
+- 분리수거 결과 페이지
+
+![결과페이지]()
+
+### 마이페이지
+
+- 홈
+
+![마이페이지](src/app/_global/assets/images/documents/lsm/mypageHome1.png)
+
+![마이페이지](src/app/_global/assets/images/documents/lsm/mypageHome2.png)
+
+- 정보 수정
+
+![마이페이지](src/app/_global/assets/images/documents/lsm/profilePage1.png)
+
+![마이페이지](src/app/_global/assets/images/documents/lsm/profilePage2.png)
+
+- 분리수거 내역
+
+![마이페이지](src/app/_global/assets/images/documents/lsm/recyclePage.png)
+
+### 환경보호 페이지
+
+- 회원(비회원) - 행사 정보 페이지
+
+- 관리자 - 행사 관리 페이지
+
+### 게시판
+
+- 회원(비회원) - 공지사항, 자유게시판
+
+- 관리자 - 게시판 관리 페이지
