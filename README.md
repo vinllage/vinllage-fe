@@ -43,16 +43,6 @@
    - **설정 관리**: 대상 URL, 키워드, CSS 선택자를 폼으로 입력하고 저장합니다.
    - **실시간 테스트**: 입력된 설정으로 `/crawler/test`에 요청하여 결과를 다이얼로그로 확인합니다.
    - **스케줄러 토글**: `/crawler/scheduler` 엔드포인트에 활성/비활성 이벤트를 전송하여 크롤링 작업을 제어합니다.
-
-   ##### 이벤트 흐름
-   1. **입력 이벤트** (`onChange`)
-      - 폼 필드를 수정하면 내부 상태가 갱신되고 즉시 검증 오류가 해제됩니다.
-   2. **저장 이벤트** (`save`)
-      - 검증 후 `/crawler/configs`로 POST 요청을 전송하고, 성공 시 알림 이벤트가 발생합니다.
-   3. **테스트 이벤트** (`onTest`)
-      - "테스트" 버튼 클릭 시 비동기 요청을 보내고 응답을 다이얼로그에 표시합니다.
-   4. **스케줄러 이벤트** (`toggleScheduler`)
-      - 버튼 클릭으로 스케줄러의 활성화 상태를 전환합니다.
         
 - `/event`: 환경 행사를 열람하는 공개 페이지
   #### 주요 기능
@@ -155,4 +145,12 @@ npm run dev
 ![마이페이지](src/app/_global/assets/images/profilePage1.png)
 ![마이페이지](src/app/_global/assets/images/profilePage2.png)
 ![마이페이지](src/app/_global/assets/images/recyclePage.png)
+![크롤러관리자](src/app/_global/assets/images/crawler_admin.png)
+![크롤러관리자](src/app/_global/assets/images/crawler_admin.png)
+![크롤러관리자](src/app/_global/assets/images/crawler_admin.png)
+![이벤트](src/app/_global/assets/images/crawler_user1.png)
+![이벤트](src/app/_global/assets/images/crawler_user2.png)
+![이벤트](src/app/_global/assets/images/crawler_user3.png)
+![이벤트](src/app/_global/assets/images/crawler_user4.png)
 ![결과페이지](src/app/_global/assets/images/recycleResult.png)
+
