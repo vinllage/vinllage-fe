@@ -162,3 +162,4 @@ RecycleGuide
 ![마이페이지](src/app/_global/assets/images/myPageHome2.png)
 ![마이페이지](src/app/_global/assets/images/profilePage.png)
 ![마이페이지](src/app/_global/assets/images/recyclePage.png)
+
