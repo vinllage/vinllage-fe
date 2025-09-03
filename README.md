@@ -26,6 +26,13 @@
 
 - 쓰레기 감지 및 카테고리 분류
 
+- 쓰레기 카테고리 결과 페이지
+
+  1. 감지된 쓰레기를 카테고리별로 분류
+  2. 감지한 당시의 쓰레기 이미지만을 가져오기 위해 gid 활용
+  3. 해당 카테고리에 맞는 분리배출 가이드 제공
+  4. 매일 12시마다 비회원이 감지한 쓰레기 이미지 데이터 삭제
+
 ### 게시판
 
 - 게시판 & 댓글
@@ -92,6 +99,40 @@ npm run dev
 - 5주차: 테스트, 배포 및 발표
 
 ---
+## 오경석 
+
+### ⚙️ 기능 설명  
+
+- 결과 페이지  
+  - 웹캠으로 감지된 쓰레기를 카테고리별로 분류하여 표시 
+  - 선택된 카테고리에 맞는 분리배출 이미지 제공 
+  - 감지된 이미지와 함께 카테고리 버튼 제공 → 카테고리 선택 시 분리배출 가이드 표시 
+  - "다시 찍기" 버튼을 통해 재촬영 가능  
+  - API에서 매일 12시마다 비회원이 감지한 이미지 삭제  
+
+
+### 📝 코드 리뷰
+
+- ResultContainer  
+  - `gid`를 쿼리 파라미터로 받아 API(`/recycle/result`) 호출 → 감지 결과 데이터 로드  
+  - 서버 응답에서 카테고리(`data`)와 이미지(`imageUrl`)를 파싱하여 평탄화(flatten)  
+    - 이미지 데이터가 JSON 형태로 전달되며, 경우에 따라 2개의 URL이 포함될 수 있음 
+  - `FlatImage[]` 형태로 변환 → 이미지 + 카테고리 정보 관리  
+  - 페이지네이션 적용 (한 페이지당 4개 이미지 표시)   
+  - 쓰레기 감지 후 첫 번째 카테고리에 맞는 분리배출 이미지 기본 조회  
+  - "다시 찍기" 버튼 클릭 시 `/recycle` 경로로 이동  
+
+- ResultList  
+  - 감지된 이미지와 카테고리를 표시  
+  - 카테고리 버튼 클릭 시 `onSelect` 콜백을 통해 상위로 이벤트 전달  
+  - `기타` 카테고리는 선택 불가(disabled 처리)  
+
+- RecycleGuide   
+  - 선택된 카테고리(`selectedCategory`)에 맞는 분리배출 가이드를 렌더링  
+  - 카테고리별 대표 분리배출 이미지(플라스틱, 비닐, 캔, 유리, 종이)를 매핑하여 출력  
+  - 가이드 상단에 카테고리 이름(`category2`)을 배지 형태로 표시    
+  - `기타` 카테고리는 분리배출 이미지 표시하지 않음  
+
 
 ## 📷 스크린샷
 ![회원가입](src/app/_global/assets/images/joinPage.png)
@@ -104,7 +145,6 @@ npm run dev
 ![마이페이지](src/app/_global/assets/images/profilePage1.png)
 ![마이페이지](src/app/_global/assets/images/profilePage2.png)
 ![마이페이지](src/app/_global/assets/images/recyclePage.png)
-
 ![크롤러관리자](src/app/_global/assets/images/crawler_admin.png)
 ![크롤러관리자](src/app/_global/assets/images/crawler_admin.png)
 ![크롤러관리자](src/app/_global/assets/images/crawler_admin.png)
@@ -112,5 +152,5 @@ npm run dev
 ![이벤트](src/app/_global/assets/images/crawler_user2.png)
 ![이벤트](src/app/_global/assets/images/crawler_user3.png)
 ![이벤트](src/app/_global/assets/images/crawler_user4.png)
-
+![결과페이지](src/app/_global/assets/images/recycleResult.png)
 
