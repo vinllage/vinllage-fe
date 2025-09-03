@@ -113,3 +113,11 @@ npm run dev
 ![마이페이지](/images/myPageHome2.png)
 ![마이페이지](/images/profilePage.png)
 ![마이페이지](/images/recyclePage.png)
+
+게시판
+<img width="1920" height="903" alt="게시판" src="https://github.com/user-attachments/assets/2bf044f8-1fd8-451e-8a0b-4be329450b30" />
+<img width="1892" height="742" alt="게시판2" src="https://github.com/user-attachments/assets/471f1b8f-74cc-4515-846d-155539bde407" />
+<img width="1189" height="839" alt="게시판3" src="https://github.com/user-attachments/assets/e83856ad-949c-41ee-a676-e8e5ed3a2d0a" />
+<img width="1890" height="821" alt="게시판4" src="https://github.com/user-attachments/assets/169f18d8-381f-4195-9146-d77cddf7f86b" />
+<img width="1873" height="867" alt="게시판5" src="https://github.com/user-attachments/assets/3d581a4c-0770-4d32-af25-966710c5eb71" />
+
