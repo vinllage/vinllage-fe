@@ -31,6 +31,13 @@
 
 - 비회원 - 최초 이용 후 30일 내 3회 체험 가능
 
+- 쓰레기 카테고리 결과 페이지
+
+  1. 감지된 쓰레기를 카테고리별로 분류
+  2. 감지한 당시의 쓰레기 이미지만을 가져오기 위해 gid 활용
+  3. 해당 카테고리에 맞는 분리배출 가이드 제공
+  4. 매일 12시마다 비회원이 감지한 쓰레기 이미지 데이터 삭제
+
 ### 게시판
 
 - 게시판 & 댓글: 게시판을 통한 정보 공유 & 소통 (회원/비회원 가능)
@@ -40,6 +47,7 @@
 - `/admin/crawler`: 크롤러 설정과 스케줄러를 제어하는 관리자 페이지
 
   #### 주요 기능
+
 
   - **설정 관리**: 대상 URL, 키워드, CSS 선택자를 폼으로 입력하고 저장합니다.
   - **실시간 테스트**: 입력된 설정으로 `/crawler/test`에 요청하여 결과를 다이얼로그로 확인합니다.
@@ -108,6 +116,40 @@ yarn dev
 - 5주차: 테스트, 배포 및 발표
 
 ---
+## 오경석 
+
+### ⚙️ 기능 설명  
+
+- 결과 페이지  
+  - 웹캠으로 감지된 쓰레기를 카테고리별로 분류하여 표시 
+  - 선택된 카테고리에 맞는 분리배출 이미지 제공 
+  - 감지된 이미지와 함께 카테고리 버튼 제공 → 카테고리 선택 시 분리배출 가이드 표시 
+  - "다시 찍기" 버튼을 통해 재촬영 가능  
+  - API에서 매일 12시마다 비회원이 감지한 이미지 삭제  
+
+
+### 📝 코드 리뷰
+
+- ResultContainer  
+  - `gid`를 쿼리 파라미터로 받아 API(`/recycle/result`) 호출 → 감지 결과 데이터 로드  
+  - 서버 응답에서 카테고리(`data`)와 이미지(`imageUrl`)를 파싱하여 평탄화(flatten)  
+    - 이미지 데이터가 JSON 형태로 전달되며, 경우에 따라 2개의 URL이 포함될 수 있음 
+  - `FlatImage[]` 형태로 변환 → 이미지 + 카테고리 정보 관리  
+  - 페이지네이션 적용 (한 페이지당 4개 이미지 표시)   
+  - 쓰레기 감지 후 첫 번째 카테고리에 맞는 분리배출 이미지 기본 조회  
+  - "다시 찍기" 버튼 클릭 시 `/recycle` 경로로 이동  
+
+- ResultList  
+  - 감지된 이미지와 카테고리를 표시  
+  - 카테고리 버튼 클릭 시 `onSelect` 콜백을 통해 상위로 이벤트 전달  
+  - `기타` 카테고리는 선택 불가(disabled 처리)  
+
+- RecycleGuide   
+  - 선택된 카테고리(`selectedCategory`)에 맞는 분리배출 가이드를 렌더링  
+  - 카테고리별 대표 분리배출 이미지(플라스틱, 비닐, 캔, 유리, 종이)를 매핑하여 출력  
+  - 가이드 상단에 카테고리 이름(`category2`)을 배지 형태로 표시    
+  - `기타` 카테고리는 분리배출 이미지 표시하지 않음  
+
 
 ## 📷 스크린샷
 
@@ -141,7 +183,7 @@ yarn dev
 
 - 분리수거 결과 페이지
 
-![결과페이지]()
+![결과페이지](src/app/_global/assets/images/recycleResult.png)
 
 ### 마이페이지
 
@@ -172,3 +214,20 @@ yarn dev
 - 회원(비회원) - 공지사항, 자유게시판
 
 - 관리자 - 게시판 관리 페이지
+
+![크롤러관리자](src/app/_global/assets/images/crawler_admin.png)
+![크롤러관리자](src/app/_global/assets/images/crawler_admin.png)
+![크롤러관리자](src/app/_global/assets/images/crawler_admin.png)
+![이벤트](src/app/_global/assets/images/crawler_user1.png)
+![이벤트](src/app/_global/assets/images/crawler_user2.png)
+![이벤트](src/app/_global/assets/images/crawler_user3.png)
+![이벤트](src/app/_global/assets/images/crawler_user4.png)
+
+게시판
+<img width="1920" height="903" alt="게시판" src="https://github.com/user-attachments/assets/2bf044f8-1fd8-451e-8a0b-4be329450b30" />
+<img width="1892" height="742" alt="게시판2" src="https://github.com/user-attachments/assets/471f1b8f-74cc-4515-846d-155539bde407" />
+<img width="1189" height="839" alt="게시판3" src="https://github.com/user-attachments/assets/e83856ad-949c-41ee-a676-e8e5ed3a2d0a" />
+<img width="1890" height="821" alt="게시판4" src="https://github.com/user-attachments/assets/169f18d8-381f-4195-9146-d77cddf7f86b" />
+<img width="1873" height="867" alt="게시판5" src="https://github.com/user-attachments/assets/3d581a4c-0770-4d32-af25-966710c5eb71" />
+
+
