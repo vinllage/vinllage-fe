@@ -51,8 +51,6 @@ export async function GET(request: NextRequest) {
     } else {
       const json = await res.json()
 
-      console.log('메시지', json.messages)
-
       if (
         json.messages &&
         Array.isArray(json.messages.global) &&

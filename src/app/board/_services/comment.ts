@@ -46,7 +46,6 @@ export async function getComment(seq: number) {
 
   if (res.status === 200) {
     item = await res.json()
-    console.log('dfasf', item)
     return item
   }
 }

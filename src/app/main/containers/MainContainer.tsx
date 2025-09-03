@@ -133,7 +133,6 @@ export default function MainContainer() {
         }
       })
       .then((data) => {
-        console.log('data', data)
         setTotalCount(data ?? 0)
       })
       .catch((err) => {
