@@ -61,8 +61,6 @@ const EmailSenderForm = ({
   )
   const sentRef = useRef(false) // 메일 자동 전송 시, 1번만 보내기 위해 세팅
 
-  console.log(category)
-
   const mappingValue =
     category === EmailCategory.FIND_PASSWORD
       ? '/member/find-pw'

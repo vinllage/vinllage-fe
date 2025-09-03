@@ -54,7 +54,6 @@ export async function deleteBoards(bids: string[]) {
     body: JSON.stringify(bids),
   });
 
-  console.log(res)
 
   if (!res.ok) throw new Error("삭제 실패");
   return await res.text();

@@ -193,6 +193,5 @@ export async function getLoggedMember() {
       return await res.json()
     }
   } catch (err) {
-    console.log('getLoggedMember() error:', err)
   }
 }
