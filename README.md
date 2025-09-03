@@ -57,7 +57,9 @@
 
 ### 마이페이지
 
-- 통계
+- 사용자 정보 관리, 분리수거 이미지 통계 차트
+- 개인 정보 수정 및 탈퇴
+- 분리 배출 이미지 기록
 
 ---
 
@@ -102,3 +104,12 @@ npm run dev
 ---
 
 ## 📷 스크린샷
+![회원가입](./assets/images/joinPage.png)
+![로그인](./assets/images/loginPage.png)
+![메인페이지](./assets/images/mainModal.png)
+![메인페이지](./assets/images/mainPage1.png)
+![메인페이지](./assets/images/mainPage2.png)
+![마이페이지](./assets/images/myPageHome1.png)
+![마이페이지](./assets/images/myPageHome2.png)
+![마이페이지](./assets/images/profilePage.png)
+![마이페이지](./assets/images/recyclePage.png)
